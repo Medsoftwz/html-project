@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+
+<!-- In de tabs-balk voeg je één regel toe:
+
+<button class="tablink" onclick="openTab(event, 'xwz')">E. X</button>
+
+de HTML van een bestaande sectie kopiëren, plakken en aanpassen bv. 6wz
+
+-->
+
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prostaat therapie bijwerkingen</title>
+  <style>
+    body { font-family: Verdana, Arial, sans-serif; background-color: #f5f5f5; margin: 20px; }
+	
+    h1, h2,h3 { color: #004080; text-align: center; }
+	
+    .tabs { display: flex; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .tabs button { background-color: #468CD2; color: white; padding: 10px 20px; border: none; cursor: pointer; margin: 5px; border-radius: 5px; }
+    .tabs button.active { background-color: #3BAF17; }
+    .tab-content { display: none; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .tab-content.active { display: block; }
+	
+    .question { margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: #004080; }
+	
+    .options div { margin-top: 6px; }
+
+    label { color: #004080; cursor: pointer; }
+	.answer-label {color: #008000;}
+    
+	button.calc { background-color: #004080; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px auto; display: block; }
+    .result { color: #800000; margin-top: 20px; font-weight: bold; text-align: center; white-space: pre-line; }
+    .controls { text-align: center; margin-top: 10px; }
+	
+	.interpret-green     { color: #008000; font-weight: bold; }
+	.interpret-yellow    { color: #c9a400; font-weight: bold; }
+	.interpret-orange   { color: #d97a00; font-weight: bold; }
+	.interpret-red         { color: #cc0000; font-weight: bold; }
+	.interpret-darkred  { color: #FF0000; font-weight: bold; }
+	
+	.total-box {
+	background-color: #FFFF80;
+	color: #8D6363;	
+	margin-top: 15px;
+	text-align: center;
+	font-size: 16px;
+	line-height: 1.3;
+	font-weight: bold;
+}
+
+/* =========================
+   PRINT / PDF
+   ========================= */
+@media print {
+
+  body {
+    background: white;
+    margin: 15mm;
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #000;
+  }
+
+  /* Verberg alles wat niet in rapport hoort */
+  .tabs,
+  .tab-content,
+  button,
+  .controls,
+  input,
+  label,
+  .result { display: none !important;}
+
+  /* Toon enkel het rapport */
+  #printReport { display: block !important;}
+
+  h2 { color: #502828; font-size: 12pt; font-weight: 600; margin: 6px 0 4px 0;}
+
+  h3 { color: #008000; font-size: 12pt; font-weight: 600; margin: 6px 0 3px 0;}
+
+  .print-section { margin-top: 20px; page-break-inside: avoid;}
+
+  .print-question { margin-bottom: 8px; page-break-inside: avoid;}
+
+  .print-answer { margin-left: 15px;}
+
+  .summary-box {
+    border: 2px solid #000;
+    padding: 8px 10px;
+    margin: 8px 0 12px 0;
+    background: #f0f0f0;
+  }
+
+  .summary-box p {
+    margin: 2px 0;
+    line-height: 1.3;
+    font-size: 11pt;
+  }
+
+  .print-section { margin-top: 4px;}
+
+  .print-question { margin-bottom: 4px;}
+
+  .print-answer { margin-left: 10px; margin-top: 1px;}
+
+  hr { margin: 6px 0;}
+
+  p { margin: 3px 0;}
+
+  /* Toon de titel niet in het rapport */
+  body > h3 { display: none !important;}
+  
+}
+
+/* Highlight bij beantwoorde vraag */
+.answered {
+  background-color: #e6ffe6;
+  transition: background-color 0.4s ease;
+}
+
+ </style>
+</head>
+<body>
+
+<h3>Bijwerkingen Therapie Prostaat</h3>
+
+<div class="tabs">
+  <button class="tablink active" onclick="openTab(event, '1wz')">Urologisch</button>
+  <button class="tablink" onclick="openTab(event, '2wz')">Intestinaal - Rectum</button>
+  <button class="tablink" onclick="openTab(event, '3wz')">Hormonaal</button>
+  <button class="tablink" onclick="openTab(event, '4wz')">Lichamelijk +</button>
+  <button class="tablink" onclick="openTab(event, '5wz')">Mentaal</button>
+</div>
+
+<script>
+function buildRadio(name, value, text) {
+  const id = name + '_' + value;
+  return `<div><input type="radio" id="${id}" name="${name}" value="${value}">
+          <label class="answer-label" for="${id}"> ${text}</label></div>`;
+}
+
+</script>
+
+<!-- SECTIE A -->
+<div id="1wz" class="tab-content active">
+  <form id="form1wz">
+  
+    <div class="question">
+     <label>Hoe vaak moet u ’s nachts opstaan om te plassen?</label>
+	 
+	<div class="options" id="1q1"></div>
+      <script>
+        document.getElementById('1q1').innerHTML =
+          buildRadio('1q1',0,'nul keer - geen last')+
+          buildRadio('1q1',1,'éénmaal')+
+          buildRadio('1q1',2,'2x per nacht')+
+          buildRadio('1q1',3,'3x per nacht')+
+          buildRadio('1q1',4,'4x per nacht')+
+          buildRadio('1q1',5,'meer dan viermaal per nacht');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>Hoe vaak ervaart u overdag een verhoogde urinefrequentie (pollakisurie)?</label>
+      <div class="options" id="1q2"></div>
+      <script>
+        document.getElementById('1q2').innerHTML =
+          buildRadio('1q2',0,'Geen last')+
+          buildRadio('1q2',1,'licht verhoogd')+
+          buildRadio('1q2',2,'matig verhoogd')+
+          buildRadio('1q2',3,'sterk verhoogd')+
+          buildRadio('1q2',4,'zeer vaak moeten plassen')+
+          buildRadio('1q2',5,'zeer vaak en zeer storend');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>Hoe moeilijk is het om de urinelozing te starten?</label>
+      <div class="options" id="1q3"></div>
+      <script>
+          document.getElementById('1q3').innerHTML =
+          buildRadio('1q3',0,'geen last')+
+          buildRadio('1q3',1,'soms lichte moeite')+
+          buildRadio('1q3',2,'regelmatig moeite en onderbroken straal')+
+          buildRadio('1q3',3,'vaak duidelijke moeilijke start en onderbroken straal')+
+          buildRadio('1q3',4,'bijna onmogelijk en onderbroken straal')+
+          buildRadio('1q3',5,'soms onmogelijk');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>Heeft u het gevoel dat uw blaas na het plassen niet leeg is (retentiegevoel)?</label>
+      <div class="options" id="1q4"></div>
+      <script>
+        document.getElementById('1q4').innerHTML =
+          buildRadio('1q4',0,'Nooit')+
+          buildRadio('1q4',1,'Af en toe')+
+          buildRadio('1q4',2,'Regelmatig')+
+          buildRadio('1q4',3,'Vaak')+
+          buildRadio('1q4',4,'Bijna altijd resthinder')+
+          buildRadio('1q4',5,'Altijd');
+      </script>
+    </div>
+
+<div class="question">
+      <label>Heeft u pijn of branderig gevoel bij het plassen (dysurie)?</label>
+      <div class="options" id="1q5"></div>
+      <script>
+        document.getElementById('1q5').innerHTML =
+          buildRadio('1q5',0,'Geen last')+
+          buildRadio('1q5',1,'Licht branderig gevoel')+
+          buildRadio('1q5',2,'Matig branderig gevoel')+
+          buildRadio('1q5',3,'Sterk branderig gevoel')+
+          buildRadio('1q5',4,'Zeer hevig branderig gevoel')+
+          buildRadio('1q5',5,'Continu hinderlijk branderig gevoel');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>Hoe zou u uw plasdrang (urgentie) omschrijven?</label>
+      <div class="options" id="1q6"></div>
+      <script>
+        document.getElementById('1q6').innerHTML =
+          buildRadio('1q6',0,'Geen last')+
+          buildRadio('1q6',1,'Plasdrang bij rechtstaan of verandering van houding')+
+          buildRadio('1q6',2,'Acute plasdrang - kan nauwelijks wachten met plassen')+
+          buildRadio('1q6',3,'Zeer acute en bijna onhoudbare plasdrang')+
+          buildRadio('1q6',4,'Plasdrang waardoor druppels urineverlies')+
+          buildRadio('1q6',5,'Plasdrang en incontinentie');
+      </script>
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('form1wz','result1wz')">Bereken Sectie A</button>
+    <div id="result1wz" class="result"></div>
+  </form>
+</div>
+
+
+<!-- SECTIE B -->
+<div id="2wz" class="tab-content">
+  <form id="form2wz">
+  
+    <div class="question">
+      <label>Toegenomen stoelgangfrequentie en drang (urgentie) ?</label>
+      <div class="options" id="2q1"></div>
+      <script>
+          document.getElementById('2q1').innerHTML =
+          buildRadio('2q1',0,'geen last')+
+          buildRadio('2q1',1,'ja - is doenbaar')+
+          buildRadio('2q1',2,'ja, hinderlijk');
+      </script>
+    </div>
+	
+	<div class="question">
+      <label>Winderigheid – flatulentie – abdominale krampen ?</label>
+      <div class="options" id="2q2"></div>
+      <script>
+          document.getElementById('2q2').innerHTML =
+          buildRadio('2q2',0,'geen last')+
+          buildRadio('2q2',1,'ja, is doenbaar')+
+          buildRadio('2q2',2,'ja, hinderlijk');
+      </script>
+    </div>
+	
+	<div class="question">
+      <label>Verandering van de stoelgangconsistentie – lossere stoelgang ?</label>
+      <div class="options" id="2q3"></div>
+      <script>
+          document.getElementById('2q3').innerHTML =
+          buildRadio('2q3',0,'geen last')+
+          buildRadio('2q3',1,'ja, is doenbaar')+
+          buildRadio('2q3',2,'ja, hinderlijk');
+      </script>
+    </div>
+	
+	<div class="question">
+      <label>Pijn of ongemak bij de stoelgang ?</label>
+      <div class="options" id="2q4"></div>
+      <script>
+          document.getElementById('2q4').innerHTML =
+          buildRadio('2q4',0,'geen last')+
+          buildRadio('2q4',1,'ja ongemak')+
+          buildRadio('2q4',2,'pijn bij de stoelgang')+
+          buildRadio('2q4',4,'erge pijn bij de stoelgang');
+      </script>
+    </div>
+	
+	<div class="question">
+      <label>Rectaal slijmverlies of bloedverlies ?</label>
+      <div class="options" id="2q5"></div>
+      <script>
+          document.getElementById('2q5').innerHTML =
+          buildRadio('2q5',0,'geen last')+
+          buildRadio('2q5',1,'rectaal slijmverlies')+
+          buildRadio('2q5',2,'rectaal bloedverlies')+
+          buildRadio('2q5',3,'regelmatig slijm en bloedverlies')+
+          buildRadio('2q5',4,'uitgesproken bloedverlies')+
+          buildRadio('2q5',5,'zeer hinderlijk slijm en bloedverlies');
+      </script>
+    </div>
+	
+    <button type="button" class="calc" onclick="calculateSection('form2wz','result2wz')">Bereken Sectie B</button>
+    <div id="result2wz" class="result"></div>
+  </form>
+</div>
+
+<!-- SECTIE C -->
+<div id="3wz" class="tab-content">
+  <form id="form3wz">
+  
+ <div class="question">
+      <label>ADT - Warmteopwellingen & Vapeurs</label>
+      <div class="options" id="4q2"></div>
+      <script>
+        document.getElementById('4q2').innerHTML =
+          buildRadio('4q2',0,'Geen Androgeen Deprivatie Therapie')+
+          buildRadio('4q2',0,'ADT zonder last van vapeurs')+
+          buildRadio('4q2',2,'Af en toe opkomend warmtegevoel')+
+          buildRadio('4q2',3,'Matige vapeurs')+
+          buildRadio('4q2',4,'Veelvuldige warmteopwellingen en vapeurs')+
+          buildRadio('4q2',5,'Frequent hinderende warmteopwellingen');
+      </script>
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('form3wz','result3wz')">Bereken Sectie C</button>
+    <div id="result3wz" class="result"></div>
+  </form>
+</div>
+
+
+<!-- SECTIE D -->
+<div id="4wz" class="tab-content">
+  <form id="form4wz">
+  
+    <div class="question">
+      <label>Last van huidletsels door de radiotherapie ?</label>
+      <div class="options" id="4q1"></div>
+      <script>
+        document.getElementById('4q1').innerHTML =
+          buildRadio('4q1',0,'Geen')+
+          buildRadio('4q1',1,'Roodheid')+
+          buildRadio('4q1',2,'Roodheid en Jeuk')+
+          buildRadio('4q1',3,'Verbrand uitzicht')+
+          buildRadio('4q1',4,'Blaasjes en wondjes op de huid')+
+          buildRadio('4q1',5,'Veel hinder hierdoor');
+      </script>
+    </div>
+   
+
+    <button type="button" class="calc" onclick="calculateSection('form4wz','result4wz')">Bereken Sectie D</button>
+    <div id="result4wz" class="result"></div>
+  </form>
+</div>
+
+
+<!-- SECTIE E -->
+<div id="5wz" class="tab-content">
+  <form id="form5wz">
+    <div class="question">
+      <label>Hoe is uw emotionele toestand?</label>
+      <div class="options" id="5q1"></div>
+      <script>
+        document.getElementById('5q1').innerHTML =
+          buildRadio('5q1',0,'Onveranderd')+
+          buildRadio('5q1',1,'Lichte onvrede')+
+          buildRadio('5q1',2,'Somberheid')+
+          buildRadio('5q1',3,'Emotionele uitputting - Overbelasting')+
+          buildRadio('5q1',4,'Neerslachtigheid - Vlug zin om te wenen')+
+          buildRadio('5q1',5,'Emotioneel leeg - Ernstige neerslachtigheid');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>In welke mate ervaart u problemen met erectie of seksuele functie?</label>
+      <div class="options" id="5q2"></div>
+      <script>
+        document.getElementById('5q2').innerHTML =
+          buildRadio('5q2',0,'Geen problemen')+
+		  buildRadio('5q2',1,'Afwezige seksuele functie- stoort mij niet')+
+          buildRadio('5q2',2,'Verminderde libido')+
+          buildRadio('5q2',3,'Afwezige erectie')+
+          buildRadio('5q2',4,'Afwezige erectie en libido')+
+          buildRadio('5q2',5,'Groot probleem daarmee');
+      </script>
+    </div>
+	
+	  <div class="question">
+      <label>Hoe vermoeid voelt u zich in het algemeen?</label>
+      <div class="options" id="5q3"></div>
+      <script>
+        document.getElementById('5q3').innerHTML =
+          buildRadio('5q3',0,'Geen toename van vermoeidheid')+
+          buildRadio('5q3',1,'Licht vermoeid')+
+          buildRadio('5q3',2,'Matig vermoeid')+
+          buildRadio('5q3',3,'Vermoeid - dagelijks functioneren beperkt ')+
+          buildRadio('5q3',4,'Vermoeid / Nauwelijks activiteit')+
+          buildRadio('5q3',5,'Volledig uitgeput / Normaal functioneren onmogelijk');
+      </script>
+    </div>
+	
+     <button type="button" class="calc" onclick="calculateSection('form5wz','result5wz')">Bereken Sectie E</button>
+    <div id="result5wz" class="result"></div>
+  </form>
+</div>
+
+
+<!-- TOTAAL & OPSLAAN -->
+   <div class="controls" style="margin-top:25px; text-align:center;">
+
+  <!-- Toon totaalscore -->
+  <button type="button" class="calc" onclick="calculateTotal()">Toon totaalscore</button>
+
+  <!-- Resultaat (totaal score + functieverlies + interpretatie) -->
+  <div id="totalResult" class="total-box"></div>
+ 
+  <!-- Lege regel tussen interpretatie en extra velden -->
+<div style="margin-top:20px;"></div>
+
+<!-- Checkbox extra gegevens (default = checked) -->
+<label style="cursor:pointer; color:#004080; margin-top:10px;">
+  <input type="checkbox" id="toggleExtraFields" onclick="toggleExtraFields()" checked>
+  Extra gegevens toevoegen
+</label>
+
+<!-- Verborgen extra velden (maar worden automatisch geopend via JS) -->
+<div id="extraFields" style="display:none; margin-top:15px;">
+
+  <div style="margin-bottom:10px;">
+    <label>Datum consult:</label><br>
+    <input type="text" id="consultDate" style="padding:6px; width:200px;">
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label>Naam patiënt:</label><br>
+    <input type="text" id="patientName" placeholder="Volledige naam" style="padding:6px; width:300px;">
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label>Rijksregisternummer:</label><br>
+    <input type="text" id="patientRR" placeholder="xx.xx.xx-xxx.xx" style="padding:6px; width:200px;">
+  </div>
+
+</div>
+
+
+  <!-- Opslaan als TXT -->
+  <button type="button" class="calc" onclick="downloadTxt()">Opslaan als TXT</button>
+  <button type="button" class="calc" onclick="setPdfTitle(); buildPrintReport(); window.print();">Afdrukken / Opslaan als PDF
+</button>
+
+</div>
+
+<script>
+
+function openTab(evt, tabName) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tablink').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabName).classList.add('active');
+  evt.currentTarget.classList.add('active');
+
+  // Scroll bij openen nieuwe tab
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calculateSection(formId,resultId){
+  const form=document.getElementById(formId);
+  const questions=form.querySelectorAll('.question');
+  let score=0, maxScore=0;
+
+  for(const q of questions){
+    const checked=q.querySelector('input[type="radio"]:checked');
+    if(!checked){ alert('Beantwoord alle vragen in deze sectie.'); return; }
+    score += parseInt(checked.value);
+    const radios=q.querySelectorAll('input[type="radio"]');
+    let max=0; radios.forEach(r=>{ const v=parseInt(r.value); if(v>max) max=v; });
+    maxScore += max;
+  }
+
+  const pct = (score / maxScore) * 100;
+  document.getElementById(resultId).innerText = `Sectiescore: ${score} / ${maxScore}
+Functiedaling: ${pct.toFixed(1)} %`;
+  document.getElementById(resultId).scrollIntoView({behavior:'smooth'});
+}
+
+function calculateTotal(){
+  const allQuestions = document.querySelectorAll('.question');
+  const allChecked = document.querySelectorAll('input[type="radio"]:checked');
+  if(allChecked.length < allQuestions.length){
+    alert('Gelieve alle vragen te beantwoorden vooraleer het totaal te berekenen.');
+    return;
+  }
+
+  let totalScore = 0, maxScore = 0;
+
+  allQuestions.forEach(q => {
+    const checked = q.querySelector('input[type="radio"]:checked');
+    totalScore += parseInt(checked.value);
+
+    const radios = q.querySelectorAll('input[type="radio"]');
+    let max = 0;
+    radios.forEach(r => {
+      const v = parseInt(r.value);
+      if(v > max) max = v;
+    });
+    maxScore += max;
+  });
+
+  const pct = ((totalScore / maxScore) * 100).toFixed(1);
+  const t = parseFloat(pct);
+
+  // Interpretatie + kleurklasse
+  let feedback = '';
+  let cssClass = '';
+
+  if(t < 20) {
+    feedback = 'Weinig tot geen klachten';
+    cssClass = 'interpret-green';
+  } 
+  else if(t < 40) {
+    feedback = 'Lichte klachten - Medicijnen OK ?';
+    cssClass = 'interpret-yellow';
+  }
+  else if(t < 60) {
+    feedback = 'Matige klachten - Silodosine als medicatie ?';
+    cssClass = 'interpret-orange';
+  }
+  else if(t < 80) {
+    feedback = 'Ernstige klachten - Silodosine en NSAI medicatie gewenst ?';
+    cssClass = 'interpret-red';
+  }
+  else {
+    feedback = 'Zeer ernstige klachten - Silodosine en NSAI medicatie gewenst ?';
+    cssClass = 'interpret-darkred';
+  }
+
+  // Output in kleur
+document.getElementById('totalResult').innerText =
+`Totale score: ${totalScore} / ${maxScore}
+Functieverlies: ${pct} %
+Interpretatie: ${feedback}`;
+
+  document.getElementById('totalResult').scrollIntoView({behavior:'smooth'});
+}
+
+// =======================================================
+// Hulpfunctie: wrap text op max. 70 tekens, met insprong
+// =======================================================
+function wrapText(str, maxWidth = 70) {
+  const words = str.split(" ");
+  let lines = [];
+  let currentLine = "";
+
+  words.forEach(word => {
+    if ((currentLine + word).length > maxWidth) {
+      lines.push(currentLine.trim());
+      currentLine = word + " ";
+    } else {
+      currentLine += word + " ";
+    }
+  });
+
+  if (currentLine.trim() !== "") {
+    lines.push(currentLine.trim());
+  }
+
+  // 2e+ lijnen inspringen met 12 spaties
+  return lines.join("\n            ");
+}
+
+// =======================================================
+// Professioneel geformatteerde TXT-export
+// =======================================================
+function downloadTxt(){
+
+  const allQuestions = document.querySelectorAll('.question');
+  const allChecked   = document.querySelectorAll('.question input[type="radio"]:checked');
+
+  if (allChecked.length < allQuestions.length){
+    alert('Gelieve alle vragen te beantwoorden.');
+    return;
+  }
+
+  const now = new Date();
+  const timestamp = `${now.toLocaleDateString('nl-BE')} ${now.toLocaleTimeString('nl-BE')}`;
+
+  /* ===============================
+     Extra velden
+     =============================== */
+  let consultDate = "";
+  let patientName = "";
+  let patientRR   = "";
+
+  if (document.getElementById('toggleExtraFields').checked) {
+    consultDate = document.getElementById('consultDate').value.trim();
+    patientName = document.getElementById('patientName').value.trim();
+    patientRR   = document.getElementById('patientRR').value.trim();
+  }
+
+  /* ===============================
+     Voorbereiding
+     =============================== */
+  let totalScore = 0;
+  let maxScore   = 0;
+  let answers    = "";
+  let qCounter   = 0;
+
+  const tabs     = Array.from(document.querySelectorAll('.tablink'));
+  const sections = Array.from(document.querySelectorAll('.tab-content'));
+
+  /* ===============================
+     Doorloop secties automatisch
+     =============================== */
+  sections.forEach((section, idx) => {
+
+    const questions = section.querySelectorAll('.question');
+    if (questions.length === 0) return;
+
+    const sectionTitle = tabs[idx]
+      ? tabs[idx].innerText.trim()
+      : `SECTIE ${idx + 1}`;
+
+    answers += "----------------------------------------\n";
+    answers += wrapText(sectionTitle) + "\n";
+    answers += "----------------------------------------\n";
+
+    questions.forEach(q => {
+
+      const label   = q.querySelector('label').innerText;
+      const checked = q.querySelector('input[type="radio"]:checked');
+      const radios  = q.querySelectorAll('input[type="radio"]');
+
+      let max = 0;
+      radios.forEach(r => {
+        const v = parseInt(r.value);
+        if (v > max) max = v;
+      });
+
+      totalScore += parseInt(checked.value);
+      maxScore   += max;
+
+      qCounter++;
+
+      const choiceText = checked.parentElement.innerText.trim();
+      const line = `${qCounter}. ${label}: ${choiceText} (waarde ${checked.value})`;
+
+      answers += wrapText(line) + "\n";
+    });
+
+    answers += "\n";
+  });
+
+  /* ===============================
+     Interpretatie
+     =============================== */
+  const pct = ((totalScore / maxScore) * 100).toFixed(1);
+  const t   = parseFloat(pct);
+
+  let feedback = "";
+  if      (t < 20) feedback = "Weinig tot geen klachten";
+  else if (t < 40) feedback = "Lichte klachten - Medicijnen OK ?";
+  else if (t < 60) feedback = "Matige klachten - Silodosine als medicatie ?";
+  else if (t < 80) feedback = "Ernstige klachten - Silodosine en NSAI gewenst ?";
+  else             feedback = "Zeer ernstige klachten - Silodosine en NSAI aangewezen ?";
+
+  /* ===============================
+     Opbouw TXT
+     =============================== */
+  let content = "";
+
+  content += "========================================\n";
+  content += "RAPPORT BIJWERKINGEN – PROSTAATTHERAPIE\n";
+  content += "========================================\n\n";
+
+  content += `Datum export: ${timestamp}\n`;
+  if (consultDate) content += `Consultdatum: ${consultDate}\n`;
+  if (patientName) content += `Patiënt: ${patientName}\n`;
+  if (patientRR)   content += `Rijksregisternummer: ${patientRR}\n`;
+
+  content += "\n----------------------------------------\n";
+content += "TOTAALRESULTAAT\n";
+content += "----------------------------------------\n";
+content += `Totale score: ${totalScore} / ${maxScore}\n`;
+content += `Functieverlies: ${pct} %\n`;
+content += `Interpretatie: ${feedback}\n\n`;
+
+  content += answers;
+
+  /* ===============================
+     Download
+     =============================== */
+  const blob = new Blob([content], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `bijwerkingen prostaattherapie ${now.toISOString().slice(0,10)}.txt`;
+  link.click();
+}
+
+
+function toggleExtraFields() {
+  const block = document.getElementById('extraFields');
+  const chk = document.getElementById('toggleExtraFields');
+
+  if (chk.checked) {
+    block.style.display = "block";
+
+    // automatische datum dd/mm/yyyy
+    const now = new Date();
+    const d = String(now.getDate()).padStart(2,'0');
+    const m = String(now.getMonth()+1).padStart(2,'0');
+    const y = now.getFullYear();
+    document.getElementById('consultDate').value = `${d}/${m}/${y}`;
+  } else {
+    block.style.display = "none";
+  }
+}
+
+// EXTRA TOE: automatisch openen bij pagina laden wanneer default aangevinkt is
+window.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('toggleExtraFields').checked) {
+    toggleExtraFields();
+  }
+});
+
+// =======================================================
+// Auto-scroll naar volgende vraag + automatisch volgende sectie openen
+// =======================================================
+
+// =======================================================
+// Auto-scroll met kleine delay (WERKENDE VERSIE)
+// =======================================================
+document.addEventListener('change', function(e) {
+
+  if (!e.target.matches('.question input[type="radio"]')) return;
+
+  const radio = e.target;
+  const questionDiv = radio.closest('.question');
+  const form = radio.closest('form');
+
+  if (!questionDiv || !form) return;
+
+  const allQuestions = Array.from(form.querySelectorAll('.question'));
+  const idx = allQuestions.indexOf(questionDiv);
+
+  // ✅ Highlight (visuele bevestiging)
+  questionDiv.classList.add('answered');
+
+  setTimeout(() => {
+    questionDiv.classList.remove('answered');
+  }, 600);
+
+  // ⏱ Delay voor scroll
+  setTimeout(() => {
+
+    if (idx < allQuestions.length - 1) {
+
+      const nextQuestion = allQuestions[idx + 1];
+
+      nextQuestion.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+    } else {
+
+      const calcButton = form.querySelector('.calc');
+
+      if (calcButton) {
+        calcButton.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+
+      openNextSection(form);
+    }
+
+  }, 400);
+
+});
+
+
+// =======================================================
+// Functie opent automatisch de volgende tab/sectie
+// =======================================================
+function openNextSection(currentForm) {
+  const tabs = Array.from(document.querySelectorAll('.tablink'));
+
+  const mapping = {
+    'form1wz': '2wz',
+    'form2wz': '3wz',
+    'form3wz': '4wz',
+    'form4wz': '5wz'
+  };
+
+  const nextTabId = mapping[currentForm.id];
+  if (!nextTabId) return;
+
+  const btn = tabs.find(b => b.getAttribute('onclick').includes(nextTabId));
+  if (btn) {
+    btn.click();
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 300);
+  }
+}
+
+// =======================================================
+// Check: zijn ALLE vragen beantwoord?
+// =======================================================
+function allQuestionsAnswered() {
+  const totalQuestions = document.querySelectorAll('.question').length;
+  const checked = document.querySelectorAll('.question input[type="radio"]:checked').length;
+  return checked === totalQuestions;
+}
+
+// =======================================================
+// Automatisch totaalscore tonen zodra alles is ingevuld
+// =======================================================
+function autoShowTotalScore() {
+  const btn = document.querySelector('button[onclick="calculateTotal()"]');
+  if (!btn) return;
+
+  // eerst naar de knop scrollen
+  btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // daarna automatisch klikken
+  setTimeout(() => {
+    btn.click();
+
+    // tenslotte naar de resultatensectie scrollen
+    setTimeout(() => {
+      const resultBox = document.getElementById('totalResult');
+      if (resultBox) {
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 300);
+
+  }, 400);
+}
+
+document.addEventListener('change', function(e) {
+  if (e.target.type === 'radio') {
+
+    // nieuwe functie: totaal automatisch tonen indien volledig ingevuld
+    if (allQuestionsAnswered()) {
+      autoShowTotalScore();
+    }
+  }
+});
+
+function buildPrintReport() {
+
+  if (!allQuestionsAnswered()) {alert('Gelieve alle vragen te beantwoorden.'); return;}
+
+  const report = document.getElementById("printReport");
+  report.innerHTML = "";
+
+  const patient = document.getElementById('patientName')?.value || "";
+  const rrn     = document.getElementById('patientRR')?.value || "";
+  const consult = document.getElementById('consultDate')?.value || "";
+
+  report.innerHTML += `
+    <h2>Rapport bijwerkingen – Prostaattherapie</h2>
+    <p>
+      Patiënt: <strong>${patient}</strong><br>
+      Rijksregisternummer:<strong>${rrn}</strong><br>
+      Consultdatum: <strong>${consult}</strong>
+    </p>
+    <hr>
+	
+	<h3>Evaluatie</h3>
+	<div class="summary-box">
+	<p class="summary-text" style="white-space: pre-line;">${document.getElementById('totalResult').innerText}</p>
+	</div>
+`;
+
+  let qnr = 0;
+
+  document.querySelectorAll('.tab-content').forEach(section => {
+
+    const questions = section.querySelectorAll('.question');
+    if (questions.length === 0) return;
+
+    const tabId = section.id;
+    const tabBtn = Array.from(document.querySelectorAll('.tablink'))
+      .find(b => b.getAttribute('onclick')?.includes(tabId));
+    const title = tabBtn ? tabBtn.innerText : "";
+
+    // report.innerHTML += `<div class="print-section"><h3>${title}</h3>`; 
+	report.innerHTML += `<div class="print-section">`;
+
+    questions.forEach(q => {
+      qnr++;
+      const label = q.querySelector('label').innerText;
+      const checked = q.querySelector('input[type="radio"]:checked');
+
+	  const value = checked.value;
+	  const answer = `${checked.parentElement.innerText.trim()} (${value})`;
+
+
+      report.innerHTML += `
+        <div class="print-question">
+          <strong>${qnr}. ${label}</strong>
+          <div class="print-answer">${answer}</div>
+        </div>
+      `;
+    });
+
+    report.innerHTML += `</div>`;
+  });
+}
+
+// =======================================================
+// PRINT / PDF – bestandsnaam
+// =======================================================
+function setPdfTitle() {
+
+  const name = document.getElementById('patientName')?.value || "";
+  const date = document.getElementById('consultDate')?.value || "";
+
+  let code = name.replace(/[^a-zA-Z]/g, '')
+                 .toUpperCase()
+                 .substring(0, 4);
+
+  if (code.length < 4) code = code.padEnd(4, 'X');
+
+  let isoDate = date;
+  if (date.includes('/')) {
+    const [d, m, y] = date.split('/');
+    isoDate = `${y}-${m}-${d}`;
+  }
+
+  document.title = `Prostaat ${code} ${isoDate}`;
+}
+
+</script>
+
+<!-- PRINT / PDF RAPPORT -->
+
+<div id="printReport" style="display:none;"></div>
+
+</body>
+</html>
