@@ -4,11 +4,30 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Medische HTML</title>
+<title>Medische HTML & Code</title>
 
 <style>
 
-body { font-family: "Segoe UI", Verdana, Arial, sans-serif; background-color: #eef2f5; color: #002850; margin: 0;}
+body { font-family: "Segoe UI", Verdana, Arial, sans-serif; color: #002850; margin: 0;}
+
+body {
+  background-color: #f8fafc;
+
+  background-image:
+    /* dikke lijnen (major grid) */
+    linear-gradient(0deg, rgba(0,0,0,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px),
+
+    /* dunne lijnen (minor grid) */
+    linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+
+  background-size:
+    80px 80px,   /* major grid */
+    80px 80px,
+    10px 10px,   /* minor grid */
+    10px 10px;
+}
 
 /* TITELS */
 h1 { text-align: center; color: #2e7d32; margin-top: 20px; font-size: 28px; }
@@ -26,22 +45,14 @@ h3 { font-size: 16px; color: #3a3a3a; }
     border: 1px solid #d0d7de;
   
 /* subtiel baksteen/patroon effect */
-    background-image: linear-gradient( 0deg, rgba(0,0,0,0.02) 20px, transparent 0px),
-    linear-gradient( 90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-image: linear-gradient( 0deg, rgba(0,0,0,0.03) 20px, transparent 0px),
+    linear-gradient( 90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
     background-size: 20px 20px;
 	box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
 
 /* KOLOMMEN */
-.columns {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.column {
-    flex: 1;
-    min-width: 260px;
-}
+.columns { display: flex; gap: 30px; flex-wrap: wrap; }
+.column { flex: 1; min-width: 260px; }
 
 /* LIJSTEN */
 ul { list-style: square; padding-left: 1; }
@@ -82,19 +93,20 @@ a:hover::after { opacity: 1; transform: translateX(0); }
 <div class="column">
 <ul>
 <li><a href="pr1.html">Vragenlijst mictieklachten</a></li>
+<li><a href="pr3.html">Vragenlijst bijwerkingen radiotherapie prostaat</a></li>
 </ul>
 </div>
 
 <div class="column">
 <ul>
-<li><a href="pr3.html">Vragenlijst bijwerkingen radiotherapie prostaat</a></li>
+<li><a href="pr3.html">Vragenlijst dementie</a></li>
 </ul>
 </div>
 
 </div>
 </div>
 
-<!-- ===================== -->
+<!-- =====================
 
 <div class="section">
 <h2>Ziektebeelden</h2>
@@ -116,7 +128,8 @@ a:hover::after { opacity: 1; transform: translateX(0); }
 </div>
 </div>
 
-<!-- ===================== -->
+-->
+<!-- ===================== 
 <div class="section">
 <h2>Differentiële diagnosen</h2>
 
@@ -127,7 +140,9 @@ a:hover::after { opacity: 1; transform: translateX(0); }
 
 </div>
 
-<!-- ===================== -->
+-->
+
+<!-- =====================
 <div class="section">
 <h2>Diagnose</h2>
 
@@ -138,16 +153,29 @@ a:hover::after { opacity: 1; transform: translateX(0); }
 
 </div>
 
+-->
 <!-- ===================== -->
 <div class="section">
 <h2>Classificatie</h2>
 
+<div class="columns">
+
+<div class="column">
 <ul>
-<li><a href="C1.htm">C1</a></li>
+<li><a href="psytree.html">Classificatie Psychiatrie</a></li>
 </ul>
 </div>
 
-<!-- ===================== -->
+<div class="column">
+<ul>
+<li><a href="icdtree.html">Classificatie Ziekten</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<!-- =====================
 <div class="section">
 <h2>Therapie</h2>
 
@@ -155,6 +183,8 @@ a:hover::after { opacity: 1; transform: translateX(0); }
 <li><a href="T1.htm">T1</a></li>
 </ul>
 </div>
+
+-->
 
 <!-- ===================== -->
 
