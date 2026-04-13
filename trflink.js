@@ -1,4 +1,4 @@
-window data = [
+window.data = [
   {
     "trefwoord": "Hypothyreoïdie NNO",
     "boomCode": "5A102",
@@ -2410,5 +2410,3 @@ window data = [
     "icdCode": "ZZ99"
   }
 ];
-
-module.exports = data;

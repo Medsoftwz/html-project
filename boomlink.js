@@ -1,4 +1,4 @@
-window wzTree = [
+window.wzTree = [
 
 { terms: ["Bepaalde infectieuze of parasitaire ziekten | Infectiologie"], code: "1A" },
 

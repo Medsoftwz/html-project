@@ -4,280 +4,179 @@
 <meta charset="UTF-8">
 <title>Medische kennisboom</title>
 
-<!-- DATA BESTANDEN -->
 <script src="boomlink.js"></script>
 <script src="trflink.js"></script>
 
 <style>
 body {
-    font-family: Verdana, Geneva, sans-serif;
-    margin: 8px;
-    background: linear-gradient(to bottom, #ffffff, #eef3f8);
+    font-family: Verdana;
+    background: #eef3f8;
+    margin: 10px;
 }
 
-h3 {
-    text-align: center;
-    color: #004080;
-}
-
-#controls { text-align: center; margin-bottom: 10px; }
+h3 { text-align:center; color:#004080; }
 
 #tree {
-    background-color: #F5EFEF;
-    padding: 30px;
-    border-radius: 8px;
-    min-height: 400px;
+    background:#F5EFEF;
+    padding:20px;
+    border-radius:8px;
 }
 
-ul { list-style: none; padding-left: 20px; }
+ul { list-style:none; padding-left:20px; }
 
-.node {
-    display: inline-flex;
-    gap: 6px;
-    padding: 2px 4px;
-    border-radius: 4px;
-}
+.node { padding:2px 4px; border-radius:4px; }
+.node.clickable { cursor:pointer; }
+.node.clickable:hover { background:#fff3b0; }
 
-.node.clickable { cursor: pointer; }
-.node.clickable:hover { background-color: #fff3b0; }
+.arrow { width:14px; display:inline-block; }
 
-.arrow { width: 14px; display: inline-block; }
+.level-0, .level-1 { color:#004080; font-weight:300; }
+.level-2 { color:#008000; }
+.level-3 { color:#804040; }
+.level-4 { color:#008080; }
 
-.icd-item {
-    color: #444;
-    font-style: italic;
-    margin-left: 18px;
-}
-
-.search-item {
-    cursor: pointer;
-    padding: 4px;
-    text-decoration: underline;
-}
-
-#search-container {
-    text-align: center;
-    margin-bottom: 10px;
-}
+.icd-item { margin-left:18px; font-style:italic; }
 </style>
 </head>
 
 <body>
 
 <h3>Medische kennisboom</h3>
-
-<div id="controls">
-    <button onclick="expandAll()">➕ Alles uitklappen</button>
-    <button onclick="collapseAll()">➖ Alles inklappen</button>
-</div>
-
-<div id="search-container">
-    <input type="text"
-           id="searchBox"
-           placeholder="Zoek term of code..."
-           oninput="searchInData()"
-           style="padding:6px; width:280px;">
-</div>
-
-<div id="searchResults" style="display:none;"></div>
-
 <div id="tree">⏳ Laden...</div>
 
 <script>
-let treeData = null;
-let linkMap = Object.create(null);
-let hierarchy = [];
-let searchIndex = [];
+let treeData, linkMap = {}, nodes = {};
 
 /* INIT */
-window.addEventListener("DOMContentLoaded", initApp);
-
-function initApp() {
-    if (!window.wzTree || !window.data) {
-        document.getElementById("tree").innerHTML =
-            "❌ Data niet geladen";
-        return;
-    }
-
+window.addEventListener("DOMContentLoaded", () => {
     treeData = wzTree;
+    buildNodes();
     buildLinkMap(data);
-    hierarchy = buildHierarchy(treeData);
-    buildSearchIndex();
-
-    renderRoot();
-}
+    render();
+});
 
 /* NORMALIZE */
-function normalizeCode(value) {
-    return String(value).trim().toUpperCase();
-}
+function norm(c){ return String(c).trim().toUpperCase(); }
 
-/* LINKMAP */
-function buildLinkMap(linkData) {
-    for (const l of linkData) {
-        if (!l || !l.boomCode) continue;
-
-        const codes = String(l.boomCode).split(",");
-
-        for (let c of codes) {
-            const key = normalizeCode(c);
-            if (!key) continue;
-
-            if (!linkMap[key]) linkMap[key] = [];
-            linkMap[key].push(l);
-        }
-    }
-}
-
-/* HIERARCHY */
-function buildHierarchy(items) {
-    const nodes = {};
-    const roots = [];
-
-    for (const i of items) {
-        const key = normalizeCode(i.code);
-        if (nodes[key]) continue;
-
+/* NODES MAKEN */
+function buildNodes(){
+    for(const i of treeData){
+        const key = norm(i.code);
         nodes[key] = {
-            code: i.code,
-            codeKey: key,
-            terms: i.terms,
-            children: []
+            code:i.code,
+            key:key,
+            term:i.terms?.[0] || "",
+            children:[]
         };
     }
 
-    for (const n of Object.values(nodes)) {
-        const parentKey = n.codeKey.slice(0, -1);
+    // 🔥 parent correct bepalen
+    for(const k in nodes){
+        let parent = null;
 
-        if (nodes[parentKey]) {
-            nodes[parentKey].children.push(n);
-        } else {
-            roots.push(n);
+        for(let i=k.length-1;i>0;i--){
+            const p = k.slice(0,i);
+            if(nodes[p]){ parent=p; break; }
+        }
+
+        if(parent){
+            nodes[parent].children.push(nodes[k]);
         }
     }
-
-    return roots;
 }
 
-/* RENDER ROOT */
-function renderRoot() {
+/* LINKMAP (robuust) */
+function buildLinkMap(list){
+    for(const l of list){
+        if(!l || !l.boomCode) continue;
+
+        const codes = l.boomCode.split(",").map(norm);
+
+        for(let c of codes){
+
+            // 🔥 zoek bestaand node
+            while(c && !nodes[c]){
+                c = c.slice(0,-1);
+            }
+
+            if(!c) continue;
+
+            if(!linkMap[c]) linkMap[c]=[];
+            linkMap[c].push(l);
+        }
+    }
+}
+
+/* ROOTS */
+function getRoots(){
+    return Object.values(nodes).filter(n=>{
+        return !Object.values(nodes).some(p=>p.children.includes(n));
+    });
+}
+
+/* LEVEL */
+function level(code){
+    if(code.length<=2) return 1;
+    if(code.length==3) return 2;
+    if(code.length==4) return 3;
+    return 4;
+}
+
+/* RENDER */
+function render(){
+    const roots = getRoots();
     document.getElementById("tree").innerHTML =
-        "<ul>" + hierarchy.map(renderNode).join("") + "</ul>";
+        "<ul>"+roots.map(draw).join("")+"</ul>";
 }
 
-/* NODE */
-function renderNode(n) {
-    const hasChildren = n.children.length > 0;
-    const hasLinks = !!linkMap[n.codeKey];
-    const expandable = hasChildren || hasLinks;
+/* NODE TEKENEN */
+function draw(n){
+    const hasChildren = n.children.length>0;
+    const hasLinks = !!linkMap[n.key];
+    const clickable = hasChildren || hasLinks;
 
     return `
 <li>
-  <span id="node-${n.codeKey}"
-        class="node ${expandable ? "clickable" : ""}"
-        ${expandable ? `onclick="toggleNode('${n.codeKey}')"` : ""}>
-    <span class="arrow">${expandable ? "▶" : ""}</span>
-    ${n.code} – ${n.terms[0]}
-  </span>
-  <div id="children-${n.codeKey}" style="display:none;"></div>
+<span class="node level-${level(n.key)} ${clickable?"clickable":""}"
+onclick="${clickable?`toggle('${n.key}')`:''}">
+<span class="arrow">${clickable?"▶":""}</span>
+${n.code} – ${n.term}
+</span>
+<div id="c-${n.key}" style="display:none"></div>
 </li>`;
 }
 
-/* TOGGLE (LAZY) */
-function toggleNode(codeKey) {
-    const el = document.getElementById("children-" + codeKey);
-    const arrow = document.querySelector("#node-" + codeKey + " .arrow");
+/* TOGGLE */
+function toggle(k){
+    const el = document.getElementById("c-"+k);
+    const open = el.style.display==="block";
 
-    const open = el.style.display === "block";
-
-    if (open) {
-        el.style.display = "none";
-        arrow.textContent = "▶";
+    if(open){
+        el.style.display="none";
         return;
     }
 
-    if (!el.dataset.loaded) {
-        const node = findNode(codeKey, hierarchy);
+    if(!el.innerHTML){
+        let html="";
 
-        let html = "";
+        const n = nodes[k];
 
-        if (node.children.length) {
-            html += "<ul>" + node.children.map(renderNode).join("") + "</ul>";
+        if(n.children.length){
+            html += "<ul>"+n.children.map(draw).join("")+"</ul>";
         }
 
-        if (linkMap[codeKey]) {
+        if(linkMap[k]){
             html += "<ul>";
-            for (const l of linkMap[codeKey]) {
-                html += `<li><span class="icd-item">${l.trefwoord} – ${l.icdCode}</span></li>`;
+            for(const l of linkMap[k]){
+                html += `<li class="icd-item">${l.trefwoord} – ${l.icdCode}</li>`;
             }
             html += "</ul>";
         }
 
         el.innerHTML = html;
-        el.dataset.loaded = "true";
     }
 
-    el.style.display = "block";
-    arrow.textContent = "▼";
-}
-
-/* FIND NODE */
-function findNode(key, nodes) {
-    for (const n of nodes) {
-        if (n.codeKey === key) return n;
-        const found = findNode(key, n.children);
-        if (found) return found;
-    }
-}
-
-/* SEARCH INDEX */
-function buildSearchIndex() {
-    searchIndex = treeData.map(i => ({
-        code: i.code,
-        term: i.terms?.[0] || "",
-        search: (i.code + " " + (i.terms?.[0] || "")).toLowerCase()
-    }));
-}
-
-/* SEARCH */
-function searchInData() {
-    const q = document.getElementById("searchBox").value.toLowerCase();
-
-    if (!q) return;
-
-    const results = searchIndex.filter(i => i.search.includes(q)).slice(0, 100);
-
-    const box = document.getElementById("searchResults");
-
-    box.innerHTML =
-        "<ul>" +
-        results.map(r =>
-            `<li class="search-item" onclick="jumpToNode('${r.code}')">
-             ${r.code} – ${r.term}</li>`).join("") +
-        "</ul>";
-
-    box.style.display = "block";
-}
-
-/* JUMP */
-function jumpToNode(code) {
-    const el = document.getElementById("node-" + normalizeCode(code));
-    if (!el) return;
-
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    el.style.background = "yellow";
-
-    setTimeout(() => el.style.background = "", 2000);
-}
-
-/* EXPAND / COLLAPSE */
-function expandAll() {
-    document.querySelectorAll(".node.clickable").forEach(n => n.click());
-}
-
-function collapseAll() {
-    document.querySelectorAll("[id^=children-]").forEach(d => d.style.display = "none");
-    document.querySelectorAll(".arrow").forEach(a => a.textContent = "▶");
+    el.style.display="block";
 }
 </script>
 

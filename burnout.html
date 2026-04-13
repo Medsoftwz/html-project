@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Template secties</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 20px;
+    }
+
+    h1, h2 {
+      color: #004080;
+      text-align: center;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tabs button {
+      background-color: #004080;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      margin: 5px;
+      border-radius: 5px;
+    }
+
+    .tabs button.active {
+      background-color: #0066cc;
+    }
+
+    .tab-content {
+      display: none;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .question {
+      margin: 20px 0;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      color: #004080;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    label {
+      color: #008000;
+    }
+
+    button.calc {
+      background-color: #004080;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px auto;
+      display: block;
+    }
+
+    button.calc:hover {
+      background-color: #0066cc;
+    }
+
+    .result {
+      color: #800000;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Burn-out Vragenlijst</h2>
+
+<div class="tabs">
+  <button class="tablink active" onclick="openTab(event, 'uitputting')">A. Emotionele Uitputting</button>
+  <button class="tablink" onclick="openTab(event, 'cynisme')">B. Depersonalisatie / Cynisme</button>
+  <button class="tablink" onclick="openTab(event, 'competentie')">C. Zelfvertrouwen</button>
+  <button class="tablink" onclick="openTab(event, 'cognitief')">D. Cognitieve Vermogens</button>
+</div>
+
+
+
+<div id="uitputting" class="tab-content active">
+  <form id="formUitputting">
+    <div class="question">
+      <label>1. Ik voel me geheel op, uitgeblust en opgebrand.</label><br>
+      <input type="radio" name="1q1" value="0"> Nooit<br>
+      <input type="radio" name="1q1" value="1"> Sporadisch<br>
+      <input type="radio" name="1q1" value="2"> Af en toe<br>
+      <input type="radio" name="1q1" value="3"> Regelmatig<br>
+      <input type="radio" name="1q1" value="4"> Dikwijls<br>
+      <input type="radio" name="1q1" value="5"> Zeer dikwijls<br>
+      <input type="radio" name="1q1" value="6"> Altijd
+    </div>
+
+    <div class="question">
+      <label>2. Alles is me teveel. Een werkdag voelt zwaar.</label><br>
+      <input type="radio" name="1q2" value="0"> Nooit<br>
+      <input type="radio" name="1q2" value="1"> Sporadisch<br>
+      <input type="radio" name="1q2" value="2"> Af en toe<br>
+      <input type="radio" name="1q2" value="3"> Regelmatig<br>
+      <input type="radio" name="1q2" value="4"> Dikwijls<br>
+      <input type="radio" name="1q2" value="5"> Zeer dikwijls<br>
+      <input type="radio" name="1q2" value="6"> Altijd
+    </div>
+
+    <div class="question">
+      <label>3. Ik heb behoefte aan rust. Ik heb behoefte om het bijltje erbij neer te gooien </label><br>
+	<input type="radio" name="1q3" value="0">Nooit<br> 
+	<input type="radio" name="1q3" value="1">Sporadisch - Bijna nooit<br>
+	<input type="radio" name="1q3" value="2">Af en toe<br>
+	<input type="radio" name="1q3" value="3">Regelmatig<br>
+	<input type="radio" name="1q3" value="4">Dikwijls<br>
+	<input type="radio" name="1q3" value="5">Zeer dikwijls<br>
+	<input type="radio" name="1q3" value="6">Altijd<br>
+    </div>
+
+    <div class="question">
+      <label>4. Ik pieker over mijn werk en heb slaapproblemen</label><br>
+	<input type="radio" name="1q4" value="0">&nbsp; Nooit<br> 
+	<input type="radio" name="1q4" value="1">&nbsp; Sporadisch - Bijna nooit<br>
+	<input type="radio" name="1q4" value="2">&nbsp; Af en toe<br>
+	<input type="radio" name="1q4" value="3">&nbsp; Regelmatig piekeren<br>
+	<input type="radio" name="1q4" value="4">&nbsp; Dikwijls piekeren<br>
+	<input type="radio" name="1q4" value="5">&nbsp; Zeer dikwijls piekeren én slaapproblemen<br>
+	<input type="radio" name="1q4" value="6">&nbsp; Altijd<br>
+    </div>
+
+    <div class="question">
+      <label>5. Aan het eind van een werkdag, ben ik helemaal versleten - ben ik helemaal op</label><br>
+
+<input type="radio" name="q5" value="0">&nbsp; Nooit<br> 
+<input type="radio" name="q5" value="1">&nbsp; Sporadisch - Bijna nooit<br>
+<input type="radio" name="q5" value="2">&nbsp; Af en toe<br>
+<input type="radio" name="q5" value="3">&nbsp; Regelmatig<br>
+<input type="radio" name="q5" value="4">&nbsp; Dikwijls<br>
+<input type="radio" name="q5" value="5">&nbsp; Zeer dikwijls<br>
+<input type="radio" name="q5" value="6">&nbsp; Altijd<br>
+
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('formUitputting', 'resultUitputting')">Bereken Sectie              A</button> <div id="resultUitputting" class="result"></div>
+  </form>
+</div>
+
+<div id="cynisme" class="tab-content">
+  <form id="formCynisme">
+
+    <div class="question">
+      <label>1. Ik ben afstandelijker geworden ten opzichte van mijn werk.</label><br>
+      <input type="radio" name="2q1" value="0"> Nooit<br>
+      <input type="radio" name="2q1" value="1"> Sporadisch<br>
+      <input type="radio" name="2q1" value="2"> Af en toe<br>
+      <input type="radio" name="2q1" value="3"> Regelmatig<br>
+      <input type="radio" name="2q1" value="4"> Dikwijls<br>
+      <input type="radio" name="2q1" value="5"> Zeer dikwijls<br>
+      <input type="radio" name="2q1" value="5"> Altijd
+    </div>
+
+    <div class="question">
+      <label>2. Ik voel me veranderd. De vanzelfsprekendheid is weg.</label><br>
+
+      <input type="radio" name="2q2" value="0"> Nooit<br>
+      <input type="radio" name="2q2" value="1"> Sporadisch<br>
+      <input type="radio" name="2q2" value="2"> Af en toe<br>
+      <input type="radio" name="2q2" value="3"> Regelmatig<br>
+      <input type="radio" name="2q2" value="4"> Dikwijls<br>
+      <input type="radio" name="2q2" value="5"> Zeer dikwijls<br>
+      <input type="radio" name="2q2" value="5"> Altijd
+    </div>
+
+    <div class="question">
+      <label>3. Ik voel me geïrriteerd en ik val uit tegen mensen. Ik raak vaker betrokken bij conflicten</label><br>
+
+<input type="radio" name="2q3" value="0">&nbsp; Nooit<br> 
+<input type="radio" name="2q3" value="1">&nbsp; Sporadisch - Bijna nooit<br>
+<input type="radio" name="2q3" value="2">&nbsp; Af en toe<br>
+<input type="radio" name="2q3" value="3">&nbsp; Regelmatig<br>
+<input type="radio" name="2q3" value="4">&nbsp; Dikwijls<br>
+<input type="radio" name="2q3" value="5">&nbsp; Zeer dikwijls<br>
+<input type="radio" name="2q3" value="6">&nbsp; Altijd<br>
+    </div>
+
+    <div class="question">
+      <label>4. Ik drink meer alcohol of ik gebruik meer stimulantia, pijnstillers, slaappillen, kalmeerpillen enz.</label><br>
+
+<input type="radio" name="2q4" value="0">&nbsp; Nooit<br> 
+<input type="radio" name="2q4" value="1">&nbsp; Sporadisch - Bijna nooit<br>
+<input type="radio" name="2q4" value="2">&nbsp; Af en toe<br>
+<input type="radio" name="2q4" value="3">&nbsp; Regelmatig<br>
+<input type="radio" name="2q4" value="4">&nbsp; Dikwijls<br>
+<input type="radio" name="2q4" value="5">&nbsp; Zeer dikwijls<br>
+<input type="radio" name="2q4" value="6">&nbsp; Altijd<hr>
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('formCynisme', 'resultCynisme')">Bereken Sectie B</button>
+    <div id="resultCynisme" class="result"></div>
+  </form>
+</div>
+
+
+
+<div id="competentie" class="tab-content">
+  <form id="formCompetentie">
+
+    <div class="question">
+      <label>1. Ik vraag me af of mijn inspanningen zinvol zijn.</label><br>
+      <input type="radio" name="3q1" value="0"> Nooit<br>
+      <input type="radio" name="3q1" value="1"> Sporadisch<br>
+      <input type="radio" name="3q1" value="2"> Af en toe<br>
+      <input type="radio" name="3q1" value="3"> Regelmatig<br>
+      <input type="radio" name="3q1" value="4"> Dikwijls<br>
+      <input type="radio" name="3q1" value="5"> Zeer dikwijls<br>
+      <input type="radio" name="3q1" value="6"> Altijd
+    </div>
+
+    <div class="question">
+      <label>2. Mijn inzet draagt daadwerkelijk bij aan de doelstellingen van de organisatie. Ik voel me voldaan als ik op mijn werk een opdracht heb voltooid</label><br>
+      <input type="radio" name="3q2" value="6"> Nooit<br>
+      <input type="radio" name="3q2" value="5"> Sporadisch<br>
+      <input type="radio" name="3q2" value="4"> Af en toe<br>
+      <input type="radio" name="3q2" value="3"> Regelmatig<br>
+      <input type="radio" name="3q2" value="2"> Dikwijls<br>
+      <input type="radio" name="3q2" value="1"> Zeer dikwijls<br>
+      <input type="radio" name="3q2" value="0"> Altijd
+    </div>
+
+    <div class="question">
+      <label>3.&nbsp;Ik werk hard maar bereik weinig. Ik voel me gefrustreerd in mijn werk</label><br>
+<input type="radio" name="3q3" value="0">&nbsp; Nooit<br> 
+<input type="radio" name="3q3" value="1">&nbsp; Sporadisch - Bijna nooit<br>
+<input type="radio" name="3q3" value="2">&nbsp; Af en toe<br>
+<input type="radio" name="3q3" value="3">&nbsp; Regelmatig<br>
+<input type="radio" name="3q3" value="4">&nbsp; Dikwijls<br>
+<input type="radio" name="3q3" value="5">&nbsp; Zeer dikwijls<br>
+<input type="radio" name="3q3" value="6">&nbsp; Altijd<br>
+    </div>
+
+   <div class="question">
+      <label>4. Ik zie er tegenop om naar mijn werk te gaan. Het werk verveelt me. Er is weinig waarin ik mij kan verheugen in mijn werk.</label><br>
+<input type="radio" name="3q4" value="0">&nbsp; Nooit<br> 
+<input type="radio" name="3q4" value="1">&nbsp; Sporadisch - Bijna nooit<br>
+<input type="radio" name="3q4" value="2">&nbsp; Af en toe<br>
+<input type="radio" name="3q4" value="3">&nbsp; Regelmatig<br>
+<input type="radio" name="3q4" value="4">&nbsp; Dikwijls<br>
+<input type="radio" name="3q4" value="5">&nbsp; Zeer dikwijls<br>
+<input type="radio" name="3q4" value="6">&nbsp; Altijd<br>
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('formCompetentie', 'resultCompetentie')">Bereken Sectie C</button>
+    <div id="resultCompetentie" class="result"></div>
+  </form>
+</div>
+
+
+
+<div id="cognitief" class="tab-content">
+  <form id="formCognitief">
+
+    <div class="question">
+      <label>1. Ik heb moeite met concentratie en drukte om mij heen.</label><br>
+      <input type="radio" name="4q1" value="0"> Nooit<br>
+      <input type="radio" name="4q1" value="1"> Sporadisch<br>
+      <input type="radio" name="4q1" value="2"> Af en toe<br>
+      <input type="radio" name="4q1" value="3"> Regelmatig<br>
+      <input type="radio" name="4q1" value="4"> Dikwijls<br>
+      <input type="radio" name="4q1" value="5"> Zeer dikwijls<br>
+      <input type="radio" name="4q1" value="6"> Altijd
+    </div>
+
+    <div class="question">
+      <label>2. Ik ben vergeetachtig.</label><br>
+      <input type="radio" name="4q2" value="0"> Nooit<br>
+      <input type="radio" name="4q2" value="1"> Sporadisch<br>
+      <input type="radio" name="4q2" value="2"> Af en toe<br>
+      <input type="radio" name="4q2" value="3"> Regelmatig<br>
+      <input type="radio" name="4q2" value="4"> Dikwijls<br>
+      <input type="radio" name="4q2" value="5"> Zeer dikwijls<br>
+      <input type="radio" name="4q2" value="6"> Altijd
+    </div>
+ 
+    <div class="question">
+      <label>3. Ik kan niet meer bijtanken en recupereren. Ik blijf moe, ook als ik voldoende slaap heb gehad</label><br>
+
+<input type="radio" name="4q3" value="0">&nbsp; Nooit<br> 
+<input type="radio" name="4q3" value="1">&nbsp; Sporadisch - Bijna nooit<br>
+<input type="radio" name="4q3" value="2">&nbsp; Af en toe<br>
+<input type="radio" name="4q3" value="3">&nbsp; Regelmatig<br>
+<input type="radio" name="4q3" value="4">&nbsp; Dikwijls<br>
+<input type="radio" name="4q3" value="5">&nbsp; Zeer dikwijls<br>
+<input type="radio" name="4q3" value="6">&nbsp; Altijd<br>
+    </div>
+
+    <div class="question">
+      <label>4. Ik ben goed in staat om problemen op mijn werk effectief op te lossen. Ik vind dat ik op mijn werk 
+goed presteer. Ik ben goed in staat om mijn werkzaamheden te organiseren.</label><br>
+
+<input type="radio" name="4q4" value="6">&nbsp; Nooit<br> 
+<input type="radio" name="4q4" value="5">&nbsp; Sporadisch - Bijna nooit<br>
+<input type="radio" name="4q4" value="4">&nbsp; Af en toe<br>
+<input type="radio" name="4q4" value="3">&nbsp; Regelmatig<br>
+<input type="radio" name="4q4" value="2">&nbsp; Dikwijls<br>
+<input type="radio" name="4q4" value="1">&nbsp; Zeer dikwijls<br>
+<input type="radio" name="4q4" value="0">&nbsp; Altijd<br>
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('formCognitief', 'resultCognitief')">Bereken Sectie D</button>
+    <div id="resultCognitief" class="result"></div>
+
+  </form>
+
+</div>
+
+<!-- Totaalknop -->
+<button type="button" class="calc" onclick="calculateTotal()">Toon totaalscore</button>
+<div id="totalResult" class="result"></div>
+
+<script>
+function openTab(evt, tabName) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tablink').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabName).classList.add('active');
+  evt.currentTarget.classList.add('active');
+}
+
+function scrollToElement(elementId) {
+  const el = document.getElementById(elementId);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function calculateSection(formId, resultId) {
+  const form = document.getElementById(formId);
+  const questions = form.querySelectorAll('.question');
+  let score = 0;
+  let maxScore = 0;
+
+  for (const question of questions) {
+    const radios = question.querySelectorAll('input[type="radio"]');
+    const checked = question.querySelector('input[type="radio"]:checked');
+
+    if (!checked) {
+      alert("Beantwoord alle vragen in deze sectie.");
+      return;
+    }
+
+    score += parseInt(checked.value);
+
+    // Bepaal de hoogste waarde voor deze vraag
+    let max = 0;
+    radios.forEach(r => {
+      const val = parseInt(r.value);
+      if (!isNaN(val) && val > max) max = val;
+    });
+    maxScore += max;
+  }
+
+  const percentage = (score / maxScore) * 100;
+  document.getElementById(resultId).innerText =
+    `Sectiescore: ${score} (max. minpunten: ${maxScore})\nFunctiedaling: ${percentage.toFixed(1)}%`;
+
+  scrollToElement(resultId);
+}
+
+
+function calculateTotal() {
+  const allQuestions = document.querySelectorAll('.question');
+  const allChecked = document.querySelectorAll('input[type="radio"]:checked');
+
+  if (allChecked.length < allQuestions.length) {
+    alert("Gelieve alle vragen te beantwoorden vooraleer het totaal te berekenen.");
+    return;
+  }
+
+  let totalScore = 0;
+  let maxScore = 0;
+
+  allQuestions.forEach(question => {
+    const radios = question.querySelectorAll('input[type="radio"]');
+    const checked = question.querySelector('input[type="radio"]:checked');
+
+    totalScore += parseInt(checked.value);
+
+    // Zoek hoogste waarde per vraag
+    let max = 0;
+    radios.forEach(r => {
+      const val = parseInt(r.value);
+      if (!isNaN(val) && val > max) max = val;
+    });
+    maxScore += max;
+  });
+
+  const percentage = ((totalScore / maxScore) * 100).toFixed(1);
+
+  let interpretation = '';
+  if (percentage < 25) interpretation = 'Lichte symptomen';
+  else if (percentage < 50) interpretation = 'Matige symptomen';
+  else if (percentage < 75) interpretation = 'Ernstige symptomen';
+  else interpretation = 'Zeer ernstige symptomen';
+
+  const totalDiv = document.getElementById('totalResult');
+  totalDiv.innerHTML = `
+    Totale score: ${totalScore} (max. minpunten: ${maxScore})<br>
+    Functiedaling: ${percentage}%<br>
+    Interpretatie: <strong>${interpretation}</strong>
+  `;
+  totalDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+
+</script>
+
+</body>
+</html>
