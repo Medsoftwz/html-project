@@ -34,27 +34,22 @@ h1 { color: #2e7d32; font-size: 20px; font-weight: normal; margin-top: 0px; text
 h2 { color: #2e7d32; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 0px;}
 h3 { color: #3a3a3a; font-size: 16px;  }
 	
+/* SECTIONS */
 .section {
     width: 92%;
     max-width: 1000px;
     margin: 20px auto;
     padding: 18px;
-    
-    /* 1. Basis achtergrondkleur naar lichtgrijs */
-    background-color: #D3D3D3; 
-    
+    background: #FFFFFF;
     border-radius: 10px;
     border: 1px solid #d0d7de;
   
-    /* 2. Raster aangepast: witte lijnen (rgba 255,255,255) i.p.v. zwart */
-    background-image: 
-        linear-gradient(0deg, rgba(255,255,255,0.3) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
-    
+/* subtiel baksteen/patroon effect */
+    background-image: linear-gradient( 0deg, rgba(0,0,0,0.09) 20px, transparent 0px),
+    linear-gradient( 90deg, rgba(0,0,0,0.09) 1px, transparent 1px);
     background-size: 20px 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
-}	
-
+	box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+	
 /* KOLOMMEN */
 .columns { display: flex; gap: 30px; flex-wrap: wrap; }
 .column { flex: 1; min-width: 260px; }
