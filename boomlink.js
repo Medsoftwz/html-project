@@ -335,7 +335,7 @@ window.wzTree = [
 
 // Hoofdstuk 05 — Endocriene ziekten
 
-{ terms: ["Endocriene - Nutritionele - Metabole stoornissen | Endocrinologie"], code: "5" },
+{ terms: ["Endocrinologie"], code: "5" },
 
 { terms: ["Endocriene stoornissen"], code: "5A" },
 
@@ -567,7 +567,7 @@ window.wzTree = [
 
   // P — Psychiatrie
   
-  { code: "6", terms: ["Psychische en Mentale Stoornissen | Psychiatrie"] },
+  { code: "6", terms: ["Psychiatrie"] },
   { code: "6A", terms: ["Psychische stoornissen (ICD‑11 6A)"] },
     { code: "6A0", terms: ["Stemmingsstoornissen"] },
       { code: "6A00", terms: ["Depressieve episode"] },
@@ -704,7 +704,7 @@ window.wzTree = [
   { terms: ["Bewegingsstoornissen en andere bijwerkingen van medicatie"], code: "6DU" },
   { terms: ["Andere problemen die een reden van zorg kunnen zijn"], code: "6DV" },
 
-{ terms: ["Ziekten van het zenuwstelsel | Neurologie"], code: "8A" },
+{ terms: ["Neurologie"], code: "8A" },
 
   // 8A0 Cerebrovasculaire aandoeningen
   { code: "8A0", terms: ["Cerebrovasculaire aandoeningen"] },
@@ -792,7 +792,7 @@ window.wzTree = [
     { code: "8A91", terms: ["Cerebrale parese"] },
     { code: "8A92", terms: ["Zeldzame neurologische syndromen"] },
 
-{ terms: ["Ziekten van het visuele systeem  | Oftalmologie"], code: "9A" },
+{ terms: ["Oftalmologie"], code: "9A" },
 
   // 9A0 Aandoeningen van oogleden en orbita
   { code: "9A0", terms: ["Aandoeningen van oogleden en orbita"] },

@@ -8,10 +8,10 @@
 
 <style>
 
-body { font-family: "Segoe UI", Verdana, Arial, sans-serif; color: #002850; margin: 0;}
+body { font-family: "Verdana, Segoe UI", Arial, sans-serif; color: #002850; margin: 0; font-weight: normal;}
 
 body {
-  background-color: #f8fafc;
+  background-color: #E1FFFF;
 
   background-image:
     /* dikke lijnen (major grid) */
@@ -30,25 +30,30 @@ body {
 }
 
 /* TITELS */
-h1 { text-align: center; color: #2e7d32; margin-top: 0px; font-size: 20px; font-weight: normal; }
-h2 { color: #2e7d32; font-size: 18px; margin-bottom: 0px; margin-top: 0; font-weight: normal; }
-h3 { font-size: 16px; color: #3a3a3a; }
-
-/* SECTIONS */
+h1 { color: #2e7d32; font-size: 20px; font-weight: normal; margin-top: 0px; text-align: center; }
+h2 { color: #2e7d32; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 0px;}
+h3 { color: #3a3a3a; font-size: 16px;  }
+	
 .section {
     width: 92%;
     max-width: 1000px;
     margin: 20px auto;
     padding: 18px;
-    background: #ffffff;
+    
+    /* 1. Basis achtergrondkleur naar lichtgrijs */
+    background-color: #D3D3D3; 
+    
     border-radius: 10px;
     border: 1px solid #d0d7de;
   
-/* subtiel baksteen/patroon effect */
-    background-image: linear-gradient( 0deg, rgba(0,0,0,0.03) 20px, transparent 0px),
-    linear-gradient( 90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    /* 2. Raster aangepast: witte lijnen (rgba 255,255,255) i.p.v. zwart */
+    background-image: 
+        linear-gradient(0deg, rgba(255,255,255,0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+    
     background-size: 20px 20px;
-	box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+}	
 
 /* KOLOMMEN */
 .columns { display: flex; gap: 30px; flex-wrap: wrap; }
@@ -60,7 +65,7 @@ li { margin-bottom: 8px; }
 
 /* LINKS */
 a {
-    color: #4da3ff;
+    color: #0080C0;
     text-decoration: underline;
     font-weight: 500;
     position: relative;
@@ -69,9 +74,7 @@ a {
 
 /* hover met pijltje */
 
-a::after { content: "→"; opacity: 0; margin-left: 5px; 
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    transform: translateX(-3px); }
+a::after { content: "→"; opacity: 0; margin-left: 5px; transition: opacity 0.2s ease, transform 0.2s ease; transform: translateX(-3px); }
 a:hover { color: #FF40FF; }
 a:hover::after { opacity: 1; transform: translateX(0); }
 
@@ -171,6 +174,8 @@ a:hover::after { opacity: 1; transform: translateX(0); }
 <div class="column">
 <ul>
 <li><a href="diatree.html">Classificatie Ziekten</a></li>
+<li><a href="https://icd.who.int/browse/2025-01/mms/en" target="_blank" rel="noopener noreferrer">ICD-11 Browser</a></li>
+<li><a href="https://icd.who.int/ct/icd11_mms/en/2025-01" target="_blank" rel="noopener noreferrer">ICD-11 Coding Tool</a></li>
 </ul>
 </div>
 
