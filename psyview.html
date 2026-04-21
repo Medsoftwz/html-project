@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+
+<!-- Versie 20260421   -->
+
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Psychiatrisch Interview</title>
+  <style>
+    body { font-family: Verdana, Arial, sans-serif; background-color: #f5f5f5; margin: 20px; }
+	
+    h1, h2,h3 { color: #004080; text-align: center; }
+	
+    .tabs { display: flex; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .tabs button { background-color: #468CD2; color: white; padding: 10px 20px; border: none; cursor: pointer; margin: 5px; border-radius: 5px; }
+    .tabs button.active { background-color: #3BAF17; }
+    .tab-content { display: none; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .tab-content.active { display: block; }
+	
+	.question { 
+    margin: 4px 0; 
+    padding: 15px; 
+    background: #fff; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+    color: #002040; 
+    }
+	
+    .options div { margin-top: 6px; }
+
+    label { color: #004080; cursor: pointer; }
+	.answer-label {color: #008000;}
+    
+	button.calc { background-color: #004080; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px auto; display: block; }
+    .result { color: #800000; margin-top: 20px; font-weight: bold; text-align: center; white-space: pre-line; }
+    .controls { text-align: center; margin-top: 20px; }
+	
+	.interpret-green     { color: #008000; font-weight: bold; }
+	.interpret-yellow    { color: #c9a400; font-weight: bold; }
+	.interpret-orange   { color: #d97a00; font-weight: bold; }
+	.interpret-red         { color: #cc0000; font-weight: bold; }
+	.interpret-darkred  { color: #FF0000; font-weight: bold; }
+	
+	.total-box {
+	background-color: #FFFF80;
+	color: #8D6363;	
+	margin-top: 15px;
+	text-align: center;
+	font-size: 16px;
+	line-height: 1.3;
+	font-weight: bold;
+    }
+
+/* =========================
+   PRINT / PDF
+   ========================= */
+@media print {
+
+  body {
+    background: white;
+    margin: 15mm;
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #000;
+  }
+
+  /* Verberg alles wat niet in rapport hoort */
+  .tabs,
+  .tab-content,
+  button,
+  .controls,
+  input,
+  label,
+  .result { display: none !important;}
+
+  /* Toon enkel het rapport */
+  #printReport { display: block !important;}
+
+  h2 { color: #502828; font-size: 12pt; font-weight: 600; margin: 6px 0 4px 0;}
+
+  h3 { color: #008000; font-size: 12pt; font-weight: 600; margin: 6px 0 3px 0;}
+
+  .print-section { margin-top: 20px; page-break-inside: avoid;}
+
+  .print-question { margin-bottom: 8px; page-break-inside: avoid;}
+
+  .print-answer { margin-left: 15px;}
+
+  .summary-box {
+    border: 2px solid #000;
+    padding: 8px 10px;
+    margin: 8px 0 12px 0;
+    background: #f0f0f0;
+  }
+
+  .summary-box p {
+    margin: 2px 0;
+    line-height: 1.3;
+    font-size: 11pt;
+  }
+
+  .print-section { margin-top: 4px;}
+
+  .print-question { margin-bottom: 4px;}
+
+  .print-answer { margin-left: 10px; margin-top: 1px;}
+
+  hr { margin: 6px 0;}
+
+  p { margin: 3px 0;}
+
+  /* Toon de titel niet in het rapport */
+  body > h3 { display: none !important;}
+  
+}
+
+ </style>
+</head>
+<body>
+
+<h3>Het Psychiatrisch Interview</h3>
+
+<div class="tabs">
+  <button class="tablink active" onclick="openTab(event, '1wz')">Cognitie</button>
+  <button class="tablink" onclick="openTab(event, '2wz')">Stemming</button>
+  <button class="tablink" onclick="openTab(event, '3wz')">Gedrag</button>
+  <button class="tablink" onclick="openTab(event, '4wz')">Aandrift</button>
+  <button class="tablink" onclick="openTab(event, '5wz')">Attitude</button>
+</div>
+
+<script>
+function buildRadio(name, value, text) {
+  const id = name + '_' + value;
+  return `<div><input type="radio" id="${id}" name="${name}" value="${value}">
+          <label class="answer-label" for="${id}"> ${text}</label></div>`;
+}
+
+</script>
+
+<!-- SECTIE A -->
+<div id="1wz" class="tab-content active">
+  <form id="form1wz">
+  
+    <div class="question">
+     <label>A1. Denken: Hoe lopen uw gedachten de laatste tijd: normaal, sneller, trager of moeilijk te ordenen</label>
+	 
+	<div class="options" id="1q1"></div>
+      <script>
+        document.getElementById('1q1').innerHTML =
+          buildRadio('1q1',0,'normaal')+
+          buildRadio('1q1',1,'mild verminderd')+
+          buildRadio('1q1',2,'matig verminderd')+
+          buildRadio('1q1',4,'wanen');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>A2. Waarneming: Hebt u dingen gehoord of gezien waarvan u niet zeker weet of ze echt waren</label>
+      <div class="options" id="1q2"></div>
+      <script>
+        document.getElementById('1q2').innerHTML =
+          buildRadio('1q2',0,'neen')+
+          buildRadio('1q2',1,'misschien')+
+          buildRadio('1q2',2,'mogelijk')+
+          buildRadio('1q2',4,'hallucinatie');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>A3. Geheugen: Merkt u dat u dingen sneller vergeet</label>
+      <div class="options" id="1q3"></div>
+      <script>
+          document.getElementById('1q3').innerHTML =
+          buildRadio('1q3',0,'geen last van')+
+          buildRadio('1q3',1,'af en toe recente gebeurtenissen vergeten')+
+          buildRadio('1q3',2,'veel zaken ben ik vergeten')+
+          buildRadio('1q3',3,'mmse score is laag');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>A4. Oriëntatie	: Welke dag is het vandaag en waar zijn we nu</label>
+      <div class="options" id="1q4"></div>
+      <script>
+        document.getElementById('1q4').innerHTML =
+          buildRadio('1q4',0,'correct antwoord')+
+          buildRadio('1q4',1,'weet waar we zijn - twijfel over de dag')+
+          buildRadio('1q4',2,'lijkt gedeoriënteerd door de vraag')+
+          buildRadio('1q4',3,'mmse score is laag');
+        
+      </script>
+    </div>
+
+<div class="question">
+      <label>A5. Aandacht & concentratie: Hoe gaat het met taken die aandacht vragen, zoals lezen of een gesprek volgen</label>
+      <div class="options" id="1q5"></div>
+      <script>
+        document.getElementById('1q5').innerHTML =
+          buildRadio('1q5',0,'normaal')+
+          buildRadio('1q5',1,'Licht verminderd')+
+          buildRadio('1q5',2,'Matig verminderd')+
+          buildRadio('1q5',3,'Ernstig verminderd');
+      </script>
+    </div>
+
+    <div class="question">
+      <label>A6. Inzicht & oordeel: Wat denkt u dat er aan de hand is en wat hebt u nodig om te herstellen?”</label>
+      <div class="options" id="1q6"></div>
+      <script>
+        document.getElementById('1q6').innerHTML =
+          buildRadio('1q6',0,'Niets aan de hand')+
+          buildRadio('1q6',1,'Dat weet ik niet')+
+          buildRadio('1q6',2,'Problemen')+
+          buildRadio('1q6',3,'Psychische storing');
+      </script>
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('form1wz','result1wz')">Bereken Sectie A</button>
+    <div id="result1wz" class="result"></div>
+  </form>
+</div>
+
+<!-- SECTIE B - Affect -->
+<div id="2wz" class="tab-content">
+  <form id="form2wz">
+  
+  <!-- Doel: screenen op aanhoudende depressieve stemming. -->
+      <div class="question">
+      <label>B1. Heeft u zich de afgelopen twee weken vaak somber, neerslachtig of verdrietig gevoeld</label>
+      <div class="options" id="2q1"></div>
+      <script>
+          document.getElementById('2q1').innerHTML =
+          buildRadio('2q1',0,'Nooit')+
+          buildRadio('2q1',1,'Soms')+
+          buildRadio('2q1',2,'Vaak')+
+          buildRadio('2q1',3,'Bijna dagelijks');		  
+      </script>
+    </div>
+	
+	<!-- Doel: detecteren van verlies van interesse of plezier. -->
+	<div class="question">
+      <label>B2. Zijn er dingen waar u nu weinig of geen plezier meer aan beleeft </label>
+      <div class="options" id="2q2"></div>
+      <script>
+          document.getElementById('2q2').innerHTML =
+          buildRadio('2q2',0,'Neen')+
+          buildRadio('2q2',1,'Een beetje')+
+          buildRadio('2q2',2,'Duidelijk minder')+
+          buildRadio('2q2',3,'Ja, veel zaken waar geen plezier aan');		  
+      </script>
+    </div>
+	
+	<!-- Doel: inschatten van gedragsmatige energie en vermoeidheid. Energieverlies / vitaliteit -->
+		<div class="question">
+      <label>B3. Heeft u de laatste tijd minder energie of raakt u sneller uitgeput bij gewone activiteiten</label>
+      <div class="options" id="2q3"></div>
+      <script>
+          document.getElementById('2q3').innerHTML =
+          buildRadio('2q3',0,'Neen')+
+          buildRadio('2q3',1,'Soms')+
+          buildRadio('2q3',2,'Vaak')+
+		  buildRadio('2q3',3,'Voortdurend');
+      </script>
+    </div>
+
+<!-- Doel: opsporen van insomnia of hypersomnie als stemmings‑ of angstkenmerk. Slaapstoornissen -->
+	<div class="question">
+      <label>B4. Hoe is uw slaap de afgelopen weken: slaapt u slechter, vaker of vroeger wakker</label>
+      <div class="options" id="2q4"></div>
+      <script>
+          document.getElementById('2q4').innerHTML =
+          buildRadio('2q4',0,'Geen verandering')+
+          buildRadio('2q4',1,'Iets slechter')+
+          buildRadio('2q4',2,'Duidelijk verstoord')+
+          buildRadio('2q4',3,'Ernstig verstoord');
+      </script>
+    </div>
+
+<!-- Doel: vaststellen van gegeneraliseerde angst, excessief piekeren en paniekfenomenen. -->
+	<div class="question">
+      <label>B5. Maakt u zich de laatste tijd zorgen of piekert u veel of heeft u plotselinge paniekaanvallen</label>
+      <div class="options" id="2q5"></div>
+      <script>
+          document.getElementById('2q5').innerHTML =
+          buildRadio('2q5',0,'Neen')+
+          buildRadio('2q5',1,'Af en toe')+
+          buildRadio('2q5',2,'Regelmatig')+
+          buildRadio('2q5',3,'Zeer frequent')+
+		  buildRadio('2q5',4,'Panieaanvallen aanwezig');
+      </script>
+    </div>
+
+<!-- Doel: snel inschatten van suïcidale ideatie en risico (veiligheidsvraag). -->
+	<div class="question">
+      <label>B6. Heeft u de afgelopen tijd gedachten gehad dat u er liever niet meer zou zijn of nagedacht over zelfbeschadiging of een plan gemaakt</label>
+      <div class="options" id="2q6"></div>
+      <script>
+          document.getElementById('2q6').innerHTML =
+          buildRadio('2q6',0,'Geen gedachten')+
+          buildRadio('2q6',1,'Passieve wens')+
+          buildRadio('2q6',3,'Actieve gedachten zonder plan')+
+          buildRadio('2q6',4,'Plan of Intentie');
+      </script>
+    </div>
+		
+    <button type="button" class="calc" onclick="calculateSection('form2wz','result2wz')">Bereken Sectie B</button>
+    <div id="result2wz" class="result"></div>
+  </form>
+</div>
+
+<!-- SECTIE C - Gedrag -->
+
+<div id="3wz" class="tab-content">
+  <form id="form3wz">
+
+  <!-- Psychomotorische communicatie  - Vraagdoel: echolalie, echopraxie, verbigeratie, stereotypieën.   -->
+ <div class="question">
+      <label>C1. Merkt u dat u woorden of bewegingen van anderen herhaalt of dat u zichzelf herhaalt (bijv. steeds dezelfde woorden of geluiden zegt)</label>
+      <div class="options" id="3q1"></div>
+      <script>
+        document.getElementById('3q1').innerHTML =
+          buildRadio('3q1',0,'Nooit')+
+          buildRadio('3q1',1,'Soms')+
+          buildRadio('3q1',2,'Vaak')+
+          buildRadio('3q1',3,'Altijd');
+      </script>
+    </div>
+
+<!-- 2.	Psychomotorische activiteit Vraagdoel: overactiviteit, agitatie, psychomotorische remming. -->
+ <div class="question">
+      <label>C2. Bent u de laatste tijd opvallend meer of minder beweeglijk dan normaal (bijv. rusteloos, opgejaagd of traag en geremd)</label>
+      <div class="options" id="3q2"></div>
+      <script>
+        document.getElementById('3q2').innerHTML =
+          buildRadio('3q2',0,'Nooit')+
+          buildRadio('3q2',1,'Soms')+
+          buildRadio('3q2',2,'Vaak')+
+          buildRadio('3q2',3,'Altijd');
+      </script>
+    </div>
+	
+	<!-- 3.	Compulsief motorisch gedrag Vraag: Doel: motorische compulsies, dwanghandelingen. -->
+ <div class="question">
+      <label>C3. Voelt u zich gedwongen bepaalde handelingen te herhalen om onrust of angst te verminderen</label>
+      <div class="options" id="3q3"></div>
+      <script>
+        document.getElementById('3q3').innerHTML =
+          buildRadio('3q3',0,'Nooit')+
+          buildRadio('3q3',1,'Soms')+
+          buildRadio('3q3',2,'Vaak')+
+          buildRadio('3q3',3,'Altijd');
+      </script>
+    </div>
+
+<!-- 4.	Katatone kenmerken en bijzondere bewegingen Vraag: Doel: stupor, flexibilitas cerea, parakinesieën, andere bijzondere motorische verschijnselen. -->
+ <div class="question">
+      <label>C4. Heeft u momenten waarop u stijf blijft staan, ongebruikelijke houdingen aanneemt, onvrijwillige bewegingen of grimassen vertoont?” </label>
+      <div class="options" id="3q4"></div>
+      <script>
+        document.getElementById('3q4').innerHTML =
+          buildRadio('3q4',0,'Nooit')+
+          buildRadio('3q4',1,'Soms')+
+          buildRadio('3q4',2,'Vaak')+
+          buildRadio('3q4',3,'Altijd');
+      </script>
+    </div>
+
+<!-- 5.	Sociaal gedrag en contact Vraag:  Doel: contactname, oogcontact, samenwerking, terugtrekking, warmte/afstandelijkheid. -->
+ <div class="question">
+      <label>C5. Omgaan met anderen: wacht u af en probeert u sociale situaties te vermijden</label>
+      <div class="options" id="3q5"></div>
+      <script>
+        document.getElementById('3q5').innerHTML =
+          buildRadio('3q5',0,'Spontaan contact')+
+          buildRadio('3q5',1,'Soms')+
+          buildRadio('3q5',2,'Vaak')+
+          buildRadio('3q5',3,'Altijd');
+      </script>
+    </div>
+
+<!-- 6.	Impulsiviteit en ontremming Vraag:  Doel: frustratietolerantie, agressie, risicogedrag, middelengebruik, ontremming. -->
+ <div class="question">
+      <label>C6. Heeft u de laatste tijd impulsieve uitbarstingen gehad, risicogedrag vertoond of moeite gehad om uw impulsen (bijv. agressie, seksueel gedrag, middelengebruik) te remmen?”</label>
+      <div class="options" id="3q6"></div>
+      <script>
+        document.getElementById('3q6').innerHTML =
+          buildRadio('3q6',0,'Nooit')+
+          buildRadio('3q6',1,'Soms')+
+          buildRadio('3q6',2,'Vaak')+
+          buildRadio('3q6',3,'Altijd');
+      </script>
+    </div>
+
+    <button type="button" class="calc" onclick="calculateSection('form3wz','result3wz')">Bereken Sectie C</button>
+    <div id="result3wz" class="result"></div>
+  </form>
+</div>
+
+<!-- SECTIE D -->
+
+<!-- Motivatie = de reden en bereidheid om iets te doen.
+Aandrift is de interne psychische energie en kracht welke tot handelen aanspoort (om iets te beginnen).
+Gedragsmatige energie = de hoeveelheid psychische energie die zichtbaar wordt in iemands gedrag.
+De stuwende krachten van alle psychische activiteiten wat betreft tempo, intensiteit en duur.
+Waarneembaar in de psychomotorische activiteit van een persoon. -->
+
+<div id="4wz" class="tab-content">
+  <form id="form4wz">
+  
+    <div class="question">
+      <label>D1 - Aandrift: hoeveel initiatief neemt u op een gewone dag?</label>
+      <div class="options" id="4q1"></div>
+      <script>
+        document.getElementById('4q1').innerHTML =
+          buildRadio('4q1',0,'Normaal')+
+          buildRadio('4q1',1,'Soms')+
+          buildRadio('4q1',2,'Weinig')+
+          buildRadio('4q1',3,'Geen');
+      </script>
+    </div>
+	
+	    <div class="question">
+      <label>D2 - Gedragsmatige energie én motivatie: hoe lang kunt u uw aandacht of inspanning vasthouden?</label>
+      <div class="options" id="4q2"></div>
+      <script>
+        document.getElementById('4q2').innerHTML =
+          buildRadio('4q2',0,'Normaal')+
+          buildRadio('4q2',1,'Gaat toch nog')+
+          buildRadio('4q2',2,'Niet lang')+
+          buildRadio('4q2',3,'Dat gaat niet - lukt niet');
+      </script>
+    </div>
+	
+	    <div class="question">
+      <label>D3 - Gedrag zinvol, chaotisch of doelloos: lukt het om plannen uit te voeren?</label>
+      <div class="options" id="4q3"></div>
+      <script>
+        document.getElementById('4q3').innerHTML =
+          buildRadio('4q3',0,'Normaal')+
+          buildRadio('4q3',1,'Af en toe')+
+          buildRadio('4q3',2,'Zelden')+
+          buildRadio('4q3',3,'Neen - lukt niet');
+      </script>
+    </div>
+	
+		    <div class="question">
+      <label>D4 - De reden achter gedrag: wat geeft u energie of voldoening?</label>
+      <div class="options" id="4q4"></div>
+      <script>
+        document.getElementById('4q4').innerHTML =
+          buildRadio('4q4',0,'Normaal')+
+          buildRadio('4q4',1,'Weinig')+
+          buildRadio('4q4',2,'Weet ik niet')+
+          buildRadio('4q4',3,'Niets');
+
+      </script>
+    </div>
+	
+		    <div class="question">
+      <label>D5 - Observatie: congruentie tussen woorden en gedrag? </label>
+      <div class="options" id="4q5"></div>
+      <script>
+        document.getElementById('4q5').innerHTML =
+          buildRadio('4q5',0,'Normaal')+
+          buildRadio('4q5',1,'Spreekt traag')+
+          buildRadio('4q5',2,'Zit ineen gedoken')+
+          buildRadio('4q5',3,'Toont geen initiatief');
+
+      </script>
+    </div>
+		
+   <div class="question">
+  <label>D6 - Dagelijkse regelmaat: lukt het u om een vaste dagstructuur aan te houden (opstaan, eten, activiteiten)?</label>
+  <div class="options" id="4q6"></div>
+  <script>
+    document.getElementById('4q6').innerHTML =
+      buildRadio('4q6',0,'Ja, normaal')+
+      buildRadio('4q6',1,'Gedeeltelijk')+
+      buildRadio('4q6',2,'Moeilijk vol te houden')+
+      buildRadio('4q6',3,'Neen, dat lukt niet');
+  </script>
+</div>
+
+
+    <button type="button" class="calc" onclick="calculateSection('form4wz','result4wz')">Bereken Sectie D</button>
+    <div id="result4wz" class="result"></div>
+  </form>
+</div>
+
+
+<!-- SECTIE E -->
+<div id="5wz" class="tab-content">
+  <form id="form5wz">
+  
+<!-- E1. Reality testing in gesprek - Toetst realiteitstoetsing, contactkwaliteit, wederkerigheid.-->
+    <div class="question">
+      <label>E1. Hebt u het gevoel dat ons gesprek duidelijk en wederzijds begrijpelijk verloopt</label>
+      <div class="options" id="5q1"></div>
+      <script>
+        document.getElementById('5q1').innerHTML =
+          buildRadio('5q1',0,'Ja')+
+          buildRadio('5q1',1,'Niet helemaal')+
+          buildRadio('5q1',2,'Gaat niet juist')+
+          buildRadio('5q1',3,'Neen');
+      </script>
+    </div>
+
+<!-- 2. Attitude tegenover onderzoeker → Toetst openheid, wantrouwen, defensiviteit, betrouwbaarheid. -->
+    <div class="question">
+      <label>E2. Hoe voelt dit gesprek voor u aan — kunt u zich op uw gemak uitspreken?”</label>
+      <div class="options" id="5q2"></div>
+      <script>
+        document.getElementById('5q2').innerHTML =
+          buildRadio('5q2',0,'Ja')+
+		  buildRadio('5q2',1,'Wantrouwen')+
+          buildRadio('5q2',3,'Vijandigheid')+
+          buildRadio('5q2',4,'Neen');
+      </script>
+    </div>
+	
+<!-- 3. Attitude tegenover defecten / coping → Toetst copingstijl, acceptatie, ontkenning, externalisatie. -->
+	  <div class="question">
+      <label>E3. Hoe gaat u om met de moeilijkheden of beperkingen die u momenteel ervaart</label>
+      <div class="options" id="5q3"></div>
+      <script>
+        document.getElementById('5q3').innerHTML =
+          buildRadio('5q3',0,'Geen problemen mee')+
+          buildRadio('5q3',1,'Weinig problemen mee')+
+          buildRadio('5q3',2,'Het is lastig')+
+          buildRadio('5q3',3,'Normaal functioneren onmogelijk');
+      </script>
+    </div>
+
+<!-- 4. ADL functioneren → Toetst zelfzorg, functioneren, autonomie.	 -->
+	  <div class="question">
+      <label>E4. Hoe lukt het u om dagelijkse dingen te doen, zoals wassen, aankleden, eten en uw huishouden regelen</label>
+      <div class="options" id="5q4"></div>
+      <script>
+        document.getElementById('5q4').innerHTML =
+          buildRadio('5q4',0,'Gaat goed')+
+		  buildRadio('5q4',1,'Gaat nog')+
+          buildRadio('5q4',2,'Moeilijk')+
+          buildRadio('5q4',3,'Onmogelijk');
+      </script>
+    </div>
+
+<!-- 5. Sociaal en relationeel functioneren → Toetst sociaal terugtrekken, relationele problemen, isolatie. -->
+    <div class="question">
+      <label>E5. Hoe verlopen uw contacten met anderen de laatste tijd — trekt u zich eerder terug of blijft u betrokken</label>
+      <div class="options" id="5q5"></div>
+      <script>
+        document.getElementById('5q5').innerHTML =
+          buildRadio('5q5',0,'Normale contacten')+
+		  buildRadio('5q5',2,'Leef teruggetrokken')+
+          buildRadio('5q5',3,'Relationele problemen')+
+          buildRadio('5q5',4,'Geen contacten met mensen');
+      </script>
+    </div>
+
+<!-- 6. Globale evaluatie: gezondheid, welzijn, vitaliteit → Toetst gezondheid, vitaliteit, levenskwaliteit, zorgbehoefte. -->
+    <div class="question">
+      <label>E6. Hoe zou u uw algemene gezondheid en welzijn op dit moment omschrijven</label>
+      <div class="options" id="5q6"></div>
+      <script>
+        document.getElementById('5q6').innerHTML =
+          buildRadio('5q6',0,'Gaat')+
+		  buildRadio('5q6',1,'Toch niet zo goed')+
+          buildRadio('5q6',2,'Niet goed')+
+          buildRadio('5q6',3,'Slecht');
+      </script>
+    </div>
+	
+		
+     <button type="button" class="calc" onclick="calculateSection('form5wz','result5wz')">Bereken Sectie E</button>
+    <div id="result5wz" class="result"></div>
+  </form>
+</div>
+
+
+<!-- TOTAAL & OPSLAAN -->
+   <div class="controls" style="margin-top:25px; text-align:center;">
+
+  <!-- Toon totaalscore -->
+  <button type="button" class="calc" onclick="calculateTotal()">Toon totaalscore</button>
+
+  <!-- Resultaat (totaal score + functieverlies + interpretatie) -->
+  <div id="totalResult" class="total-box"></div>
+ 
+  <!-- Lege regel tussen interpretatie en extra velden -->
+<div style="margin-top:20px;"></div>
+
+<!-- Checkbox extra gegevens (default = checked) -->
+<label style="cursor:pointer; color:#004080; margin-top:10px;">
+  <input type="checkbox" id="toggleExtraFields" onclick="toggleExtraFields()" checked>
+  Extra gegevens toevoegen
+</label>
+
+<!-- Verborgen extra velden (maar worden automatisch geopend via JS) -->
+<div id="extraFields" style="display:none; margin-top:15px;">
+
+  <div style="margin-bottom:10px;">
+    <label>Datum consult:</label><br>
+    <input type="text" id="consultDate" style="padding:6px; width:200px;">
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label>Identiteit:</label><br>
+    <input type="text" id="patientName" placeholder="vrij in te vullen - bv. naam" style="padding:6px; width:300px;">
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label>Geboortedatum:</label><br>
+    <input type="text" id="patientRR" placeholder="xx.xx.xx-xxx.xx" style="padding:6px; width:200px;">
+  </div>
+
+</div>
+
+
+  <!-- Opslaan als PDF -->
+  <!-- Opslaan als TXT, op inactief gezet -->
+  <!-- <button type="button" class="calc" onclick="downloadTxt()">Opslaan als TXT</button> -->
+  <button type="button" class="calc" onclick="setPdfTitle(); buildPrintReport(); window.print();">Afdrukken / Opslaan als PDF
+</button>
+
+</div>
+
+<script>
+
+function openTab(evt, tabName) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tablink').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabName).classList.add('active');
+  evt.currentTarget.classList.add('active');
+
+  // Scroll bij openen nieuwe tab
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calculateSection(formId,resultId){
+  const form=document.getElementById(formId);
+  const questions=form.querySelectorAll('.question');
+  let score=0, maxScore=0;
+
+  for(const q of questions){
+    const checked=q.querySelector('input[type="radio"]:checked');
+    if(!checked){ alert('Beantwoord alle vragen in deze sectie.'); return; }
+    score += parseInt(checked.value);
+    const radios=q.querySelectorAll('input[type="radio"]');
+    let max=0; radios.forEach(r=>{ const v=parseInt(r.value); if(v>max) max=v; });
+    maxScore += max;
+  }
+
+  const pct = (score / maxScore) * 100;
+  document.getElementById(resultId).innerText = `Sectiescore: ${score} / ${maxScore}
+Functiedaling: ${pct.toFixed(1)} %`;
+  document.getElementById(resultId).scrollIntoView({behavior:'smooth'});
+}
+
+function calculateTotal(){
+  const allQuestions = document.querySelectorAll('.question');
+  const allChecked = document.querySelectorAll('input[type="radio"]:checked');
+  if(allChecked.length < allQuestions.length){
+    alert('Gelieve alle vragen te beantwoorden vooraleer het totaal te berekenen.');
+    return;
+  }
+
+  let totalScore = 0, maxScore = 0;
+
+  allQuestions.forEach(q => {
+    const checked = q.querySelector('input[type="radio"]:checked');
+    totalScore += parseInt(checked.value);
+
+    const radios = q.querySelectorAll('input[type="radio"]');
+    let max = 0;
+    radios.forEach(r => {
+      const v = parseInt(r.value);
+      if(v > max) max = v;
+    });
+    maxScore += max;
+  });
+
+  const pct = ((totalScore / maxScore) * 100).toFixed(1);
+  const t = parseFloat(pct);
+
+  // Interpretatie + kleurklasse
+  let feedback = '';
+  let cssClass = '';
+
+  if(t < 20) {
+    feedback = 'Weinig tot geen klachten';
+    cssClass = 'interpret-green';
+  } 
+  else if(t < 40) {
+    feedback = 'Lichte klachten';
+    cssClass = 'interpret-yellow';
+  }
+  else if(t < 60) {
+    feedback = 'Matige klachten';
+    cssClass = 'interpret-orange';
+  }
+  else if(t < 80) {
+    feedback = 'Ernstige klachten';
+    cssClass = 'interpret-red';
+  }
+  else {
+    feedback = 'Zeer ernstige klachten';
+    cssClass = 'interpret-darkred';
+  }
+
+  // Output in kleur
+document.getElementById('totalResult').innerText =
+`Totale score: ${totalScore} / ${maxScore}
+Functieverlies: ${pct} %
+Interpretatie: ${feedback}`;
+
+  document.getElementById('totalResult').scrollIntoView({behavior:'smooth'});
+}
+
+// =======================================================
+// Hulpfunctie: wrap text op max. 70 tekens, met insprong
+// =======================================================
+function wrapText(str, maxWidth = 70) {
+  const words = str.split(" ");
+  let lines = [];
+  let currentLine = "";
+
+  words.forEach(word => {
+    if ((currentLine + word).length > maxWidth) {
+      lines.push(currentLine.trim());
+      currentLine = word + " ";
+    } else {
+      currentLine += word + " ";
+    }
+  });
+
+  if (currentLine.trim() !== "") {
+    lines.push(currentLine.trim());
+  }
+
+  // 2e+ lijnen inspringen met 12 spaties
+  return lines.join("\n            ");
+}
+
+// =======================================================
+// Professioneel geformatteerde TXT-export
+// =======================================================
+function downloadTxt(){
+
+  const allQuestions = document.querySelectorAll('.question');
+  const allChecked   = document.querySelectorAll('.question input[type="radio"]:checked');
+
+  if (allChecked.length < allQuestions.length){
+    alert('Gelieve alle vragen te beantwoorden.');
+    return;
+  }
+
+  const now = new Date();
+  const timestamp = `${now.toLocaleDateString('nl-BE')} ${now.toLocaleTimeString('nl-BE')}`;
+
+  /* ===============================
+     Extra velden
+     =============================== */
+  let consultDate = "";
+  let patientName = "";
+  let patientRR   = "";
+
+  if (document.getElementById('toggleExtraFields').checked) {
+    consultDate = document.getElementById('consultDate').value.trim();
+    patientName = document.getElementById('patientName').value.trim();
+    patientRR   = document.getElementById('patientRR').value.trim();
+  }
+
+  /* ===============================
+     Voorbereiding
+     =============================== */
+  let totalScore = 0;
+  let maxScore   = 0;
+  let answers    = "";
+  let qCounter   = 0;
+
+  const tabs     = Array.from(document.querySelectorAll('.tablink'));
+  const sections = Array.from(document.querySelectorAll('.tab-content'));
+
+  /* ===============================
+     Doorloop secties automatisch
+     =============================== */
+  sections.forEach((section, idx) => {
+
+    const questions = section.querySelectorAll('.question');
+    if (questions.length === 0) return;
+
+    const sectionTitle = tabs[idx]
+      ? tabs[idx].innerText.trim()
+      : `SECTIE ${idx + 1}`;
+
+    answers += "----------------------------------------\n";
+    answers += wrapText(sectionTitle) + "\n";
+    answers += "----------------------------------------\n";
+
+    questions.forEach(q => {
+
+      const label   = q.querySelector('label').innerText;
+      const checked = q.querySelector('input[type="radio"]:checked');
+      const radios  = q.querySelectorAll('input[type="radio"]');
+
+      let max = 0;
+      radios.forEach(r => {
+        const v = parseInt(r.value);
+        if (v > max) max = v;
+      });
+
+      totalScore += parseInt(checked.value);
+      maxScore   += max;
+
+      qCounter++;
+
+      const choiceText = checked.parentElement.innerText.trim();
+      const line = `${qCounter}. ${label}: ${choiceText} (waarde ${checked.value})`;
+
+      answers += wrapText(line) + "\n";
+    });
+
+    answers += "\n";
+  });
+
+  /* ===============================
+     Interpretatie
+     =============================== */
+  const pct = ((totalScore / maxScore) * 100).toFixed(1);
+  const t   = parseFloat(pct);
+
+  let feedback = "";
+  if      (t < 20) feedback = "Weinig tot geen klachten";
+  else if (t < 40) feedback = "Lichte klachten - Medicijnen OK ?";
+  else if (t < 60) feedback = "Matige klachten - Silodosine als medicatie ?";
+  else if (t < 80) feedback = "Ernstige klachten - Silodosine en NSAI gewenst ?";
+  else             feedback = "Zeer ernstige klachten - Silodosine en NSAI aangewezen ?";
+
+  /* ===============================
+     Opbouw TXT
+     =============================== */
+  let content = "";
+
+  content += "========================================\n";
+  content += "RAPPORT \n";
+  content += "========================================\n\n";
+
+  content += `Datum export: ${timestamp}\n`;
+  if (consultDate) content += `Consultdatum: ${consultDate}\n`;
+  if (patientName) content += `Patiënt: ${patientName}\n`;
+  if (patientRR)   content += `Geboortedatum: ${patientRR}\n`;
+
+  content += "\n----------------------------------------\n";
+content += "TOTAALRESULTAAT\n";
+content += "----------------------------------------\n";
+content += `Totale score: ${totalScore} / ${maxScore}\n`;
+content += `Functieverlies: ${pct} %\n`;
+content += `Interpretatie: ${feedback}\n\n`;
+
+  content += answers;
+
+  /* ===============================
+     Download
+     =============================== */
+  const blob = new Blob([content], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `bijwerkingen prostaattherapie ${now.toISOString().slice(0,10)}.txt`;
+  link.click();
+}
+
+
+function toggleExtraFields() {
+  const block = document.getElementById('extraFields');
+  const chk = document.getElementById('toggleExtraFields');
+
+  if (chk.checked) {
+    block.style.display = "block";
+
+    // automatische datum dd/mm/yyyy
+    const now = new Date();
+    const d = String(now.getDate()).padStart(2,'0');
+    const m = String(now.getMonth()+1).padStart(2,'0');
+    const y = now.getFullYear();
+    document.getElementById('consultDate').value = `${d}/${m}/${y}`;
+  } else {
+    block.style.display = "none";
+  }
+}
+
+// EXTRA TOE: automatisch openen bij pagina laden wanneer default aangevinkt is
+window.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('toggleExtraFields').checked) {
+    toggleExtraFields();
+  }
+});
+
+// =======================================================
+// Functie opent automatisch de volgende tab/sectie
+// =======================================================
+function openNextSection(currentForm) {
+  const tabs = Array.from(document.querySelectorAll('.tablink'));
+
+  const mapping = {
+    'form1wz': '2wz',
+    'form2wz': '3wz',
+    'form3wz': '4wz',
+    'form4wz': '5wz'
+  };
+
+  const nextTabId = mapping[currentForm.id];
+  if (!nextTabId) return;
+
+  const btn = tabs.find(b => b.getAttribute('onclick').includes(nextTabId));
+  if (btn) {
+    btn.click();
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 300);
+  }
+}
+
+// =======================================================
+// Check: zijn ALLE vragen beantwoord?
+// =======================================================
+function allQuestionsAnswered() {
+  const totalQuestions = document.querySelectorAll('.question').length;
+  const checked = document.querySelectorAll('.question input[type="radio"]:checked').length;
+  return checked === totalQuestions;
+}
+
+// =======================================================
+// Automatisch totaalscore tonen zodra alles is ingevuld
+// =======================================================
+function autoShowTotalScore() {
+  const btn = document.querySelector('button[onclick="calculateTotal()"]');
+  if (!btn) return;
+
+  // eerst naar de knop scrollen
+  btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // daarna automatisch klikken
+  setTimeout(() => {
+    btn.click();
+
+    // tenslotte naar de resultatensectie scrollen
+    setTimeout(() => {
+      const resultBox = document.getElementById('totalResult');
+      if (resultBox) {
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 300);
+
+  }, 400);
+}
+
+// =======================================================
+// AUTO SCROLL MET DELAY
+// =======================================================
+document.addEventListener('change', function(e) {
+
+  if (!e.target.matches('.question input[type="radio"]')) return;
+
+  const selectedRadio = e.target;
+  const questionDiv = selectedRadio.closest('.question');
+  const form = selectedRadio.closest('form');
+
+  const allQuestions = Array.from(form.querySelectorAll('.question'));
+  const idx = allQuestions.indexOf(questionDiv);
+
+  // ===================================================
+  // 🎯 DYNAMISCHE DELAY
+  // ===================================================
+  let delay;
+
+  if (idx < 2) {
+    delay = 1000; // eerste 2 vragen → traag
+  } else if (idx < 4) {
+    delay = 600; // midden → normaal
+  } else {
+    delay = 500;  // later → snel
+  }
+
+  // 👉 totaal check
+  if (allQuestionsAnswered()) {
+    autoShowTotalScore();
+  }
+
+  // 👉 scroll met delay
+  setTimeout(() => {
+
+    if (idx < allQuestions.length - 1) {
+
+      const nextQuestion = allQuestions[idx + 1];
+      nextQuestion.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+    } else {
+
+      const calcButton = form.querySelector('.calc');
+
+      if (calcButton) {
+        calcButton.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+
+      openNextSection(form);
+    }
+
+  }, delay);
+
+});
+
+function buildPrintReport() {
+
+  if (!allQuestionsAnswered()) {alert('Gelieve alle vragen te beantwoorden.'); return;}
+
+  const report = document.getElementById("printReport");
+  report.innerHTML = "";
+
+  const patient = document.getElementById('patientName')?.value || "";
+  const rrn     = document.getElementById('patientRR')?.value || "";
+  const consult = document.getElementById('consultDate')?.value || "";
+
+  report.innerHTML += `
+    <h2>Rapport Psychiatrisch interview</h2>
+    <p>
+      Patiënt: <strong>${patient}</strong><br>
+      Geboortedatum:<strong>${rrn}</strong><br>
+      Consultdatum: <strong>${consult}</strong>
+    </p>
+    <hr>
+	
+	<h3>Evaluatie</h3>
+	<div class="summary-box">
+	<p class="summary-text" style="white-space: pre-line;">${document.getElementById('totalResult').innerText}</p>
+	</div>
+`;
+
+  let qnr = 0;
+
+  document.querySelectorAll('.tab-content').forEach(section => {
+
+    const questions = section.querySelectorAll('.question');
+    if (questions.length === 0) return;
+
+    const tabId = section.id;
+    const tabBtn = Array.from(document.querySelectorAll('.tablink'))
+      .find(b => b.getAttribute('onclick')?.includes(tabId));
+    const title = tabBtn ? tabBtn.innerText : "";
+
+    // report.innerHTML += `<div class="print-section"><h3>${title}</h3>`; 
+	report.innerHTML += `<div class="print-section">`;
+
+    questions.forEach(q => {
+      qnr++;
+      const label = q.querySelector('label').innerText;
+      const checked = q.querySelector('input[type="radio"]:checked');
+
+	  const value = checked.value;
+	  const answer = `${checked.parentElement.innerText.trim()} (${value})`;
+
+
+      report.innerHTML += `
+        <div class="print-question">
+          <strong>${qnr}. ${label}</strong>
+          <div class="print-answer">${answer}</div>
+        </div>
+      `;
+    });
+
+    report.innerHTML += `</div>`;
+  });
+}
+
+// =======================================================
+// PRINT / PDF – bestandsnaam
+// =======================================================
+function setPdfTitle() {
+
+  const name = document.getElementById('patientName')?.value || "";
+  const date = document.getElementById('consultDate')?.value || "";
+
+  let code = name.replace(/[^a-zA-Z]/g, '')
+                 .toUpperCase()
+                 .substring(0, 4);
+
+  if (code.length < 4) code = code.padEnd(4, 'X');
+
+  let isoDate = date;
+  if (date.includes('/')) {
+    const [d, m, y] = date.split('/');
+    isoDate = `${y}-${m}-${d}`;
+  }
+
+  document.title = `Psychiatrisch interview ${code} ${isoDate}`;
+}
+
+</script>
+
+<!-- PRINT / PDF RAPPORT -->
+
+<div id="printReport" style="display:none;"></div>
+
+</body>
+</html>
