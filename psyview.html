@@ -9,7 +9,7 @@
  <meta property="og:url" content="https://medsoftwz.github.io/psyview.html">
  <meta property="og:type" content="website">
 
-<title>Psychiatrisch Interview</title>
+<title>Het Psychiatrisch Interview</title>
 
  <style>
 
@@ -80,7 +80,7 @@ button.eval { display:block; margin:20px auto; padding:12px 20px; background:#99
 
 <body>
 
-<h2>Psychiatrisch Interview</h2>
+<h2>Het Psychiatrisch Interview</h2>
 
 <div class="tabs">
   <button class="tablink active" onclick="openTab(event,'A')">Cognitie</button>
@@ -113,7 +113,7 @@ A: {
     {
       id: "q1",
       text: "A1. Denk U over veel zaken anders dan gewone mensen ?",
-	  alarm: "mogelijke psychose",
+	  alarm: "Risico psychose",
       options: [
         { label:"neen", score:0 },
         { label:"soms", score:1 },
@@ -125,7 +125,7 @@ A: {
     {
       id: "q2",
       text: "A2. Hebt u dingen gehoord, gevoeld of gezien waarvan u niet zeker weet of ze echt waren ?",
-      alarm: "mogelijke psychose",
+      alarm: "Risico psychose",
       options: [
         { label:"neen", score:0 },
         { label:"misschien", score:1 },
@@ -141,7 +141,7 @@ A: {
         { label:"geen last van", score:0 },
         { label:"af en toe", score:1 },
         { label:"veel zaken ben ik vergeten", score:2 },
-        { label:"Mini-Mental State Examination +", score:3 }
+        { label:"cfr. Mini-Mental State Examination", score:3 }
       ]
     },
 
@@ -152,7 +152,7 @@ A: {
         { label:"correct antwoord", score:0 },
         { label:"twijfel", score:1 },
         { label:"lijkt gedeoriënteerd door de vraag", score:2 },
-        { label:"MMSE positief", score:3 }
+        { label:"cfr. MMSE resultaat", score:3 }
       ]
     },
 
@@ -243,7 +243,7 @@ B: {
     {
       id: "q12",
       text: "B6. Heeft u de afgelopen tijd gedachten gehad dat u er liever niet meer zou zijn of nagedacht over zelfbeschadiging of een plan gemaakt ?",
-      alarm: "suicide risico",
+      alarm: "Risico suicide",
       options: [
         { label:"geen gedachten", score:0 },
         { label:"passieve wens", score:1 },
@@ -265,8 +265,8 @@ C: {
       options: [
         { label:"neen", score:0 },
         { label:"soms", score:1 },
-        { label:"vaak", score:2 },
-        { label:"altijd", score:3 }
+        { label:"regelmatig", score:2 },
+        { label:"dikwijls (vaak)", score:3 }
       ]
     },
 
@@ -276,8 +276,8 @@ C: {
       options: [
         { label:"neen", score:0 },
         { label:"soms", score:1 },
-        { label:"vaak", score:2 },
-        { label:"altijd", score:3 }
+        { label:"regelmatig", score:2 },
+        { label:"dikwijls (vaak)", score:3 }
       ]
     },
 
@@ -287,15 +287,15 @@ C: {
       options: [
         { label:"neen", score:0 },
         { label:"soms", score:1 },
-        { label:"vaak", score:2 },
-        { label:"altijd", score:3 }
+        { label:"regelmatig", score:2 },
+        { label:"dikwijls (vaak)", score:3 }
       ]
     },
 
     {
       id: "q16",
       text: "C4. Heeft u momenten waarop u stijf blijft staan, niet kan spreken of wasachtige buigzaamheid vertoont ?",
-      alarm: "mogelijk catatonie",
+      alarm: "Risico catatonie",
       options: [
         { label:"neen", score:0 },
         { label:"korte periodes van staren, motorische blokkering, vertraging van spraak", score:1 },
@@ -318,12 +318,12 @@ C: {
     {
       id: "q18",
       text: "C6. Heeft u de laatste tijd impulsieve uitbarstingen gehad of risicogedrag vertoond ?",
-	  alarm: "mogelijk agressief",
+	  alarm: "Risico agressie",
       options: [
         { label:"neen", score:0 },
         { label:"soms", score:1 },
-        { label:"vaak", score:2 },
-        { label:"altijd", score:3 }
+        { label:"regelmatig", score:2 },
+        { label:"dikwijls (vaak)", score:3 }
       ]
     }
 
@@ -382,7 +382,7 @@ D: {
       id: "q23",
       text: "D5. Is er congruentie tussen woorden en gedrag ?",
       options: [
-        { label:"normaal", score:0 },
+        { label:"ja", score:0 },
         { label:"af en toe", score:1 },
         { label:"weinig", score:2 },
         { label:"helemaal niet", score:3 }
@@ -393,7 +393,7 @@ D: {
       id: "q24",
       text: "D6. Lukt het om een vaste dagstructuur aan te houden ?",
       options: [
-        { label:"normaal", score:0 },
+        { label:"ja", score:0 },
         { label:"gedeeltelijk", score:1 },
         { label:"moeilijk", score:2 },
         { label:"neen", score:3 }
@@ -443,7 +443,7 @@ E: {
     {
       id: "q28",
       text: "E4. Hoe lukt het u om dagelijkse dingen te doen (ADL) ?",
-      alarm: "ADL falen",
+      alarm: "Risico verwaarlozing",
       options: [
         { label:"goed", score:0 },
         { label:"gaat nog", score:1 },
