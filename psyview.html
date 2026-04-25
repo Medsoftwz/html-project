@@ -105,19 +105,20 @@ A: {
 
     {
       id: "q1",
-      text: "A1. Denken: Hoe lopen uw gedachten de laatste tijd: normaal, sneller, trager of moeilijk te ordenen",
+      text: "A1. Denk U over veel zaken anders dan gewone mensen ?",
+	  alarm: "mogelijke psychose",
       options: [
-        { label:"normaal", score:0 },
-        { label:"mild verminderd", score:1 },
-        { label:"matig verminderd", score:2 },
+        { label:"neen", score:0 },
+        { label:"soms", score:1 },
+        { label:"zeer dikwijls mijn eigen gedacht", score:2 },
         { label:"wanen", score:3 }
       ]
     },
 
     {
       id: "q2",
-      text: "A2. Waarneming: Hebt u dingen gehoord of gezien waarvan u niet zeker weet of ze echt waren",
-      alarm: "psychosis",
+      text: "A2. Hebt u dingen gehoord, gevoeld of gezien waarvan u niet zeker weet of ze echt waren ?",
+      alarm: "mogelijke psychose",
       options: [
         { label:"neen", score:0 },
         { label:"misschien", score:1 },
@@ -128,29 +129,29 @@ A: {
 
     {
       id: "q3",
-      text: "A3. Geheugen: Merkt u dat u dingen sneller vergeet",
+      text: "A3. Geheugen: Merkt u dat u dingen sneller vergeet ?",
       options: [
         { label:"geen last van", score:0 },
-        { label:"af en toe recente gebeurtenissen vergeten", score:1 },
+        { label:"af en toe", score:1 },
         { label:"veel zaken ben ik vergeten", score:2 },
-        { label:"mmse score is laag", score:3 }
+        { label:"Mini-Mental State Examination +", score:3 }
       ]
     },
 
     {
       id: "q4",
-      text: "A4. Oriëntatie: Welke dag is het vandaag en waar zijn we nu",
+      text: "A4. Oriëntatie: Welke dag is het vandaag en waar zijn we nu ?",
       options: [
         { label:"correct antwoord", score:0 },
-        { label:"weet waar we zijn - twijfel over de dag", score:1 },
+        { label:"twijfel", score:1 },
         { label:"lijkt gedeoriënteerd door de vraag", score:2 },
-        { label:"mmse score is laag", score:3 }
+        { label:"MMSE positief", score:3 }
       ]
     },
 
     {
       id: "q5",
-      text: "A5. Aandacht & concentratie: Hoe gaat het met taken die aandacht vragen, zoals lezen of een gesprek volgen",
+      text: "A5. Aandacht & concentratie: Hoe gaat het met taken die aandacht vragen, zoals lezen of een gesprek volgen ?",
       options: [
         { label:"normaal", score:0 },
         { label:"licht verminderd", score:1 },
@@ -161,10 +162,10 @@ A: {
 
     {
       id: "q6",
-      text: "A6. Inzicht & oordeel: Wat denkt u dat er aan de hand is en wat hebt u nodig om te herstellen",
+      text: "A6. Inzicht & oordeel: Wat denkt u dat er aan de hand is en wat hebt u nodig om te herstellen ?",
       options: [
         { label:"niets aan de hand", score:0 },
-        { label:"dat weet ik niet", score:1 },
+        { label:"dat vraag ik aan u", score:1 },
         { label:"problemen", score:2 },
         { label:"psychische storing", score:3 }
       ]
@@ -179,7 +180,7 @@ B: {
 
     {
       id: "q7",
-      text: "B1. Heeft u zich de afgelopen twee weken vaak somber, neerslachtig of verdrietig gevoeld",
+      text: "B1. Heeft u zich de afgelopen twee weken vaak somber, neerslachtig of verdrietig gevoeld ?",
       options: [
         { label:"nooit", score:0 },
         { label:"soms", score:1 },
@@ -190,18 +191,18 @@ B: {
 
     {
       id: "q8",
-      text: "B2. Zijn er dingen waar u nu weinig of geen plezier meer aan beleeft",
+      text: "B2. Zijn er dingen waar u nu weinig of geen plezier meer aan beleeft?",
       options: [
-        { label:"neen", score:0 },
-        { label:"een beetje", score:1 },
-        { label:"duidelijk minder", score:2 },
-        { label:"ja, veel zaken zonder plezier", score:3 }
+        { label:"niet speciaal", score:0 },
+        { label:"enkele", score:1 },
+        { label:"ja, veel", score:2 },
+        { label:"ik beleef nog nauwelijks plezier aan iets", score:3 }
       ]
     },
 
     {
       id: "q9",
-      text: "B3. Heeft u de laatste tijd minder energie of raakt u sneller uitgeput bij gewone activiteiten",
+      text: "B3. Heeft u de laatste tijd minder energie of raakt u sneller uitgeput bij gewone activiteiten ?",
       options: [
         { label:"neen", score:0 },
         { label:"soms", score:1 },
@@ -212,30 +213,30 @@ B: {
 
     {
       id: "q10",
-      text: "B4. Hoe is uw slaap de afgelopen weken: slaapt u slechter, vaker of vroeger wakker",
+      text: "B4. Hoe is uw slaap de afgelopen weken: slaapt u slechter, vaker of vroeger wakker ?",
       options: [
         { label:"geen verandering", score:0 },
-        { label:"iets slechter", score:1 },
-        { label:"duidelijk verstoord", score:2 },
-        { label:"ernstig verstoord", score:3 }
+        { label:"licht tot matig verstoorde slaap", score:1 },
+        { label:"duidelijk verstoorde slaap", score:2 },
+        { label:"ernstig verstoorde slaap", score:3 }
       ]
     },
 
     {
       id: "q11",
-      text: "B5. Maakt u zich de laatste tijd zorgen of piekert u veel of heeft u plotselinge paniekaanvallen",
+      text: "B5. Maakt u zich de laatste tijd zorgen of piekert u veel of heeft u plotselinge paniekaanvallen ?",
       options: [
         { label:"neen", score:0 },
-        { label:"af en toe", score:1 },
-        { label:"zeer frequent", score:2 },
+        { label:"af en toe maak ik mij zorgen en ongerust", score:1 },
+        { label:"zeer frequent maak ik me zorgen en pieker ik", score:2 },
         { label:"paniekaanvallen aanwezig", score:3 }
       ]
     },
 
     {
       id: "q12",
-      text: "B6. Heeft u de afgelopen tijd gedachten gehad dat u er liever niet meer zou zijn of nagedacht over zelfbeschadiging of een plan gemaakt",
-      alarm: "suicide",
+      text: "B6. Heeft u de afgelopen tijd gedachten gehad dat u er liever niet meer zou zijn of nagedacht over zelfbeschadiging of een plan gemaakt ?",
+      alarm: "suicide risico",
       options: [
         { label:"geen gedachten", score:0 },
         { label:"passieve wens", score:1 },
@@ -253,7 +254,7 @@ C: {
 
     {
       id: "q13",
-      text: "C1. Merkt u dat u woorden of bewegingen van anderen herhaalt of dat u zichzelf herhaalt",
+      text: "C1. Merkt u dat u woorden of bewegingen van anderen herhaalt of dat u zichzelf herhaalt ?",
       options: [
         { label:"nooit", score:0 },
         { label:"soms", score:1 },
@@ -264,9 +265,9 @@ C: {
 
     {
       id: "q14",
-      text: "C2. Bent u de laatste tijd opvallend meer of minder beweeglijk dan normaal",
+      text: "C2. Bent u de laatste tijd opvallend meer of minder beweeglijk dan normaal ?",
       options: [
-        { label:"nooit", score:0 },
+        { label:"neen", score:0 },
         { label:"soms", score:1 },
         { label:"vaak", score:2 },
         { label:"altijd", score:3 }
@@ -275,7 +276,7 @@ C: {
 
     {
       id: "q15",
-      text: "C3. Voelt u zich gedwongen bepaalde handelingen te herhalen om onrust of angst te verminderen",
+      text: "C3. Voelt u zich gedwongen bepaalde handelingen te herhalen om onrust of angst te verminderen ?",
       options: [
         { label:"nooit", score:0 },
         { label:"soms", score:1 },
@@ -286,30 +287,30 @@ C: {
 
     {
       id: "q16",
-      text: "C4. Heeft u momenten waarop u stijf blijft staan of ongebruikelijke houdingen aanneemt",
-      alarm: "catatonia",
+      text: "C4. Heeft u momenten waarop u stijf blijft staan, niet kan spreken of wasachtige buigzaamheid vertoont ?",
+      alarm: "mogelijk catatonie",
       options: [
-        { label:"nooit", score:0 },
-        { label:"soms", score:1 },
-        { label:"vaak", score:2 },
-        { label:"altijd", score:3 }
+        { label:"neen", score:0 },
+        { label:"korte periodes van staren, motorische blokkering, vertraging van spraak", score:1 },
+        { label:"vertraging in responsiviteit en subtiele houdingstijfheid", score:2 },
+        { label:"mutisme, staren, motorische blokkering", score:3 }
       ]
     },
 
     {
       id: "q17",
-      text: "C5. Omgaan met anderen: wacht u af en probeert u sociale situaties te vermijden",
+      text: "C5. Omgaan met anderen: wacht u af en probeert u sociale situaties te vermijden ?",
       options: [
         { label:"spontaan contact", score:0 },
-        { label:"soms", score:1 },
-        { label:"vaak", score:2 },
+        { label:"soms wacht ik af om sociale contacten aan te gaan", score:1 },
+        { label:"vaak probeer ik sociale contacten te vermijden", score:2 },
         { label:"altijd", score:3 }
       ]
     },
 
     {
       id: "q18",
-      text: "C6. Heeft u de laatste tijd impulsieve uitbarstingen gehad of risicogedrag vertoond",
+      text: "C6. Heeft u de laatste tijd impulsieve uitbarstingen gehad of risicogedrag vertoond ?",
       options: [
         { label:"nooit", score:0 },
         { label:"soms", score:1 },
@@ -327,18 +328,18 @@ D: {
 
     {
       id: "q19",
-      text: "D1. Hoeveel initiatief neemt u op een gewone dag",
+      text: "D1. Hoeveel initiatief neemt u op een gewone dag ?",
       options: [
         { label:"normaal", score:0 },
-        { label:"soms", score:1 },
-        { label:"weinig", score:2 },
-        { label:"geen", score:3 }
+        { label:"zelden neem ik een initiatief op een gewone dag", score:1 },
+        { label:"ik neem weinig initiatieven", score:2 },
+        { label:"ik neem nauwelijks tot geen initiatieven", score:3 }
       ]
     },
 
     {
       id: "q20",
-      text: "D2. Hoe lang kunt u uw aandacht of inspanning vasthouden",
+      text: "D2. Hoe lang kunt u uw aandacht of inspanning vasthouden ?",
       options: [
         { label:"normaal", score:0 },
         { label:"gaat toch nog", score:1 },
@@ -349,45 +350,45 @@ D: {
 
     {
       id: "q21",
-      text: "D3. Lukt het om plannen uit te voeren",
+      text: "D3. Lukt het om plannen uit te voeren ?",
       options: [
-        { label:"normaal", score:0 },
+        { label:"jal", score:0 },
         { label:"af en toe", score:1 },
         { label:"zelden", score:2 },
-        { label:"niet", score:3 }
+        { label:"bijna nooit", score:3 }
       ]
     },
 
     {
       id: "q22",
-      text: "D4. Wat geeft u energie of voldoening",
+      text: "D4. Wat geeft u energie of voldoening ?",
       options: [
         { label:"normaal", score:0 },
-        { label:"weinig", score:1 },
-        { label:"weet ik niet", score:2 },
+        { label:"af en toe iets", score:1 },
+        { label:"ik heb weinig energie en vind nauwelijks voldoening", score:2 },
         { label:"niets", score:3 }
       ]
     },
 
     {
       id: "q23",
-      text: "D5. Congruentie tussen woorden en gedrag",
+      text: "D5. Is er congruentie tussen woorden en gedrag ?",
       options: [
         { label:"normaal", score:0 },
-        { label:"spreekt traag", score:1 },
-        { label:"ineengedoken", score:2 },
-        { label:"geen initiatief", score:3 }
+        { label:"af en toe", score:1 },
+        { label:"weinig", score:2 },
+        { label:"helemaal niet", score:3 }
       ]
     },
 
     {
       id: "q24",
-      text: "D6. Lukt het om een vaste dagstructuur aan te houden",
+      text: "D6. Lukt het om een vaste dagstructuur aan te houden ?",
       options: [
         { label:"normaal", score:0 },
         { label:"gedeeltelijk", score:1 },
         { label:"moeilijk", score:2 },
-        { label:"niet", score:3 }
+        { label:"neen", score:3 }
       ]
     }
 
@@ -400,7 +401,7 @@ E: {
 
     {
       id: "q25",
-      text: "E1. Hebt u het gevoel dat ons gesprek duidelijk en wederzijds begrijpelijk verloopt",
+      text: "E1. Hebt u het gevoel dat ons gesprek duidelijk en wederzijds begrijpelijk verloopt ?",
       options: [
         { label:"ja", score:0 },
         { label:"niet helemaal", score:1 },
@@ -411,7 +412,7 @@ E: {
 
     {
       id: "q26",
-      text: "E2. Hoe voelt dit gesprek voor u aan — kunt u zich op uw gemak uitspreken",
+      text: "E2. Hoe voelt dit gesprek voor u aan — kunt u zich op uw gemak uitspreken ?",
       options: [
         { label:"ja", score:0 },
         { label:"wantrouwen", score:1 },
@@ -422,19 +423,19 @@ E: {
 
     {
       id: "q27",
-      text: "E3. Hoe gaat u om met de moeilijkheden die u ervaart",
+      text: "E3. Hoe gaat u om met de moeilijkheden die u ervaart ?",
       options: [
-        { label:"geen problemen", score:0 },
-        { label:"weinig problemen", score:1 },
-        { label:"lastig", score:2 },
+        { label:"geen probleem om daarmee om te gaan", score:0 },
+        { label:"het gaat nog", score:1 },
+        { label:"lastig om de moeilijkheden het hoofd te bieden", score:2 },
         { label:"onmogelijk", score:3 }
       ]
     },
 
     {
       id: "q28",
-      text: "E4. Hoe lukt het u om dagelijkse dingen te doen (ADL)",
-      alarm: "ADL",
+      text: "E4. Hoe lukt het u om dagelijkse dingen te doen (ADL) ?",
+      alarm: "ADL falen",
       options: [
         { label:"goed", score:0 },
         { label:"gaat nog", score:1 },
@@ -445,18 +446,18 @@ E: {
 
     {
       id: "q29",
-      text: "E5. Hoe verlopen uw contacten met anderen",
+      text: "E5. Hoe verlopen uw contacten met anderen ?",
       options: [
         { label:"normaal", score:0 },
-        { label:"teruggetrokken", score:1 },
-        { label:"problemen", score:2 },
-        { label:"geen contacten", score:3 }
+        { label:"ik leef teruggetrokken", score:1 },
+        { label:"veel problemen bij contact met anderen", score:2 },
+        { label:"ik heb nauwelijks contacten", score:3 }
       ]
     },
 
     {
       id: "q30",
-      text: "E6. Hoe zou u uw algemene gezondheid en welzijn omschrijven",
+      text: "E6. Hoe zou u uw algemene gezondheid en welzijn omschrijven ?",
       options: [
         { label:"goed", score:0 },
         { label:"matig", score:1 },
@@ -630,19 +631,6 @@ if(document.querySelectorAll("input:checked").length === total){
   }
 }
 
-
-function buildPdfTitle(name, date){
-
-  let code = (name || "")
-    .replace(/[^a-zA-Z]/g, '')
-    .toUpperCase()
-    .substring(0, 4);
-
-  if (code.length < 4) code = code.padEnd(4, 'X');
-
-  return `Interview ${code} ${date}`;
-}
-
 /* =========================
    EVALUATIE
 ========================= */
@@ -681,10 +669,10 @@ document.getElementById("evalBtn").onclick = function(){
   }
 
   function interpret(v){
-    if(v<0.5) return "geen";
-    if(v<1.5) return "licht";
-    if(v<2.5) return "matig";
-    return "ernstig";
+    if(v<0.5) return "binnen het normaal";
+    if(v<1.5) return "lichte afwijking";
+    if(v<2.5) return "matige afwijking";
+    return "ernstige afwijking";
   }
 
   function formatDateEU(iso){
@@ -766,11 +754,11 @@ ${Object.keys(alarms).join(", ") || "geen"}
 
   <h3>Resultaat</h3>
   <pre>${res}</pre>
+  
+  <button onclick="window.print()">Opslaan als PDF</button>
 
   <h3>Antwoorden</h3>
 <pre>${answers.join("\n\n")}</pre>
-
-  <button onclick="window.print()">Opslaan als PDF</button>
 
   </body>
   </html>
