@@ -20,10 +20,12 @@
 body {
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
-  font-size: 14.5px;
+  font-size: 15.5px;   /* was 14.5 */
+  line-height: 1.5;    /* nieuw */  
   background: var(--bg);
   color: var(--text);
-}
+ }
+
 
 /* ===== HEADER ===== */
 
@@ -70,21 +72,21 @@ body {
 
 .section { margin-bottom: 12px; }
 
-.section-title { font-size: 14px; font-weight: 600; margin: 6px 2px; }
+.section-title { font-size: 15px; font-weight: 600; margin: 8px 2px 8px; }
 
-/* kleuraccent per sectie */
+/* kleuraccent per sectie */
 
 .section.blue .section-title { color: #2563eb; }
 .section.green .section-title { color: #059669; }
 .section.purple .section-title { color: #7c3aed; }
-.section.bruin .section-title { color: #502828; }
+.section.bruin .section-title { color: #895129; }
 
 /* ===== GRID ===== */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 /* ===== CARD ===== */
@@ -92,7 +94,7 @@ body {
 .card {
   background: var(--card);
   border-radius: 10px;
-  padding: 8px 10px;
+  padding: padding: 10px 12px; 
   box-shadow: 0 3px 10px rgba(0,0,0,0.05);
   transition: all 0.15s ease;
 }
@@ -107,18 +109,20 @@ body {
 .link {
   display: flex;
   align-items: center;
+  max-width: 95%;
   gap: 8px;
   padding: 4px 6px;
+  padding: 6px 6px;     /* was 4px */
+  margin-bottom: 2px;   /* nieuw */
   border-radius: 6px;
-
-  /* 👇 BELANGRIJK */
-  color: #2563eb;      
+  color: #2563eb;    /* 👇 BELANGRIJK */
   text-decoration: underline;
   text-underline-offset: 2px;
   text-decoration-color: rgba(0,0,0,0.3);
-
   transition: all 0.15s ease;
-}
+ }
+
+ .link + .link { margin-top: 3px; }
 
 /* hover = duidelijk interactief */
 
@@ -132,6 +136,9 @@ body {
 
 .link .icon {
   font-size: 14px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
   opacity: 0.8;
 }
 
@@ -185,7 +192,7 @@ body {
 
 <!-- ===================== -->
 
-<div class="section bruin">
+<div class="section green">
 <div class="section-title">🩺 Medische vragenlijsten</div>
 
 <div class="grid">
@@ -205,7 +212,7 @@ body {
 
 <!-- ===================== -->
 
-<div class="section green">
+<div class="section bruin">
 <div class="section-title">🧠 Classificatie</div>
 
 <div class="grid">
@@ -213,6 +220,7 @@ body {
 <div class="card">
 <a class="link" href="psytree.html"><span class="icon">🌿</span>Psychiatrie Terminologie Classificatie</a>
 <a class="link" href="psyview.html"><span class="icon">💬</span>Het Psychiatrisch Interview</a>
+<a class="link" href=""><span class="icon">🧬</span></a>
 </div>
 
 <div class="card">
