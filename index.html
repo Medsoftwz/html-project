@@ -4,6 +4,21 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta property="og:title" content="HTML & Code">
+<meta property="og:description" content="Experimentele versie – as-is">
+<meta property="og:url" content="https://medsoftwz.github.io/index.html">
+<meta property="og:type" content="website">
+
+<meta property="og:image" content="https://medsoftwz.github.io/images/index.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpg">
+
+<meta property="og:locale" content="nl_BE">
+
+<meta name="twitter:card" content="summary_large_image">
+
 <title>Medische HTML & Code</title>
 
 <style>
@@ -26,7 +41,6 @@ body {
   color: var(--text);
  }
 
-
 /* ===== HEADER ===== */
 
 .header {
@@ -38,17 +52,8 @@ body {
   z-index: 10;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 18px;
-  color: #2563eb;
-}
-
-.header p {
-  margin: 2px 0 6px;
-  font-size: 12px;
-  color: var(--muted);
-}
+.header h1 { margin: 0; font-size: 18px; color: #2563eb; }
+.header p { margin: 2px 0 6px; font-size: 12px; color: var(--muted); }
 
 /* ===== SEARCH ===== */
 
@@ -71,7 +76,6 @@ body {
 /* ===== SECTION ===== */
 
 .section { margin-bottom: 12px; }
-
 .section-title { font-size: 15px; font-weight: 600; margin: 8px 2px 8px; }
 
 /* kleuraccent per sectie */
@@ -83,11 +87,7 @@ body {
 
 /* ===== GRID ===== */
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-}
+.grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));  gap: 12px; }
 
 /* ===== CARD ===== */
 
@@ -144,17 +144,8 @@ body {
 
 /* ===== FOOTER ===== */
 
-.footer {
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
-  padding: 6px 0 12px;
-}
-
-.footer a {
-  color: #2563eb;
-  text-decoration: none;
-}
+.footer { text-align: center; font-size: 12px; color: var(--muted); padding: 6px 0 12px; }
+.footer a { color: #2563eb; text-decoration: none; }
 
 /* ===== DARK MODE ===== */
 
@@ -166,14 +157,10 @@ body {
     --muted: #94a3b8;
   }
 
-  .link:hover {
-    background: rgba(96,165,250,0.15);
-    color: #60a5fa;
-  }
+  .link:hover { background: rgba(96,165,250,0.15); color: #60a5fa; }
 
-  .header {
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
+  .header { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  
 }
 
 </style>
@@ -224,9 +211,9 @@ body {
 </div>
 
 <div class="card">
-<a class="link" href="diatree.html"><span class="icon">🧬</span>Diagnostische Terminologie Classificatie</a>
+<a class="link" href="diatree.html"><span class="icon">💼</span>Diagnostische Terminologie Classificatie</a>
 <a class="link" href="https://icd.who.int/browse/2025-01/mms/en" target="_blank"><span class="icon">🌍</span>ICD-11 Browser</a>
-<a class="link" href="https://icd.who.int/ct/icd11_mms/en/2025-01" target="_blank"><span class="icon">🛠</span>ICD Tool</a>
+<a class="link" href="https://icd.who.int/ct/icd11_mms/en/2025-01" target="_blank"><span class="icon">🛠</span>ICD Coding Tool</a>
 </div>
 
 </div>
@@ -241,10 +228,12 @@ body {
 
 <div class="card">
 <a class="link" href="coronair.html"><span class="icon">❤️</span>Anatomie Coronaire arteries</a>
+<a class="link" href="rug26.html"><span class="icon">✨</span>Rugproblemen</a>
 </div>
 
 <div class="card">
 <a class="link" href="levenseinde.html"><span class="icon">⚖️</span>Info Levenseinde zorg</a>
+<a class="link" href=""><span class="icon">💡</span></a>
 </div>
 
 </div>
