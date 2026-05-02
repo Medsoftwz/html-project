@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="">
+<meta property="og:description" content="Experimentele versie – as‑is">
+<meta property="og:image" content="https://medsoftwz.github.io/images/rug26.jpg">
+<meta property="og:url" content="https://medsoftwz.github.io/rug26.html">
+<meta property="og:type" content="website">
+
+<title>Rugproblemen</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;          /* ruimte tussen elementen */
+  padding: 10px;
+  flex-wrap: wrap;    /* netjes op kleine schermen */
+}
+
+/* container */
+.slider-container { width: 100%; }
+.slider { position: relative; width: 100%; height: 90vh; overflow: hidden; }
+.slide { display: none; position: absolute; width: 100%; height: 100%; }
+.slide img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; transition: transform 0.1s ease; }
+
+/* caption overlay */
+.caption {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  max-width: 80%;
+  text-align: center;
+}
+
+#zoomIndicator {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0,0,0,0.7);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 18px;     /* groter */
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #fff;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+/* navigation */
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  padding: 12px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 50%;
+  color: white;
+}
+
+.prev { left: 15px; }
+.next { right: 15px; }
+
+.slide img:active { cursor: grabbing; }
+
+</style>
+</head>
+
+<body>
+
+<div class="controls">
+  <label>
+    <input type="checkbox" id="autoplayToggle"> Automatisch afspelen </label>
+    <button onclick="toggleFullscreen()">Fullscreen</button>
+
+  <!-- NIEUW -->
+  <a href="https://youtu.be/DxuUjTeFYBI?si=NjAC21Cyqp0OggD0" target="_blank"
+     style="margin-left:10px; padding:6px 10px; background:#444; color:white; border-radius:6px; text-decoration:none;">
+    ▶ Video (piriformis syndroom)
+  </a>
+</div>
+
+<div class="slider-container">
+  <div class="slider" id="slider">
+
+    <div id="zoomIndicator">100%</div>
+
+    <!-- SLIDES -->
+    <div class="slide">
+      <img src="images/ruga0.jpg">
+      <div class="caption">Differentiële diagnose rugpijn</div>
+    </div>
+	
+	<div class="slide">
+      <img src="images/ruga1.jpg">
+      <div class="caption">Ruggewervels, foramen en facet gewrichten</div>
+    </div>
+
+    <div class="slide">
+      <img src="images/ruga4.jpg">
+      <div class="caption">Wortels --> nervus spinalis (L1 - L2 ...) -->ramus dorsalis en ventralis</div>
+    </div>
+
+    <div class="slide">
+      <img src="images/ruga2.jpg">
+      <div class="caption">Ramus ventralis --> plexus L & S --> nervi</div>
+    </div>
+
+    <div class="slide">
+      <img src="images/ruga5.jpg">
+      <div class="caption">Lumbale plexus</div>
+    </div>
+
+
+    <div class="slide">
+      <img src="images/ruga6.jpg">
+      <div class="caption">Ingewikkelde anatomische structuren</div>
+    </div>
+
+    <div class="slide">
+      <img src="images/rugh1.jpg">
+      <div class="caption">Discus hernia</div>
+    </div>
+	
+    <div class="slide">
+      <img src="images/rugh4.jpg">
+      <div class="caption">Dermatomen ventraal</div>
+    </div>	
+
+    <div class="slide">
+      <img src="images/rugh5.jpg">
+      <div class="caption">Dermatomen dorsaal</div>
+    </div>
+
+    <div class="slide">
+      <img src="images/rugh9.jpg">
+      <div class="caption">Test L4 - L5 - L6</div>
+    </div>
+
+    <div class="slide">
+      <img src="images/rugt1.jpg">
+      <div class="caption">Facet syndroom</div>
+	  </div>
+
+    <div class="slide">
+      <img src="images/rugt2.jpg">
+      <div class="caption">Projectie pijn facet syndroom</div>
+	  </div>
+
+
+    <!-- NAV -->
+    <button class="prev" onclick="changeSlide(-1)">❮</button>
+    <button class="next" onclick="changeSlide(1)">❯</button>
+
+  </div>
+</div>
+
+<script>
+let index = 0;
+let slides = document.getElementsByClassName("slide");
+
+let scale = 1;
+let posX = 0;
+let posY = 0;
+let isDragging = false;
+let startX, startY;
+
+const slider = document.getElementById("slider");
+const zoomIndicator = document.getElementById("zoomIndicator");
+
+/* show slide */
+
+function showSlide(i) {
+  if (i >= slides.length) index = 0;
+  if (i < 0) index = slides.length - 1;
+
+  for (let s of slides) s.style.display = "none";
+
+  slides[index].style.display = "block";
+
+  resetZoom();      // ✅ altijd resetten bij nieuw beeld
+  updateCaption();  // (indien aanwezig)
+}
+
+/* caption numbering */
+function updateCaption() {
+  const caption = slides[index].querySelector(".caption");
+  const base = caption.getAttribute("data-base") || caption.innerText;
+  caption.setAttribute("data-base", base);
+  caption.innerText = `Beeld ${index+1}/${slides.length} – ${base}`;
+}
+
+/* navigation */
+function changeSlide(n) {
+  index += n;
+  showSlide(index);
+}
+
+/* autoplay */
+let interval;
+document.getElementById("autoplayToggle").addEventListener("change", function () {
+  if (this.checked) {
+    interval = setInterval(() => changeSlide(1), 8000);
+  } else {
+    clearInterval(interval);
+  }
+});
+
+/* keyboard */
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") changeSlide(1);
+  if (e.key === "ArrowLeft") changeSlide(-1);
+});
+
+/* fullscreen */
+function toggleFullscreen() {
+  const el = document.querySelector(".slider-container");
+  if (!document.fullscreenElement) el.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+/* zoom */
+slider.addEventListener("wheel", e => {
+  e.preventDefault();
+  scale *= (e.deltaY < 0) ? 1.1 : 0.9;
+  scale = Math.min(Math.max(1, scale), 6);
+  updateTransform();
+});
+
+/* drag */
+slider.addEventListener("mousedown", e => {
+  isDragging = true;
+  startX = e.clientX - posX;
+  startY = e.clientY - posY;
+});
+
+slider.addEventListener("mouseup", () => isDragging = false);
+slider.addEventListener("mouseleave", () => isDragging = false);
+
+slider.addEventListener("mousemove", e => {
+  if (!isDragging) return;
+  posX = e.clientX - startX;
+  posY = e.clientY - startY;
+  updateTransform();
+});
+
+/* double click zoom */
+slider.addEventListener("dblclick", () => {
+  if (scale === 1) scale = 2;
+  else {
+    scale = 1;
+    posX = 0;
+    posY = 0;
+  }
+  updateTransform();
+});
+
+/* apply transform */
+function updateTransform() {
+  const img = slides[index].querySelector("img");
+  if (!img) return;
+
+  img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+
+  if (zoomIndicator) {
+    zoomIndicator.innerText = "Zoom " + Math.round(scale * 100) + "%";
+
+    // korte highlight bij gebruik
+    zoomIndicator.style.opacity = "1";
+
+    clearTimeout(window.zoomFade);
+    window.zoomFade = setTimeout(() => {
+      zoomIndicator.style.opacity = "0.6";
+    }, 1000);
+  }
+}
+
+/* reset */
+function resetZoom() {
+  scale = 1;
+  posX = 0;
+  posY = 0;
+  updateTransform();
+}
+
+/* init */
+showSlide(index);
+</script>
+
+</body>
+</html>
