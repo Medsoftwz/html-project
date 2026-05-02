@@ -73,6 +73,21 @@ body {
   transition: opacity 0.3s ease;
 }
 
+#zoomHelp {
+  position: absolute;
+  top: 60px;
+  right: 15px;
+  background: rgba(0,0,0,0.7);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+
 /* navigation */
 .prev, .next {
   position: absolute;
@@ -113,11 +128,12 @@ body {
 <div class="slider-container">
   <div class="slider" id="slider">
 
-    <div id="zoomIndicator">100%</div>
+	<div id="zoomIndicator">100%</div>
+    <div id="zoomHelp">+ / - geeft zoom •  reset = 0</div>
 
     <!-- SLIDES -->
     <div class="slide">
-      <img src="images/ruga0.jpg">
+      <img src="images/ruga0.jpg">
       <div class="caption">Differentiële diagnose rugpijn</div>
     </div>
 	
@@ -240,6 +256,24 @@ document.getElementById("autoplayToggle").addEventListener("change", function ()
 document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") changeSlide(1);
   if (e.key === "ArrowLeft") changeSlide(-1);
+
+  // 🔍 ZOOM MET TOETSEN
+  if (e.key === "+" || e.key === "=") {
+    scale *= 1.1;
+    scale = Math.min(scale, 6);
+    updateTransform();
+  }
+
+  if (e.key === "-" || e.key === "_") {
+    scale *= 0.9;
+    scale = Math.max(scale, 1);
+    updateTransform();
+  }
+
+  // 🔄 RESET
+  if (e.key === "0") {
+    resetZoom();
+  }
 });
 
 /* fullscreen */
@@ -303,6 +337,16 @@ function updateTransform() {
       zoomIndicator.style.opacity = "0.6";
     }, 1000);
   }
+}
+
+const zoomHelp = document.getElementById("zoomHelp");
+
+if (zoomHelp) {
+  zoomHelp.style.opacity = "1";
+  clearTimeout(window.zoomHelpFade);
+  window.zoomHelpFade = setTimeout(() => {
+    zoomHelp.style.opacity = "0.6";
+  }, 1000);
 }
 
 /* reset */
