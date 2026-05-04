@@ -24,8 +24,6 @@ body {
 	font-size: 18px;
     color: #003366;	
     line-height: 1.5;
-    margin: 5px;
-    padding: 20px;
     background-image: url('images/wzcranum.jpg');
     background-attachment: fixed;
 	text-align: left;
@@ -84,13 +82,13 @@ p { margin: 6px 0; }
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
+    overflow: auto;
+    padding: 20px;
 }
 
 .lightbox img {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: none;     /* belangrijk */
+    height: auto;
     border-radius: 10px;
 }
 
@@ -169,6 +167,14 @@ Voorbeeld: c.149T&gt;A : één nucleotide verandert → p.Ile50Asn : één amino
 <strong>Essentie:</strong><br>
 De mutatie ontstaat in het DNA, maar het effect treedt op in het eiwit.
 </div>
+
+<script>
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        window.location.hash = "";
+    }
+});
+</script>
 
 </body>
 </html>
