@@ -62,15 +62,26 @@ body {
 /* caption overlay */
 .caption {
   position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.6);
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 16px;
-  max-width: 80%;
-  text-align: center;
+  top: 15px;
+  left: 15px;
+  transform: none;
+
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(4px);
+
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 60%;
+  text-align: left;
+
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* alleen zichtbaar bij interactie */
+.slider:hover .caption {
+  opacity: 1;
 }
 
 #zoomIndicator {
@@ -144,7 +155,7 @@ body {
 <div class="slider-container">
   <div class="slider" id="slider">
 
-	<div id="zoomIndicator">100%</div>
+     <div id="zoomIndicator"></div>
     <div id="zoomHelp">+ / - geeft zoom •  reset = 0</div>
 
     <!-- SLIDES -->
@@ -206,9 +217,18 @@ body {
 
     <div class="slide">
       <img src="images/coro5.jpg">
-      <div class="caption">Projectie - 3D weergave, ventraal en dorsaal, blijft moeilijk)</div>
+      <div class="caption">Projectie - 3D weergave, ventraal en dorsaal</div>
+	  </div>
+	  
+	  <div class="slide">
+      <img src="images/coro4.jpg">
+      <div class="caption">De benaming Ramus Angularis wordt nog gebruikt ?</div>
 	  </div>
 
+    <div class="slide">
+      <img src="images/coro6op.jpg">
+      <div class="caption">Voorbeeld</div>
+	  </div>
 
     <!-- NAV -->
     <button class="prev" onclick="changeSlide(-1)">❮</button>
@@ -248,14 +268,25 @@ function showSlide(i) {
 function updateCaption() {
   const caption = slides[index].querySelector(".caption");
   const base = caption.getAttribute("data-base") || caption.innerText;
+
   caption.setAttribute("data-base", base);
-  caption.innerText = `Beeld ${index+1}/${slides.length} – ${base}`;
+  caption.innerText = base;
+
+  updateIndicator(); // nieuw
+}
+
+function updateIndicator() {
+  if (!zoomIndicator) return;
+
+  zoomIndicator.innerText =
+    `${index+1}/${slides.length} • Zoom ${Math.round(scale * 100)}%`;
 }
 
 /* navigation */
 function changeSlide(n) {
   index += n;
   showSlide(index);
+  updateIndicator();
 }
 
 /* autoplay */
@@ -344,7 +375,7 @@ function updateTransform() {
   img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
 
   if (zoomIndicator) {
-    zoomIndicator.innerText = "Zoom " + Math.round(scale * 100) + "%";
+    updateIndicator();
 
     // korte highlight bij gebruik
     zoomIndicator.style.opacity = "1";
