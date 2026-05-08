@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vragenlijst premenstruele dysfore stoornis</title>
+
+<style>
+
+/* =====================================================
+   BASIS
+===================================================== */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+  padding-bottom: 120px;
+}
+
+/* =====================================================
+   STICKY HEADER
+===================================================== */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: white;
+  padding: 6px 6px 2px 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+h1 {
+  text-align: center;
+  color: #2e7d32;
+  font-size: 20px;
+  font-weight: normal;
+  margin: 2px 0 6px 0;
+}
+
+/* =====================================================
+   TABS
+===================================================== */
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tablink {
+  background: #468CD2;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tablink.active { background: #3BAF17; }
+
+.tablink.completed { background: #1f6f0e; }
+
+/* =====================================================
+   TAB CONTENT
+===================================================== */
+
+.tab-content {
+  display: none;
+  padding: 6px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* =====================================================
+   QUESTION BOX
+===================================================== */
+
+.question {
+  background: white;
+  border: 2px solid #3BAF17;
+  border-radius: 8px;
+  margin: 4px 0;
+  padding: 6px 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.question.active {
+  border-width: 3px;
+}
+
+.question.answered {
+  opacity: 0.55;
+}
+
+.question.flash {
+  animation: flashGreen 0.35s ease;
+}
+
+@keyframes flashGreen {
+  0%   { background:#fff; }
+  40%  { background:#c8f7c5; }
+  100% { background:#fff; }
+}
+
+.q-text {
+  color: #003c7a;
+  font-size: 15px;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.q-options {
+  color: #2e7d32;
+  padding-left: 16px;
+}
+
+.q-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0;
+  line-height: 1.3;
+}
+
+.q-options input[type="radio"] {
+  margin: 0;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.section-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  background: #004080;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background: #0060b5;
+}
+
+.result-box {
+  text-align: center;
+  color: #800000;
+  margin-top: 10px;
+  font-weight: bold;
+  white-space: pre-line;
+}
+
+/* =====================================================
+   PROGRESS BAR
+===================================================== */
+
+.progress-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 22px;
+  background: #ddd;
+  z-index: 999;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.completion-message {
+  position: fixed;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2e7d32;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.completion-message.show {
+  opacity: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+  <h1 id="mainTitle">Vragenlijst premenstruele dysfore stoornis</h1>
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<div id="container"></div>
+
+<!-- =====================================================
+     PROGRESS
+===================================================== -->
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar">0%</div>
+</div>
+
+<div class="completion-message" id="completionMessage">
+✔ Alle vragen beantwoord – Klik op resultaat
+</div>
+
+<script>
+
+/* =====================================================
+   DATASTRUCTUUR
+===================================================== */
+
+const CONFIG = {
+  title: "PMDS",
+
+  totalInterpretation: [
+    { min:0, max:16, text:"Geen afwijkingen ('niet aanwezig' scoort immers 1 punt)" },
+    { min:16, max:40, text:"Globale lichte functiestoornis" },
+    { min:40, max:75, text:"Globale matige functiestoornis" },
+    { min:75, max:101, text:"Globale ernstige functiestoornis" }
+  ]
+};
+
+const SECTIONS = {
+
+  S1: {
+    title: "A. Emotioneel",
+
+    interpretation: [
+      { min:0, max:25, text:"Normaal" },
+      { min:25, max:50, text:"Lichte afwijking" },
+      { min:50, max:75, text:"Matige afwijking" },
+      { min:75, max:101, text:"Ernstige afwijking" }
+    ],
+
+    questions: [
+
+      {
+        id:"q1",
+        text:"A1. Depressieve stemming, hopeloos, somber, down, treurig",
+        options:[
+          { label:"Niet aanwezig", score:1 },
+          { label:"in minimale mate", score:2 },
+          { label:"Mild", score:3 },
+          { label:"Matig", score:4 },
+          { label:"Ernstig", score:5 },
+          { label:"Zeer ernstig/invaliderend", score:6 }
+        ]
+      },
+
+      {
+        id:"q2",
+        text:"A2. Angstig, gespannen, opgefokt, op scherp staan, nerveus",
+        options:[
+          { label:"Niet aanwezig", score:1 },
+          { label:"in minimale mate", score:2 },
+          { label:"Mild", score:3 },
+          { label:"Matig", score:4 },
+          { label:"Ernstig", score:5 },
+          { label:"Zeer ernstig/invaliderend", score:6 }
+        ]
+      },
+	  
+	    {
+    id:"q3",
+    text:"A3. Stemmingswisselingen, plots huilen",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+  
+    {
+    id:"q4",
+    text:"A4. Prikkelbaar, boos, woede",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+  
+    {
+    id:"q5",
+    text:"A5. Conflicten, onenigheid of problemen met anderen",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+        ]
+      }
+
+]
+},
+
+  S2: {
+    title: "B. Cognitief",
+
+    interpretation: [
+      { min:0, max:25, text:"Normaal" },
+      { min:25, max:50, text:"Lichte afwijking" },
+      { min:50, max:75, text:"Matige afwijking" },
+      { min:75, max:101, text:"Ernstige afwijking" }
+    ],
+
+    questions: [
+
+  {
+    id:"q6",
+    text:"B1. Verminderde interesse in werk, hobby’s of sociale activiteiten",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q7",
+    text:"B2. Moeite met concentratie",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+        ]
+      },
+	  
+	  
+	    {
+    id:"q8",
+    text:"B3. Futloos, moe, afgemat, gebrek aan energie",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q9",
+    text:"B4. Veranderingen in eetlust en etengoesting / eetbuien",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q10",
+    text:"B5. Slaapproblemen te veel (dutjes overdag) of te weinig",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q11",
+    text:"B6. Overweldigd gevoel, controleverlies, overbelast, het gevoel het niet aan te kunnen",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },  
+	  
+]
+},
+
+/* Sectie 3 */
+
+S3: {
+    title: "C. Lichamelijk",
+
+    interpretation: [
+      { min:0, max:25, text:"Normaal" },
+      { min:25, max:50, text:"Lichte afwijking" },
+      { min:50, max:75, text:"Matige afwijking" },
+      { min:75, max:101, text:"Ernstige afwijking" }
+    ],
+
+    questions: [
+
+  {
+    id:"q12",
+    text:"C1. Pijnlijke of gezwollen borsten",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q13",
+    text:"C2. Hoofdpijn",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+	  
+  {
+    id:"q14",
+    text:"C3. Gewrichts- of spierpijn",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q15",
+    text:"C4. Opgeblazen gevoel / gewichtstoename",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+  id: "q16",
+  text: "C5. Libido (zin in seks) veranderd (meer of minder dan gebruikelijk)",
+  options: [
+    { label: "Geen verandering", score: 1 },
+    { label: "Lichte verandering", score: 2 },
+    { label: "Matige verandering", score: 3 },
+    { label: "Duidelijke verandering", score: 4 },
+    { label: "Sterke verandering", score: 5 },
+    { label: "Extreem meer of minder", score: 6 }
+  ]
+},
+	  
+]
+},
+
+/* Sectie 4 */
+
+S4: {
+    title: "D. Functioneel",
+
+    interpretation: [
+      { min:0, max:25, text:"Normaal" },
+      { min:25, max:50, text:"Lichte afwijking" },
+      { min:50, max:75, text:"Matige afwijking" },
+      { min:75, max:101, text:"Ernstige afwijking" }
+    ],
+
+    questions: [
+
+  {
+    id:"q17",
+    text:"D1. Verminderde productiviteit op werk/studie/ADL",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q18",
+    text:"D2. Moeite met dagelijkse taken",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q19",
+    text:"D3. Verminderde sociale activiteiten of contacten met anderen",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q20",
+    text:"D4. Problemen in relaties / thuis functioneren",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },  
+	  
+]
+},
+
+/* Sectie 5 */
+
+S5: {
+    title: "E. Overige",
+
+    interpretation: [
+      { min:0, max:25, text:"Normaal" },
+      { min:25, max:50, text:"Lichte afwijking" },
+      { min:50, max:75, text:"Matige afwijking" },
+      { min:75, max:101, text:"Ernstige afwijking" }
+    ],
+
+    questions: [
+
+  {
+    id:"q21",
+    text:"E1. Toegenomen gevoeligheid voor afwijzing",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q22",
+    text:"E2. Moeite met zelfzorg",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+  {
+    id:"q23",
+    text:"E3. Verergering van bestaande psychische klachten",
+    options:[
+      { label:"Niet aanwezig", score:1 },
+      { label:"In minimale mate", score:2 },
+      { label:"Mild", score:3 },
+      { label:"Matig", score:4 },
+      { label:"Ernstig", score:5 },
+      { label:"Zeer ernstig/invaliderend", score:6 }
+    ]
+  },
+
+    {
+    id:"q24",
+    text:"E5. Symptomen erger vóór menstruatie en verdwijnen na menstruatie",
+    options:[
+      { label:"Ik vind niet dat dit het geval is", score:1 },
+      { label:"Mogelijk dat dit zo is", score:2 },
+      { label:"Inderdaad, enigszins", score:4 },
+      { label:"Inderdaad, duidelijk het geval", score:8 },
+      { label:"Zeker zo", score:10 },
+      { label:"Volledig het geval", score:12 }
+    ]
+  }
+
+]
+
+}
+
+};
+
+/* =====================================================
+] → einde options
+} → einde vraag q24
+] → einde questions
+} → einde S5
+}; → einde const SECTIONS
+===================================================== */
+
+/* =====================================================
+   INIT
+===================================================== */
+
+const container = document.getElementById("container");
+const tabs = document.getElementById("tabs");
+
+document.getElementById("mainTitle").innerText = CONFIG.title;
+
+/* =====================================================
+   RENDER TABS
+===================================================== */
+
+Object.entries(SECTIONS).forEach(([key, section], index) => {
+
+  const btn = document.createElement("button");
+  btn.className = "tablink" + (index === 0 ? " active" : "");
+  btn.innerText = section.title;
+
+  btn.onclick = (e) => {
+    openTab(key, btn);
+  };
+
+  tabs.appendChild(btn);
+
+});
+
+/* =====================================================
+   RENDER CONTENT
+===================================================== */
+
+Object.entries(SECTIONS).forEach(([key, section], index) => {
+
+  const div = document.createElement("div");
+  div.className = "tab-content" + (index === 0 ? " active" : "");
+  div.id = key;
+
+  section.questions.forEach((q, qi) => {
+
+    const block = document.createElement("div");
+    block.className = "question" + (qi === 0 ? " active" : "");
+
+    block.innerHTML = `
+
+      <div class="q-text">${q.text}</div>
+
+      <div class="q-options">
+        ${q.options.map(o => `
+          <label>
+            <input type="radio" name="${q.id}" value="${o.score}">
+            ${o.label}
+          </label>
+        `).join("")}
+      </div>
+
+    `;
+
+    div.appendChild(block);
+
+  });
+
+  const buttonArea = document.createElement("div");
+  buttonArea.className = "section-buttons";
+
+  buttonArea.innerHTML = `
+    <button class="action-btn" onclick="calculateSection('${key}')">
+      Bereken Sectie
+    </button>
+
+    <button class="action-btn" onclick="showResults()">
+      Resultaat
+    </button>
+  `;
+
+  div.appendChild(buttonArea);
+
+  const resultBox = document.createElement("div");
+  resultBox.className = "result-box";
+  resultBox.id = `result-${key}`;
+
+  div.appendChild(resultBox);
+
+  container.appendChild(div);
+
+});
+
+/* =====================================================
+   OPEN TAB
+===================================================== */
+
+function openTab(id, button){
+
+  document.querySelectorAll('.tab-content')
+    .forEach(t => t.classList.remove('active'));
+
+  document.querySelectorAll('.tablink')
+    .forEach(b => b.classList.remove('active'));
+
+  document.getElementById(id).classList.add('active');
+  button.classList.add('active');
+
+  window.scrollTo({ top:0, behavior:'smooth' });
+
+}
+
+/* =====================================================
+   FLOW
+===================================================== */
+
+document.addEventListener('change', e => {
+
+  if(!e.target.matches('input[type="radio"]')) return;
+
+  const qDiv = e.target.closest('.question');
+  const form = qDiv.parentElement;
+
+  qDiv.classList.add('answered');
+  qDiv.classList.remove('active');
+  qDiv.classList.add('flash');
+
+  setTimeout(() => {
+    qDiv.classList.remove('flash');
+  }, 350);
+
+  updateProgress();
+
+  const questions = [...form.querySelectorAll('.question')];
+  const idx = questions.indexOf(qDiv);
+
+  setTimeout(() => {
+
+    if(idx < questions.length - 1){
+
+      const next = questions[idx + 1];
+      next.classList.add('active');
+
+next.scrollIntoView({
+  behavior:'smooth',
+  block:'center'
+});
+
+    } else {
+
+      markSectionCompleted(form.id);
+      openNextTab(form.id);
+
+    }
+
+  }, 450);
+
+});
+
+/* =====================================================
+   NEXT TAB
+===================================================== */
+
+function openNextTab(currentId){
+
+  const keys = Object.keys(SECTIONS);
+  const idx = keys.indexOf(currentId);
+
+  if(idx >= keys.length - 1) return;
+
+  const nextId = keys[idx + 1];
+  const nextButton = document.querySelectorAll('.tablink')[idx + 1];
+
+  openTab(nextId, nextButton);
+
+}
+
+/* =====================================================
+   COMPLETED TAB
+===================================================== */
+
+function markSectionCompleted(sectionId){
+
+  const section = document.getElementById(sectionId);
+  const questions = section.querySelectorAll('.question');
+
+  let done = true;
+
+  questions.forEach(q => {
+    if(!q.querySelector('input:checked')){
+      done = false;
+    }
+  });
+
+  if(done){
+
+    const keys = Object.keys(SECTIONS);
+    const idx = keys.indexOf(sectionId);
+
+    const btn = document.querySelectorAll('.tablink')[idx];
+    btn.classList.add('completed');
+
+  }
+
+}
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+  const total = document.querySelectorAll('.question').length;
+  const done = document.querySelectorAll('input:checked').length;
+
+  const pct = (done / total) * 100;
+
+  const bar = document.getElementById('progressBar');
+
+  bar.style.width = pct + '%';
+  bar.innerText = Math.round(pct) + '%';
+
+  if(pct < 25){
+    bar.style.background = '#d32f2f';
+  }
+  else if(pct < 60){
+    bar.style.background = '#f57c00';
+  }
+  else if(pct < 100){
+    bar.style.background = '#c0ca33';
+  }
+  else {
+    bar.style.background = '#2e7d32';
+    document.getElementById('completionMessage')
+      .classList.add('show');
+  }
+
+}
+
+/* =====================================================
+   BEREKEN SECTIE
+===================================================== */
+
+function calculateSection(sectionId){
+
+  const section = SECTIONS[sectionId];
+  const resultBox = document.getElementById(`result-${sectionId}`);
+
+  let score = 0;
+  let maxScore = 0;
+
+  for(const q of section.questions){
+
+    const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+
+    if(!selected){
+      alert('Gelieve alle vragen te beantwoorden');
+      return;
+    }
+
+    score += parseInt(selected.value);
+
+    const highest = Math.max(...q.options.map(o => o.score));
+    maxScore += highest;
+
+  }
+
+  const pct = ((score / maxScore) * 100).toFixed(1);
+
+  resultBox.innerText =
+`Sectiescore: ${score} / ${maxScore}
+Functiedaling: ${pct}%`;
+
+}
+
+/* =====================================================
+   INTERPRETATIE
+===================================================== */
+
+function getInterpretation(section, pct){
+
+  const item = section.interpretation.find(i =>
+    pct >= i.min && pct < i.max
+  );
+
+  return item ? item.text : '';
+
+}
+
+/* =====================================================
+   RESULTATEN
+===================================================== */
+
+function showResults(){
+
+  const totalQuestions = document.querySelectorAll('.question').length;
+  const totalAnswers = document.querySelectorAll('input:checked').length;
+
+  if(totalQuestions !== totalAnswers){
+    alert('Gelieve alle vragen te beantwoorden');
+    return;
+  }
+
+  let totalScore = 0;
+  let totalMax = 0;
+
+  let html = '';
+  let answersHtml = '';
+
+  Object.entries(SECTIONS).forEach(([key, section]) => {
+
+    let sectionScore = 0;
+    let sectionMax = 0;
+
+    section.questions.forEach(q => {
+
+      const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+
+      sectionScore += parseInt(selected.value);
+
+      const max = Math.max(...q.options.map(o => o.score));
+      sectionMax += max;
+
+      const label = selected.parentElement.innerText.trim();
+
+      const questionText = q.text;
+
+      answersHtml += `
+        <div style="margin-bottom:8px;">
+          <strong>${questionText}</strong><br>
+          ${label} (${selected.value})
+        </div>
+      `;
+
+    });
+
+    totalScore += sectionScore;
+    totalMax += sectionMax;
+
+    const pct = ((sectionScore / sectionMax) * 100);
+
+    html += `
+      <div style="margin-bottom:10px;">
+        <strong>${section.title}</strong><br>
+        ${sectionScore} / ${sectionMax}<br>
+        ${pct.toFixed(1)}%<br>
+        ${getInterpretation(section, pct)}
+      </div>
+    `;
+
+  });
+
+  const totalPct = ((totalScore / totalMax) * 100).toFixed(1);
+
+  const totalInterpretation = getInterpretation(
+    { interpretation: CONFIG.totalInterpretation },
+    parseFloat(totalPct)
+  );
+
+function formatDateEU(iso){
+  if(!iso) return "";
+  if(iso.includes("/")) return iso;
+
+  const [y,m,d] = iso.split("-");
+  return `${d}-${m}-${y}`;
+}
+
+function buildPdfTitle(name, date){
+
+  let code = (name || "")
+    .replace(/[^a-zA-Z]/g, '')
+    .toUpperCase()
+    .substring(0,4);
+
+  if(code.length < 4){
+    code = code.padEnd(4,'X');
+  }
+
+  return `resultaat ${code} ${date}`;
+}
+
+
+  const w = window.open();
+
+  w.document.write(`
+
+    <html>
+    <head>
+
+    <title>Resultaat</title>
+
+<style>
+
+body{
+  font-family: Arial, sans-serif;
+  padding:18px;
+  line-height:1.2;
+  font-size:14px;
+  color:#222;
+}
+
+h2{
+  color:#2e7d32;
+  font-size:20px;
+  margin:0 0 10px 0;
+}
+
+h3{
+  color:#004080;
+  font-size:15px;
+  margin:12px 0 5px 0;
+  border-bottom:1px solid #ccc;
+  padding-bottom:2px;
+}
+
+.box{
+  background:#f7f7f7;
+  border:1px solid #ddd;
+  border-radius:6px;
+  padding:10px;
+  margin-bottom:12px;
+}
+
+input{
+  padding:4px;
+  font-size:12px;
+  width:250px;
+}
+
+.resultBlock{
+  margin-bottom:8px;
+  padding:6px;
+  background:#fafafa;
+  border-left:4px solid #3BAF17;
+}
+
+.totalBox{
+  background:#eef7ee;
+  border:1px solid #b7d7b7;
+  padding:10px;
+  border-radius:6px;
+}
+
+.answers{
+  font-size:11px;
+  line-height:1.15;
+}
+
+.answers div{
+  margin-bottom:5px;
+}
+
+button{
+  background:#2e7d32;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+hr{
+  border:none;
+  border-top:1px solid #ddd;
+  margin:12px 0;
+}
+
+@media print{
+
+  body{
+    padding:8mm;
+    font-size:11px;
+  }
+
+  button{
+    display:none;
+  }
+
+}
+
+</style>
+
+    </head>
+
+    <body>
+
+    <h2>Resultaat</h2>
+
+    <div class="box">
+
+      <label>Datum</label><br>
+      <input id="datum"><br><br>
+
+      <label>Naam</label><br>
+      <input id="naam"><br><br>
+
+      <label>Leeftijd of geboortedatum</label><br>
+      <input><br><br>
+
+    </div>
+
+    <h3>Sectieresultaten</h3>
+
+    ${html}
+
+    <hr>
+
+    <h3>Totaalresultaat</h3>
+
+    <strong>
+      ${totalScore} / ${totalMax}
+    </strong><br>
+
+    <strong>
+      ${totalPct}%
+    </strong><br><br>
+
+<div style="
+  color:${interpretationColor(parseFloat(totalPct))};
+  font-weight:bold;
+  font-size:15px;
+">
+  Interpretatie: ${totalInterpretation}
+</div>
+
+<hr>
+
+<div style="
+  margin-top:12px;
+  padding:10px;
+  background:#fff8e1;
+  border-left:4px solid #f9a825;
+  font-size:14px;
+">
+Deze vragenlijst is een oriënterend instrument en vervangt geen klinische evaluatie of medisch advies.
+Bespreek de resultaten steeds met een arts of zorgverlener.
+</div>
+
+<div style="margin-top:10px; font-size:15px;">
+Meer informatie:
+<a href="https://medsoftwz.github.io/images/pdf/premenstrueel.pdf" target="_blank">Achtergrondartikel (PDF) </a>
+</div>
+
+    <hr>
+    <button onclick="window.print()"> Opslaan als PDF</button>
+    <hr>
+
+    <h3>Antwoorden</h3>
+
+    ${answersHtml}
+
+    </body>
+    </html>
+
+  `);
+
+  setTimeout(() => {
+
+    const today = new Date();
+
+    const d = String(today.getDate()).padStart(2,'0');
+    const m = String(today.getMonth()+1).padStart(2,'0');
+    const y = today.getFullYear();
+
+w.document.getElementById('datum').value = `${d}/${m}/${y}`;
+
+const naam = w.document.getElementById("naam");
+const datum = w.document.getElementById("datum");
+
+function updateTitle(){
+
+  const pdfTitle = buildPdfTitle(
+    naam.value,
+    datum.value.replace(/\//g,'-')
+  );
+
+  w.document.title = pdfTitle;
+}
+
+updateTitle();
+
+naam.addEventListener("input", updateTitle);
+datum.addEventListener("input", updateTitle);
+
+  },100);
+
+}
+
+function interpretationColor(pct){
+  if(pct < 15){ return '#008450'; }
+  else if(pct < 40){ return '#00C0C0'; }
+  else if(pct < 80){ return '#FFA500'; }
+  return '#E60000';
+}
+
+</script>
+</body>
+</html>
+
