@@ -118,7 +118,7 @@ A: {
       options: [
         { label:"neen", score:0 },
         { label:"soms", score:1 },
-        { label:"zeer dikwijls mijn eigen gedacht", score:2 },
+        { label:"mijn eigen gedacht is juist", score:2 },
         { label:"wanen", score:3 }
       ]
     },
@@ -773,6 +773,31 @@ ${res.split("\n").map(l => `<div>${l}</div>`).join("")}
 <div class="alarm">
 ${alarmText}
 </div>
+
+<hr>
+
+<div style="
+  margin-top:12px;
+  padding:10px;
+  background:#fff8e1;
+  border-left:4px solid #f9a825;
+  font-size:14px;
+">
+Deze vragenlijst is een oriënterend instrument en vervangt geen klinische evaluatie of medisch advies.<br>
+Bespreek de resultaten steeds met een arts of zorgverlener.
+</div>
+
+<div style="margin-top:10px; font-size:14px;">
+
+Akkoord: <br>
+
+<a href="https://medsoftwz.github.io/disclaim.html" target="_blank" rel="noopener noreferrer">Disclaimer</a><br>
+<a href="images/pdf/info.pdf" target="_blank">test pdf link</a><br>
+<a href="images/index.jpg" target="_blank">test img</a>
+
+</div>
+
+<hr>
 
 <button onclick="window.print()">Opslaan als PDF</button>
 

@@ -820,19 +820,24 @@ hr{
 
     <hr>
 
-    <h3>Totaalresultaat</h3>
+<h3>Totaalresultaat</h3>
 
-    <strong>
-      ${totalScore} / ${totalMax}
-    </strong><br>
+<strong>
+  ${totalScore} / ${totalMax}
+</strong><br>
 
-    <strong>
-      ${totalPct}%
-    </strong><br><br>
+<strong>
+  ${totalPct}%
+</strong><br><br>
 
-    <strong>
-      Interpretatie: ${totalInterpretation}
-    </strong>
+<div style="
+  color:${interpretationColor(parseFloat(totalPct))};
+  font-weight:bold;
+  font-size:16px;
+"> Interpretatie: ${totalInterpretation}
+</div>
+
+<hr>
 
 <div style="
   margin-top:12px;
@@ -841,9 +846,20 @@ hr{
   border-left:4px solid #f9a825;
   font-size:14px;
 ">
-Deze vragenlijst is een oriënterend instrument en vervangt geen klinische evaluatie of medisch advies.
+Deze vragenlijst is een oriënterend instrument 
+</div>
 
-Bespreek de resultaten steeds met een arts of zorgverlener.
+<!-- en vervangt geen klinische evaluatie of medisch advies.<br> -->
+<!-- Bespreek de resultaten steeds met een arts of zorgverlener. -->
+
+<div style="margin-top:10px; font-size:14px;">
+
+Akkoord: <br>
+
+<a href="https://medsoftwz.github.io/disclaim.html" target="_blank" rel="noopener noreferrer">Disclaimer</a><br>
+<a href="images/pdf/info.pdf" target="_blank">test pdf link</a><br>
+<a href="images/index.jpg" target="_blank">test img</a>
+
 </div>
 
     <hr>
@@ -894,6 +910,15 @@ datum.addEventListener("input", updateTitle);
   },100);
 
 }
+
+function interpretationColor(pct){
+  if(pct < 15){ return '#008450'; }
+  else if(pct < 40){ return '#00C0C0'; }
+  else if(pct < 80){ return '#FFA500'; }
+  return '#E60000';
+}
+
+</script>
 
 </script>
 </body>
