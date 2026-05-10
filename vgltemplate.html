@@ -37,7 +37,15 @@ body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; padding-b
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-h1 { text-align: center; color: #2e7d32; font-size: 20px; font-weight: normal; margin: 2px 0 6px 0; }
+h1 { text-align: center; color: #2e7d32; font-size: 16px; font-weight: normal; margin: 2px 0 6px 0; }
+
+.disclaimer-mini{
+  text-align:center;
+  font-size:10px;
+  color:#666;
+  line-height:1.2;
+  margin:0 4px 6px 4px;
+}
 
 /* =====================================================
    TABS
@@ -133,9 +141,6 @@ h1 { text-align: center; color: #2e7d32; font-size: 20px; font-weight: normal; m
   white-space: pre-line;
 }
 
-
-
-
 /* =====================================================
    PROGRESS BAR
 ===================================================== */
@@ -164,15 +169,25 @@ h1 { text-align: center; color: #2e7d32; font-size: 20px; font-weight: normal; m
 
 .completion-message {
   position: fixed;
-  bottom: 34px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background: #2e7d32;
+  
+  background: rgba(46,125,50,0.92);
   color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
+
+  padding: 5px 12px;
+  border-radius: 5px;
+
+  font-size: 12px;
+  font-weight: normal;
+
   opacity: 0;
-  transition: 0.4s;
+  transition: 0.3s;
+
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+
+  white-space: nowrap;
 }
 
 .completion-message.show { opacity: 1; }
@@ -188,6 +203,13 @@ h1 { text-align: center; color: #2e7d32; font-size: 20px; font-weight: normal; m
 
 <div class="header">
   <h1 id="mainTitle">Universele Vragenlijst</h1>
+
+  <div class="disclaimer-mini">
+    Experimentele onderzoekssoftware — geen medisch hulpmiddel.<br>
+    Resultaten zijn indicatief en vervangen geen professioneel medisch advies.<br>
+    Geen gegevens worden centraal opgeslagen of verzonden.
+  </div>
+
   <div class="tabs" id="tabs"></div>
 </div>
 
@@ -863,11 +885,10 @@ hr{
   border-left:4px solid #f9a825;
   font-size:14px;
 ">
-Deze vragenlijst is een oriënterend instrument 
+Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
+Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
+Bespreek de resultaten steeds met een arts of zorgverlener.
 </div>
-
-<!-- en vervangt geen klinische evaluatie of medisch advies.<br> -->
-<!-- Bespreek de resultaten steeds met een arts of zorgverlener. -->
 
 <div style="margin-top:10px; font-size:14px;">
 

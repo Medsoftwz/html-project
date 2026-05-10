@@ -50,6 +50,14 @@ h1 {
   margin: 4px 0 8px 0;
 }
 
+.disclaimer-mini{
+  text-align:center;
+  font-size:10px;
+  color:#666;
+  line-height:1.2;
+  margin:0 4px 6px 4px;
+}
+
 /* =====================================================
    TABS
 ===================================================== */
@@ -205,20 +213,28 @@ h1 {
 
 .completion-message {
   position: fixed;
-  bottom: 34px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background: #2e7d32;
+  
+  background: rgba(46,125,50,0.92);
   color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
+
+  padding: 5px 12px;
+  border-radius: 5px;
+
+  font-size: 12px;
+  font-weight: normal;
+
   opacity: 0;
-  transition: 0.4s;
+  transition: 0.3s;
+
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+
+  white-space: nowrap;
 }
 
-.completion-message.show {
-  opacity: 1;
-}
+.completion-message.show { opacity: 1; }
 
 </style>
 </head>
@@ -231,6 +247,11 @@ h1 {
 
 <div class="header">
   <h1 id="mainTitle">Premenstruele Dysfore Stoornis - PMDS</h1>
+  <div class="disclaimer-mini">
+    Experimentele onderzoekssoftware — geen medisch hulpmiddel.<br>
+    Resultaten zijn indicatief en vervangen geen professioneel medisch advies.<br>
+    Geen gegevens worden centraal opgeslagen of verzonden.
+  </div>
   <div class="tabs" id="tabs"></div>
 </div>
 
