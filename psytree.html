@@ -2,13 +2,6 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="Classificatie Psychiatrie">
-<meta property="og:description" content="Experimentele versie – as‑is">
-<meta property="og:image" content="https://medsoftwz.github.io/images/psytree.jpg">
-<meta property="og:url" content="https://medsoftwz.github.io/psytree.html">
-<meta property="og:type" content="website">
-
 <title>Psychiatrie Boom</title>
 
 <style>
@@ -62,10 +55,11 @@ li:not(.has-children) > .node {cursor: default; }
 li:not(.has-children) > .node .label:hover { text-decoration: none; }
 li:not(.has-children) .node:hover {background-color: transparant !important; }
 
-.level-1 { font-family: Verdana, sans-serif; color: #003366; font-size: 15px;}
-.level-2 { font-family: Arial, sans-serif; color: #008800; font-size: 16px;}
-.level-3 { font-family: Trebuchet MS, sans-serif; color: #aa5500; font-size: 16px;}
-.level-4 { font-family: "Courier New", monospace; color: #0000FF; font-style: italic; font-size: 15px;}
+.level-1 { font-family: Arial, sans-serif; font-size: 16px; color: #003366; }
+.level-2 { font-family: Trebuchet MS, sans-serif; font-size: 16px; color: #008800; }
+.level-3 { font-family: Verdana, sans-serif; font-size: 15px; color: #AA5500; }
+.level-4 { font-family: Arial, sans-serif; font-size: 16px; color: #808080; font-style: italic; }
+.level-5 { font-family: Verdana, sans-serif; font-size: 15px; color: #804040; }
 
 #search-container { text-align: center; margin-bottom: 10px; }
 #search-container input { font-size: 16px; padding: 6px; color: #003366; }
@@ -1370,110 +1364,140 @@ window.DATASET = [
 
   { terms: ["Kernscreening - Psychiatrisch interview"], code: "031" },
 
-  // A. Stemming
-  { terms: ["Stemming - Mood - Humeur - Gevoelsleven - Affect"], code: "031.01" },
-    { terms: ["Somberheid"], code: "031.01.01" },
-    { terms: ["Anhedonie"], code: "031.01.02" },
-    { terms: ["Energieverlies"], code: "031.01.03" },
-    { terms: ["Slaapstoornis"], code: "031.01.04" },
-    { terms: ["Schuld / waardeloosheid"], code: "031.01.05" },
-	{ terms: ["Suïcidescreening"], code: "031.01.07" },
-	{ terms: ["Geen zelfdoding gedachten"], code: "031.01.07.A" },
-	{ terms: ["Passieve doodswens"], code: "031.01.07.B" },
-	{ terms: ["Actieve gedachten zonder plan"], code: "031.01.07.C" },
-	{ terms: ["Plan zonder intentie"], code: "031.01.07.D" },
-	{ terms: ["Plan met intentie"], code: "031.01.07.E" },
 
-  // B. Angst
-  { terms: ["Angst"], code: "031.02" },
-    { terms: ["Excessief piekeren"], code: "031.02.01" },
-      { terms: ["Ernst 0-3"], code: "031.02.01.01" },
-    { terms: ["Paniekaanvallen"], code: "031.02.02" },
-      { terms: ["Ernst 0-3"], code: "031.02.02.01" },
-    { terms: ["Vermijding"], code: "031.02.03" },
-      { terms: ["Ernst 0-3"], code: "031.02.03.01" },
-    { terms: ["Spanning / lichamelijke onrust"], code: "031.02.04" },
-      { terms: ["Ernst 0-3"], code: "031.02.04.01" },
+    { terms: ["Cognitie (wat men denkt en zegt)"], code: "031.01" },
+	{ terms: ["Cognitieve functies"], code: "031.01.01" },
 
-  // C. Denken / realiteit
-  { terms: ["Denken - Waarneming - Realiteitstoetsing"], code: "031.03" },
-    { terms: ["Wanen / achterdocht"], code: "031.03.01" },
-      { terms: ["Aanwezig ja/nee"], code: "031.03.01.01" },
-    { terms: ["Hallucinaties"], code: "031.03.02" },
-      { terms: ["Aanwezig ja/nee"], code: "031.03.02.01" },
-    { terms: ["Gedesorganiseerd denken"], code: "031.03.03" },
-      { terms: ["Ernst 0-3"], code: "031.03.03.01" },
-    { terms: ["Obsessieve gedachten"], code: "031.03.04" },
-      { terms: ["Ernst 0-3"], code: "031.03.04.01" },
-	{ terms: ["Realiteitsbesef - Desoriëntatie in tijd en ruimte"], code: "031.03.05" },
-      { terms: ["Ernst 0-3"], code: "031.03.05.01" },
-
-  // D. Cognitie
-  { terms: ["Cognitie"], code: "031.04" },
-  
-  { terms: ["Aandacht"], code: "031.04.A" },
-  { terms: ["Bewustzijn - Fluctuerend"], code: "031.04.B" },
-  { terms: ["Concentratie "], code: "031.04.C" },
-  { terms: ["Inzicht"], code: "031.04.I" }, 
-  { terms: ["Kritisch vermogen"], code: "031.04.K" },
-  { terms: ["Oordeel"], code: "031.04.O" }, 
-  { terms: ["Oriëntatiestoornis"], code: "031.04.P" },
-  { terms: ["Geheugenklachten"], code: "031.04.Q" },
-  { terms: ["ADL-problemen"], code: "031.04.Y" },
-
-  // E. Gedrag & impulscontrole
-  { terms: ["Gedrag en impulsregulatie"], code: "031.05" },
-  	  
-  { terms: ["Psychomotoriek - Psychomotorisch gedrag"], code: "031.05.01" },
-	  
-    { terms: ["Psychomotorische communicatiestoornissen"], code: "031.05.01.A" },
-      { terms: ["Echolalie"], code: "031.05.01.A.1" },
-      { terms: ["Echopraxie"], code: "031.05.01.A.2" },
-      { terms: ["Verbigeratie"], code: "031.05.01.A.3" },
-
-    { terms: ["Psychomotorische activiteits- en gedragsstoornissen"], code: "031.05.01.B" },
-	{ terms: ["Agitatie / rusteloosheid:/overactiviteit/motorische onrust"], code: "031.05.01.B.1" },
-    { terms: ["Psychomotorische remming"], code: "031.05.01.B.2" },
-      { terms: ["Catatonie"], code: "031.05.01.B.3" },
-      { terms: ["Compulsie"], code: "031.05.01.B.4" },
-      { terms: ["Parakinesie"], code: "031.05.01.B.5" },
-
- { terms: ["Impulscontrole"], code: "031.05.02" },
-  
-     { terms: ["Emotioneel gedrag - stabiliteit"], code: "031.05.02.A" },
-	 { terms: ["Dwangmatig gedrag"], code: "031.05.02.B" },
-	 { terms: ["Risicogedrag"], code: "031.05.02.C" },
-	 { terms: ["Problematisch middelengebruik"], code: "031.05.02.D" },
-	 { terms: ["Verminderde frustratietolerantie"], code: "031.05.02.E" },	 
-	 { terms: ["Agressieve uitbarstingen"], code: "031.05.02.F" },	
-	 { terms: ["Gedesoriënteerd gedrag"], code: "031.05.02.G" },
-
-  { terms: ["Sociaal functioneren"], code: "031.05.03" },
-	{ terms: ["Aandrift en motivatie"], code: "031.05.03.1" },
-	{ terms: ["Sociaal terugtrekken"], code: "031.05.03.A" },
-    { terms: ["Relationele conflicten"], code: "031.05.03.B" },
-    { terms: ["Werkdisfunctie"], code: "031.05.03.C" },
-    { terms: ["Zelfverwaarlozing"], code: "031.05.03.D" },
-	{ terms: ["Relationeel / sociaal gedrag"], code: "031.05.03.E" },
-    { terms: ["Negatief gedrag / negatieve symptomen"], code: "031.05.03.F" },
+	{ terms: ["Aandacht"], code: "031.01.01.01" },
+	{ terms: ["Bewustzijn"], code: "031.01.01.02" },
+	{ terms: ["Concentratie"], code: "031.01.01.03" },
 	
-  //  Samengestelde cognitieve functies
-  { terms: ["Samengestelde cognitieve functies"], code: "031.06" },
-    { terms: ["Apraxie"], code: "031.06.01" },
-    { terms: ["Ataxie"], code: "031.06.02" },
-    { terms: ["Agnosie"], code: "031.06.03" },
-    { terms: ["Asomato-topognosie"], code: "031.06.04" },
-    { terms: ["Spraak (kwantiteit/kwaliteit/productie)"], code: "031.06.05" },
-    { terms: ["Taalgebruik en taalbegrip"], code: "031.06.06" },
-    { terms: ["Afasie / dysfasie / parafasie"], code: "031.06.07" },
-    { terms: ["Leervermogen / schoolvaardigheden"], code: "031.06.08" },
-    { terms: ["Intelligentie"], code: "031.06.09" },  	  
-	  
-// Contact en attitude
-  { terms: ["Contact en attitude"], code: "031.08" },
-    { terms: ["Reality testing (over en weer contact)"], code: "031.08.01" },
-    { terms: ["Attitude tegenover onderzoeker / betrouwbaarheid"], code: "031.08.02" },
-    { terms: ["Attitude tegenover defecten (coping)"], code: "031.08.03" },
+	{ terms: ["Denken"], code: "031.01.01.04" },
+	{ terms: ["Achterdocht"], code: "031.01.01.04.A" },
+	{ terms: ["Obsessief denken"], code: "031.01.01.04.B" },
+	{ terms: ["Gedesorganiseerd denken"], code: "031.01.01.04.C" },	
+	{ terms: ["Wanen"], code: "031.01.01.04.D" },
+	
+	{ terms: ["Waarneming"], code: "031.01.01.05" },	
+	{ terms: ["Hallucinaties"], code: "031.01.01.05.A" },		
+
+	{ terms: ["Inzicht"], code: "031.01.01.06" },
+	{ terms: ["Kritische vermogen"], code: "031.01.01.07" },
+	{ terms: ["Oordeel"], code: "031.01.01.08" },
+	{ terms: ["Oriëntatie"], code: "031.01.01.09" },
+	{ terms: ["Geheugen"], code: "031.01.01.10" },
+
+	{ terms: ["Complexe cognitieve functies - Spraak & Taal"], code: "031.01.02" },
+	{ terms: ["Spraakproductie"], code: "031.01.02.A" },
+	{ terms: ["Kwantiteit"], code: "031.01.02.A.1" },
+	{ terms: ["Kwaltiteit"], code: "031.01.02.A.2" },
+	{ terms: ["Tempo"], code: "031.01.02.A.3" },
+	{ terms: ["Articulatie"], code: "031.01.02.A.4" },
+	
+	{ terms: ["Taalgebruik & Taalbegrip"], code: "031.01.02.B" },
+	{ terms: ["Afasie / dysfasie / parafasie"], code: "031.01.02.B.1" },
+	{ terms: ["Ruimtelijk"], code: "031.01.02.C" },	
+	{ terms: ["Apraxie"], code: "031.01.02.C.2" },
+	{ terms: ["Ataxie"], code: "031.01.02.C.3" },
+	{ terms: ["Agnosie"], code: "031.01.02.C.4" },
+	{ terms: ["Asomato topognosie"], code: "031.01.02.C.5" },
+	{ terms: ["Intellect"], code: "031.01.02.D" },		
+	{ terms: ["Leervermogen / schoolvaardigheden"], code: "031.01.02.D.1" },
+	{ terms: ["Intelligentie"], code: "031.01.02.D.2" },
+	
+// Stemming
+		
+    { terms: ["Affect - Stemming - Angst (wat men voelt)"], code: "031.02" },
+	{ terms: ["Stemming - Humeur - Mood"], code: "031.02.01" },
+	{ terms: ["Somberheid"], code: "031.02.01.A" },	
+	{ terms: ["Anhedonie"], code: "031.02.01.B" },
+	{ terms: ["Energieverlies"], code: "031.02.01.C" },
+	{ terms: ["Slaapstoornis"], code: "031.02.01.D" },
+	{ terms: ["Schuld / waardeloosheid"], code: "031.02.01.E" },	
+	
+    { terms: ["Angst"], code: "031.02.03" },	
+    { terms: ["Excessief piekeren"], code: "031.02.03.A" },	
+    { terms: ["Paniekaanvallen"], code: "031.02.03.B" },	
+    { terms: ["Vermijding"], code: "031.02.03.C" },	
+    { terms: ["Lichamelijke spanning"], code: "031.02.03.D" },	
+    { terms: ["Lichamelijke onrust"], code: "031.02.03.E" },	
+	
+	{ terms: ["Suïcidalteit"], code: "031.02.04" },
+	{ terms: ["Geen gedachten"], code: "031.02.04.A" },
+	{ terms: ["Passieve doodswens"], code: "031.02.04.B" },
+	{ terms: ["Actieve gedachten zonder plan"], code: "031.02.04.C" },
+	{ terms: ["Plan zonder intentie"], code: "031.02.04.D" },
+	{ terms: ["Plan met intentie"], code: "031.02.04.E" },	
+	
+// Psychomotorisch gedrag: motorische expressie van de psyche - wat iemand doet - observatie
+
+    { terms: ["Gedrag (wat men doet)"], code: "031.03" },	
+    { terms: ["Psychomotorisch gedrag"], code: "031.03.01" },	
+		
+    { terms: ["Psychomotorische communicatie"], code: "031.03.01.A" },
+    { terms: ["Echolalie"], code: "031.03.01.A.1" },
+    { terms: ["Echopraxie"], code: "031.03.01.A.2" },	
+    { terms: ["Verbigeratie"], code: "031.03.01.A.3" },	
+    { terms: ["Stereotypieën / repetitieve bewegingen"], code: "031.03.01.A.4" },	
+    { terms: ["Negativisme (motorisch)"], code: "031.03.01.A.5" },		
+	
+	{ terms: ["Psychomotorische activiteit"], code: "031.03.01.B" },
+    { terms: ["Overactiviteit"], code: "031.03.01.B.1" },	
+    { terms: ["Psychomotorische remming"], code: "031.03.01.B.2" },	
+    { terms: ["Bijzondere bewegingen (parakinesieën)"], code: "031.03.01.B.3" },	
+    { terms: ["Compulsies (motorisch aspect)"], code: "031.03.01.B.4" },	
+    { terms: ["Katatone kenmerken (stupor, flexibilitas cerea, mutisme)"], code: "031.03.01.B.5" },	
+
+/* Motivatie = de reden en bereidheid om iets te doen.
+Aandrift is de interne psychische energie en kracht welke tot handelen aanspoort (om iets te beginnen).
+Gedragsmatige energie = de hoeveelheid psychische energie die zichtbaar wordt in iemands gedrag.
+De stuwende krachten van alle psychische activiteiten wat betreft tempo, intensiteit en duur.
+Waarneembaar in de psychomotorische activiteit van een persoon. */
+
+    { terms: ["Aandrift / Motivatie / Gedragsmatige Energie"], code: "031.03.01.C" },
+    { terms: ["Initiatief: moeilijk / normaal / verhoogd"], code: "031.03.01.C.1" },	
+    { terms: ["Doelgerichtheid: chaotisch / doelloos / adequaat"], code: "031.03.01.C.2" },	
+    { terms: ["Volgehouden gedrag: duur, volharding"], code: "031.03.01.C.3" },	
+    { terms: ["Gedragsmatige energie: laag / normaal / hoog"], code: "031.03.01.C.4" },	
+    { terms: ["Congruentie tussen woorden en gedrag"], code: "031.03.01.C.5" },	
+
+// Hoe iemand zich relationeel gedraagt in het hier en nu
+
+    { terms: ["Sociaal gedrag"], code: "031.03.02" },
+    { terms: ["Contactname (spontaan / afwachtend / vermijdend)"], code: "031.03.02.A" },
+    { terms: ["Oogcontact (afwezig / beperkt / normaal / intens)"], code: "031.03.02.B" },
+    { terms: ["Samenwerking (coöperatief / ambivalent / oppositioneel)"], code: "031.03.02.C" },
+    { terms: ["Sociaal terugtrekken"], code: "031.03.02.D" },
+    { terms: ["Vijandigheid / agressieve houding"], code: "031.03.02.E" },
+    { terms: ["Warmte / afstandelijkheid"], code: "031.03.02.F" },
+    { terms: ["Sociale gepastheid (grenzen, toon, nabijheid)"], code: "031.03.02.G" },
+    { terms: ["Non verbale communicatie (mimiek, houding)"], code: "031.03.02.H" },	
+
+// Observeerbaar verlies van remming of controle
+
+    { terms: ["Impulsief of ontremd gedrag"], code: "031.03.03" },		
+    { terms: ["Frustratietolerantie (laag / normaal / hoog)"], code: "031.03.03.A" },
+    { terms: ["Agressieve uitbarstingen (verbaal / fysiek)"], code: "031.03.03.B" },
+    { terms: ["Risicogedrag (impulsieve acties, roekeloosheid)"], code: "031.03.03.C" },
+    { terms: ["Middelengebruik (acuut effect, intoxicatie, craving)"], code: "031.03.03.D" },
+    { terms: ["Ontremming (seksueel, sociaal, verbaal)"], code: "031.03.03.E" },
+    { terms: ["Impulsdoorbraken (plots handelen zonder nadenken)"], code: "031.03.03.F" },
+    { terms: ["Zelfbeschadigend gedrag (motorisch aspect, niet de intentie)"], code: "031.03.03.G" },
+
+	// Contact en attitude
+  { terms: ["Contact en attitude"], code: "031.06" },
+    { terms: ["Reality testing (over en weer contact) in gesprek"], code: "031.06.01" },
+    { terms: ["Attitude tegenover onderzoeker / betrouwbaarheid"], code: "031.06.02" },
+    { terms: ["Attitude tegenover defecten / coping)"], code: "031.06.03" },
+    { terms: ["Uiterlijk & verzorging - zelfverwaarlozing"], code: "031.06.04" },	
+
+	// Functioneren		
+	{ terms: ["Functioneren"], code: "031.07" },
+    { terms: ["ADL problemen"], code: "031.07.01" },
+    { terms: ["Realiteitsbesef / desoriëntatie tijd & ruimte"], code: "031.07.02" },
+    { terms: ["Werkdisfunctie"], code: "031.07.03" },
+    { terms: ["Sociaal terugtrekken"], code: "031.07.04" },
+    { terms: ["Relationele conflicten"], code: "031.07.05" },
   
   // Globale evaluatie
   { terms: ["Globale evaluatie"], code: "031.09" },
@@ -1483,9 +1507,8 @@ window.DATASET = [
     { terms: ["Vitaliteit"], code: "031.09.04" },
     { terms: ["Zorgbehoefte en zelfcontrole"], code: "031.09.05" },
     { terms: ["Zorg bij levenseinde"], code: "031.09.06" }	
-	
+  	
 ];
-
 
 /* =============================
    HULPFUNCTIES
