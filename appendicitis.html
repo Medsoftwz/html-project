@@ -372,7 +372,7 @@ const SECTIONS = {
 
 {
   id:"q1",
-  text:"A1. Migrerende pijn rechter fossa iliaca",
+  text:"A1. Migrerende pijn naar rechter fossa iliaca",
   
   info: ` 
 Het typisch beeld van appendicitis bestaat uit een slecht gelokaliseerde epigastrische pijn die toeneemt in ernst en zich verplaatst in de richting van het rechter onderkwadrant van het abdomen.
@@ -381,7 +381,7 @@ Peritoneale prikkeling, spierverzet en loslaatpijn in het betreffende kwadrant z
   
   options:[
     { label:"geen migrerende pijn rechter fossa", score:0 },
-    { label:"Migrerende pijn in rechter fossa", score:1 }
+    { label:"Migrerende pijn tot in rechter fossa", score:1 }
   ]
 },
  	  
@@ -437,7 +437,7 @@ Peritoneale prikkeling, spierverzet en loslaatpijn in het betreffende kwadrant z
         id:"q6",
         text:"A6. Koorts ",
         			  
-		info: ` <span style="color: green;">Koorts</span><br>meer dan 38°C oraal of rectaal `,
+		info: ` <span style="color: green;">Koorts</span><br>meer dan 37,3 ¨C wordt door sommige als koorts aanzien; andere vragen meer dan 38°C oraal of rectaal `,
         options:[
           { label:"geen koorts", score:0 },
           { label:"Koorts", score:1 }
@@ -807,6 +807,7 @@ function showResults(){
 
   const totalQuestions = document.querySelectorAll('.question').length;
   const totalAnswers = document.querySelectorAll('input:checked').length;
+  
 
   if(totalQuestions !== totalAnswers){
     alert('Gelieve alle vragen te beantwoorden');
@@ -874,6 +875,8 @@ const pct = sectionMax > 0
   });
 
   const totalPct = ((totalScore / totalMax) * 100).toFixed(1);
+  
+  const appendCoefficient = totalMax > 0  ? ((totalScore / totalMax) * 10).toFixed(1) : 0;
 
   const totalInterpretation = getInterpretation(
     { interpretation: CONFIG.totalInterpretation },
@@ -1036,14 +1039,59 @@ hr{
 
 <strong>
   ${totalPct}%
-</strong><br><br>
+</strong><br>
 
 <div style="
-  color:${interpretationColor(parseFloat(totalPct))};
+  color:${appendicitisColor(parseFloat(appendCoefficient))};
   font-weight:bold;
-  font-size:16px;
-"> Interpretatie: ${totalInterpretation}
+  font-size:18px;
+">
+  Coëfficiënt: ${appendCoefficient} / 10
 </div>
+
+<div style="
+  margin-top:6px;
+  padding:8px;
+  background:#fff8e1;
+  border-left:4px solid #f9a825;
+  font-size:14px;
+  color:#002850;
+  line-height:1.5;
+">
+  ${appendicitisInterpretation(parseFloat(appendCoefficient))}
+</div>
+
+<div style="
+display:inline-block;
+margin-top:6px;
+padding:6px 12px;
+border-radius:16px;
+background:${appendicitisColor(parseFloat(appendCoefficient))};
+color:white;
+font-weight:bold;
+font-size:15px;
+">
+${appendicitisRiskLabel(parseFloat(appendCoefficient))}
+</div>
+
+<div style="
+  margin-top:8px;
+  padding:8px;
+  background:#f5f5f5;
+  border-left:4px solid #90a4ae;
+  font-size:13px;
+  line-height:1.5;
+  color:#003050;
+">
+
+<b>Interpretatie coëfficiënt</b><br>
+
+&lt; 4 → lage waarschijnlijkheid appendicitis<br>
+4 – 6,9 → intermediaire waarschijnlijkheid<br>
+≥ 7 → hoge waarschijnlijkheid appendicitis
+
+</div>
+
 
 <hr>
 
@@ -1058,7 +1106,7 @@ Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
 Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
 Bespreek de resultaten steeds met een arts of zorgverlener.<br><br>
 
-Interpretatie van het resultaat (x op 10), bijkomende onderzoeken, differentiële diagnose etc.: zie medische literatuur.
+Verdere interpretatie van het resultaat, bijkomende onderzoeken, differentiële diagnose etc.: zie medische literatuur.
 </div>
 
 <div style="margin-top:10px; font-size:14px;">
@@ -1168,6 +1216,62 @@ function interpretationColor(pct){
   else if(pct < 40){ return '#00C0C0'; }
   else if(pct < 80){ return '#FFA500'; }
   return '#E60000';
+}
+
+function appendicitisColor(score){
+
+  if(score < 4){
+    return '#008450';
+  }
+  else if(score < 7){
+    return '#FFA500';
+  }
+
+  return '#E60000';
+}
+
+function appendicitisInterpretation(score){
+
+  if(score < 4){
+
+    return `
+Lage waarschijnlijkheid van acute appendicitis.
+
+Klinische herevaluatie blijft belangrijk.
+Bij aanhoudende of toenemende klachten blijft medische beoordeling aangewezen.
+    `;
+  }
+
+  else if(score < 7){
+
+    return `
+Intermediaire waarschijnlijkheid van acute appendicitis.
+
+Uitsluiten van zwangerschap en urineweg infectie.
+Aanvullend onderzoek zoals echografie of CT-scan kan overwogen worden afhankelijk van klinisch beeld, leeftijd en evolutie.
+Klinische observatie en herevaluatie zijn belangrijk.
+    `;
+  }
+
+  return `
+Hoge waarschijnlijkheid van acute appendicitis.
+
+Uitsluiten van zwangerschap en urineweg infectie.
+Dringende medische evaluatie is aangewezen.
+Beeldvorming of chirurgische evaluatie kan noodzakelijk zijn afhankelijk van het klinisch onderzoek.
+  `;
+}
+
+function appendicitisRiskLabel(score){
+
+  if(score < 4){
+    return 'Lage waarschijnlijkheid';
+  }
+  else if(score < 7){
+    return 'Intermediaire waarschijnlijkheid';
+  }
+
+  return 'Hoge waarschijnlijkheid';
 }
 
 </script>
