@@ -363,9 +363,23 @@ Kan voorkomen bij:
       questions: [
 
         {
+          id: "zwanger",
+          type: "radio",
+          text: "Zwanger",
+		  icd11: "QA41",	
+          options: [
+            "Ja",
+            "Neen",
+            "Weet het niet",
+			"Niet van toepassing"
+          ]
+        },
+
+        {
           id: "nystagmus",
           type: "presence",
           text: "Nystagmus",
+		  icd11: "9C84.Z",	
 		  		    info: `
 Nystagmus
 
@@ -379,7 +393,18 @@ Nystagmus
           id: "neurologische_uitval",
           type: "presence",
           text: "Neurologische uitvalsverschijnselen",
-          icd11: "QF10"
+		  icd11: "QF10",		  
+		  		  		    info: `
+Zie neuro.html
+▶ UQ1 – Motorische uitval
+▶ UQ2 – Sensibele uitval
+▶ UQ3 – Visuele uitval
+▶ UQ4 – Spraak- en taalstoornissen
+▶ UQ5 – Coördinatiestoornissen (ataxie)
+▶ UQ6 – Bewustzijns- of cognitieve stoornissen
+▶ UQ7 – Craniale zenuwuitval
+	`
+
         },
 
         {
