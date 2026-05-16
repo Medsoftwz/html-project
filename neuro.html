@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Medische kennisboom</title>
+
+<script src="neuro.js"></script>
+
+<style>
+body {
+    font-family: Verdana;
+    background: #eef3f8;
+    margin: 10px;
+}
+
+h3 { text-align:center; color:#004080; }
+
+#tree {
+    background:#F5EFEF;
+    padding:20px;
+    border-radius:8px;
+}
+
+ul { list-style:none; padding-left:20px; }
+
+.node { padding:2px 4px; border-radius:4px; }
+.node.clickable { cursor:pointer; }
+.node.clickable:hover { background:#fff3b0; }
+
+.arrow { width:14px; display:inline-block; }
+
+.level-0, .level-1 { color:#004080; font-weight:300; }
+.level-2 { color:#008000; }
+.level-3 { color:#804040; }
+.level-4 { color:#008080; }
+
+.icd-item { margin-left:18px; font-style:italic; }
+</style>
+</head>
+
+<body>
+
+<h3>Medische kennisboom</h3>
+<div id="tree">⏳ Laden...</div>
+
+<script>
+let treeData, linkMap = {}, nodes = {};
+
+/* INIT */
+window.addEventListener("DOMContentLoaded", () => {
+    treeData = WZtree;
+    buildNodes();
+    render();
+});
+
+/* NORMALIZE */
+function norm(c){ return String(c).trim().toUpperCase(); }
+
+/* NODES MAKEN */
+function buildNodes(){
+    for(const i of treeData){
+        const key = norm(i.code);
+        nodes[key] = {
+            code:i.code,
+            key:key,
+            term:i.terms?.[0] || "",
+            children:[]
+        };
+    }
+
+    // 🔥 parent correct bepalen
+    for(const k in nodes){
+        let parent = null;
+
+        for(let i=k.length-1;i>0;i--){
+            const p = k.slice(0,i);
+            if(nodes[p]){ parent=p; break; }
+        }
+
+        if(parent){
+            nodes[parent].children.push(nodes[k]);
+        }
+    }
+}
+
+/* LINKMAP (robuust) */
+function buildLinkMap(list){
+    for(const l of list){
+        if(!l || !l.boomCode) continue;
+
+        const codes = l.boomCode.split(",").map(norm);
+
+        for(let c of codes){
+
+            // 🔥 zoek bestaand node
+            while(c && !nodes[c]){
+                c = c.slice(0,-1);
+            }
+
+            if(!c) continue;
+
+            if(!linkMap[c]) linkMap[c]=[];
+            linkMap[c].push(l);
+        }
+    }
+}
+
+/* ROOTS */
+function getRoots(){
+    return Object.values(nodes).filter(n=>{
+        return !Object.values(nodes).some(p=>p.children.includes(n));
+    });
+}
+
+/* LEVEL */
+function level(code){
+    if(code.length<=2) return 1;
+    if(code.length==3) return 2;
+    if(code.length==4) return 3;
+    return 4;
+}
+
+/* RENDER */
+function render(){
+    const roots = getRoots();
+    document.getElementById("tree").innerHTML =
+        "<ul>"+roots.map(draw).join("")+"</ul>";
+}
+
+/* NODE TEKENEN */
+function draw(n){
+    const hasChildren = n.children.length>0;
+    const hasLinks = !!linkMap[n.key];
+    const clickable = hasChildren || hasLinks;
+
+    return `
+<li>
+<span class="node level-${level(n.key)} ${clickable?"clickable":""}"
+onclick="${clickable?`toggle('${n.key}')`:''}">
+<span class="arrow">${clickable?"▶":""}</span>
+${n.code} – ${n.term}
+</span>
+<div id="c-${n.key}" style="display:none"></div>
+</li>`;
+}
+
+/* TOGGLE */
+function toggle(k){
+    const el = document.getElementById("c-"+k);
+    const open = el.style.display==="block";
+
+    if(open){
+        el.style.display="none";
+        return;
+    }
+
+    if(!el.innerHTML){
+        let html="";
+
+        const n = nodes[k];
+
+        if(n.children.length){
+            html += "<ul>"+n.children.map(draw).join("")+"</ul>";
+        }
+
+        if(linkMap[k]){
+            html += "<ul>";
+            for(const l of linkMap[k]){
+                html += `<li class="icd-item">${l.trefwoord} – ${l.icdCode}</li>`;
+            }
+            html += "</ul>";
+        }
+
+        el.innerHTML = html;
+    }
+
+    el.style.display="block";
+}
+</script>
+
+</body>
+</html>
