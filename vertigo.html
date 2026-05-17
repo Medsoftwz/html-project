@@ -3,7 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical Intake Engine</title>
+
+<meta property="og:locale" content="nl_BE">
+<meta property="og:title" content="HTML & Code">
+<meta property="og:description" content="Experimentele versie – as-is">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://medsoftwz.github.io/vertigo.html">
+<meta property="og:image" content="https://medsoftwz.github.io/images/vertigo.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpg">
+
+
+<title>Vertigo - aanmeldformulier voor AI</title>
 
 <style>
 body{
@@ -119,7 +131,7 @@ label{ display:block; margin:8px 0; font-size:15px; color:#222; }
 
 .option-label{
   display:block;
-  margin:8px 0;
+  margin:3px 0;
   font-size:16px;
   color:#800040;
   line-height:1.5;
@@ -262,7 +274,7 @@ const FORM_CONFIG = {
         {
           id: "naam",
           type: "text",
-          text: "Naam"
+          text: "Vrij in te vullen"
         },
 
         {
@@ -280,7 +292,21 @@ const FORM_CONFIG = {
             "Vrouw",
             "Anders"
           ]
+        },
+
+        {
+          id: "zwanger",
+          type: "radio",
+          text: "Zwanger",
+          options: [
+            "Ja",
+            "Neen",
+            "Weet het niet",
+            "Niet van toepassing"
+          ]
         }
+
+
       ]
     },
 
@@ -290,19 +316,36 @@ const FORM_CONFIG = {
       freeText: true,
 
       questions: [
+{
+  "id": "type_duizeligheid",
+  "type": "radio",
+  "text": "Type duizeligheid",
+  "icd11": "MG22",
+  "options": [
+    "Draaiend",
+    "Licht gevoel in hoofd",
+    "Onevenwicht",
+    "Presyncope",
+    "Schommelend",
+    "Wankel gevoel",
+    "Zweverig gevoel",
+    "Moeilijk te omschrijven"    
+  ]
+},
 
-        {
-          id: "type_duizeligheid",
-          type: "radio",
-          text: "Type duizeligheid",
-          icd11: "MG22",
-          options: [
-            "Draaiend",
-            "Licht gevoel in hoofd",
-            "Onevenwicht",
-            "Presyncope"
-          ]
-        },
+          {
+            "id": "aanvang",
+            "type": "radio",
+            "text": "Aanvang van de duizeligheid",
+            "options": [
+              "Acuut, aanvang bij beweging",
+              "Acuut, aanvang bij rust",
+              "Subacuut, sluipend",
+              "Geleidelijk",              
+              "Niet vastgesteld"
+
+            ]
+          },
 
         {
           id: "duur_episode",
@@ -312,7 +355,8 @@ const FORM_CONFIG = {
             "Seconden",
             "Minuten",
             "Uren",
-            "Continu"
+            "Dagen",
+            "Continu"            
           ]
         },
 
@@ -362,27 +406,55 @@ Kan voorkomen bij:
 
       questions: [
 
-        {
-          id: "zwanger",
-          type: "radio",
-          text: "Zwanger",
-		  icd11: "QA41",	
-          options: [
-            "Ja",
-            "Neen",
-            "Weet het niet",
-			"Niet van toepassing"
-          ]
-        },
+{
+  id: "vertigo_subtypes",
+  type: "radio",
+  text: "Vertigo subtypes",
+    options: [
+    "Subjectieve vertigo",
+    "Objectieve vertigo",
+    "Fluctuerende vertigo",
+    "Geïnduceerde vertigo",
+    "Positionele vertigo",
+    "Spontane vertigo",
+    "Vestibulaire migraine",
+    "Visueel-geïnduceerde vertigo",
+    "Niet vastgesteld",
+  ],
+  icd11: "MG22",
+
+info: `
+Subjectieve beschrijving van vertigo is vaak variabel
+en niet volledig diagnostisch betrouwbaar.
+
+Mogelijke beschrijvingen:
+• omgeving draait
+• zelf draaien
+• kantelen
+• zweven
+• instabiliteit
+• wegzakgevoel
+
+Perifere, centrale én cervicogene oorzaken
+kunnen overlappende sensaties geven.
+
+Interpretatie moet gebeuren samen met:
+• duur
+• uitlokkende factoren
+• neurologische tekens
+• nystagmus
+• gehoorsymptomen
+
+`
+},
 
         {
           id: "nystagmus",
           type: "presence",
           text: "Nystagmus",
-		  icd11: "9C84.Z",	
+		  icd11: "9C84.Z",
 		  		    info: `
 Nystagmus
-
 * horizontale nystagmus: snelle fase naar rechts of links
 * verticale nystagmus: snelle fase naar boven of onder
 * rotatoire nystagmus: horaire (clockwise - CW) of antihoraire (counterclockwise - CCW) nystagmus. 
@@ -393,9 +465,9 @@ Nystagmus
           id: "neurologische_uitval",
           type: "presence",
           text: "Neurologische uitvalsverschijnselen",
-		  icd11: "QF10",		  
-		  		  		    info: `
-Zie neuro.html
+          icd11: "QF10",
+		    info: `
+Zie Neurologisch onderzoek - neuro.html
 ▶ UQ1 – Motorische uitval
 ▶ UQ2 – Sensibele uitval
 ▶ UQ3 – Visuele uitval
@@ -403,14 +475,30 @@ Zie neuro.html
 ▶ UQ5 – Coördinatiestoornissen (ataxie)
 ▶ UQ6 – Bewustzijns- of cognitieve stoornissen
 ▶ UQ7 – Craniale zenuwuitval
-	`
-
+`,	
         },
+
+           {
+            id: "neurologische_symptomen",
+            type: "radio",
+            text: "Neurologische alarmsymptomen",
+            options: [
+              "Ataxie",
+              "Bewustzijnsverlies",
+              "Dubbelzien",
+              "Dysartrie",
+              "Dysmetrie",
+              "Hemiparese",
+              "Nieuwe ernstige hoofdpijn",
+              "Onvermogen om te stappen"
+            ]
+          },
 
         {
           id: "dixhallpike",
           type: "radio",
           text: "Dix-Hallpike test",
+          icd11: "363746003",
 		    info: `
 Positieve test:
 - torsionele nystagmus
@@ -427,13 +515,18 @@ Suggestief voor BPPV.
         },
 
         {
-          id: "dixhallpike",
+          id: "gangstoornis",
           type: "radio",
-          text: "Evenwichsproeven zoals Romberg, Unterberger, Babinski-Weill, Barany",
+          text: "Gangstoornis",
+          icd11: "MB44.Z",
           options: [
-            "Niet gestoord - Normaal",
-            "Gestoord - Afwijkend",
-            "Niet uitgevoerd"
+            "Balans stoornis",
+            "Coördinatie stoornis",
+            "Evenwicht stoornis",
+            "Spastische gang",
+            "Parkinson gang",
+            "Niet vastgesteld",
+            "Normale gang"
           ]
         }		
 				
@@ -446,17 +539,20 @@ Suggestief voor BPPV.
       freeText: true,
 
       questions: [
+        {
+          id: "rx",
+          type: "nan",
+          text: "Radiologie cervicale wervels",
+          icd11: "QA00B",          
+        },
 
         {
           id: "mri",
-          type: "radio",
-          text: "MRI cerebrum",
-          options: [
-            "Normaal",
-            "Afwijkend",
-            "Niet uitgevoerd"
-		          ]
+          type: "nan",
+          text: "MRI hersenen",
+          icd11: "XM05Z9",          
         }
+
       ]
     },	
 			
@@ -466,6 +562,19 @@ Suggestief voor BPPV.
   freeText: true,
 
   questions: [
+
+          {
+            id: "medicatie_lijst",
+            type: "radio",
+            text: "Medicatie die duizeligheid kan veroorzaken",
+            options: [
+              "Antidepressiva",
+              "Antihypertensiva",
+              "Benzodiazepines",
+              "Diuretica",
+              "Sedativa"
+            ]
+          },
 
     {
       id: "epley",
@@ -674,6 +783,8 @@ else if(q.type === 'radio'){
   });
 }
 
+<!-- Antwoordpatronen -->
+
 else if(q.type === 'presence'){
 
   const options = [
@@ -694,6 +805,31 @@ else if(q.type === 'presence'){
     `;
   });
 }
+
+<!-- nan -->
+
+else if(q.type === 'nan'){
+
+  const options = [
+    'Normaal',
+    'Afwijkend',
+    'Niet uitgevoerd'
+  ];
+
+  options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="radio"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+<!-- einde antwoordpatronen -->
 
   return wrapper;
 }
