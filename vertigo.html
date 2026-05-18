@@ -22,11 +22,17 @@
 <style>
 body{
   font-family:Arial,sans-serif;
-  margin:0;
-  background:#f4f6f8;
+  padding:14px;
+  line-height:1.35;
+  font-size:16px;
   color:#222;
-  padding-bottom:80px;
+
+  max-width:900px;
+  margin:auto;
+
+  -webkit-text-size-adjust:100%;
 }
+
 
 .header{
   position:sticky;
@@ -771,12 +777,17 @@ function createInput(q){
     `;
   }
 
-  else if(q.type === 'date'){
+else if(q.type === 'date'){
 
-    wrapper.innerHTML = `
-      <input type="date" id="${q.id}">
-    `;
-  }
+  wrapper.innerHTML = `
+    <input 
+      type="text"
+      id="${q.id}"
+      placeholder="dd-mm-jjjj"
+      inputmode="numeric"
+    >
+  `;
+}
 
   else if(q.type === 'textarea'){
 
@@ -1092,9 +1103,15 @@ function buildReportHtml(data){
     sectionsHtml += `</div>`;
   });
 
-  return `
+return `
   <html>
   <head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>${pdfTitle}</title>
 
   <style>
