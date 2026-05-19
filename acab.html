@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta property="og:locale" content="nl_BE">
+<meta property="og:title" content="Acuut Abbdomen Intake Formulier">
+<meta property="og:description" content="Experimentele versie – as-is">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://medsoftwz.github.io/acab.html">
+<meta property="og:image" content="https://medsoftwz.github.io/images/acab.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpg">
+
+<title>Abdomen Pijn - Aanmeldformulier</title>
+
+<style>
+body{
+  font-family:Arial,sans-serif;
+  padding:14px;
+  line-height:1.35;
+  font-size:16px;
+  color:#222;
+  max-width:900px;
+  margin:auto;
+  -webkit-text-size-adjust:100%;
+}
+
+
+.header{
+  position:sticky;
+  top:0;
+  background:white;
+  z-index:999;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  padding:10px;
+}
+
+h1{ margin:0; text-align:center; color:#1f4d7a; font-size:16px; font-weight: 400;}
+h2{ color:#349d1d; font-size:15px; border-bottom:2px solid #d9e2ec; padding-bottom:6px; font-weight: 400; }
+
+.disclaimer{ margin-top:6px; text-align:center; font-size:11px; color:#666; line-height:1.4; }
+
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
+}
+
+.tab-btn{
+  border:none;
+  background:#468CD2;
+  color:white;
+  padding:10px 14px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.tab-btn.active{ background:#00C000; }
+.tab-btn.completed{ background:#1f5a22; }
+
+.info-btn{
+  color:#1565c0;
+  cursor:pointer;
+  font-weight:bold;
+  margin-left:6px;
+  font-size:14px;
+}
+
+.info-btn:hover{ color:#0d47a1; }
+
+.info-modal{
+  display:none;
+  position:fixed;
+  z-index:99999;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.35);
+}
+
+/* grootte van de popup */
+
+.info-modal-content{
+  background:#fffde7;
+  width:min(82%, 1100px);
+  max-height:90vh;
+  overflow:auto;
+  margin:4vh auto;
+  padding:10px 20px 20px 20px;
+  border-radius:10px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.25);
+  position:relative;
+}
+
+.info-close{
+  position:absolute;
+  right:10px;
+  top:6px;
+  font-size:20px;
+  cursor:pointer;
+  color:#666;
+}
+
+.info-text{
+  color:#003c7a;
+  line-height:1.5;
+  white-space:pre-line;
+  font-size:14px;
+}
+
+.container{ max-width:1100px; margin:auto; padding:12px; }
+
+.section{ display:none; }
+.section.active{ display:block; }
+
+.card{
+  background:white;
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.question{ margin-bottom:20px; }
+.question-title{ font-weight:500; color:#003c7a; margin-bottom:10px; font-size:15px; }
+.question-subtitle{ font-size:12px; color:#666; margin-top:4px; }
+
+label{ display:block; margin:8px 0; font-size:15px; color:#222; }
+
+.option-label{
+  display:block;
+  margin:3px 0;
+  font-size:14px;
+  color:#800040;
+  line-height:1.0;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"]{
+  width:50%;
+  box-sizing:border-box;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+}
+
+textarea{
+  width:100%;
+  min-height:140px;
+  box-sizing:border-box;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:15px;
+  line-height:1.5;
+  resize:vertical;
+}
+
+select{
+  width:220px;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+}
+
+textarea{ min-height:100px; resize:vertical; }
+
+.section-notes{ margin-top:18px; }
+.section-notes textarea{ background:#fffef6; }
+
+.button-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+button.action{
+  border:none;
+  background:#1f4d7a;
+  color:white;
+  padding:12px 18px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button.action:hover{ background:#295f95; }
+
+.progress-wrap{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:24px;
+  background:#ddd;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#2e7d32;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.3s;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.code-badge{
+  display:inline-block;
+  background:#eef4ff;
+  color:#1d4f91;
+  border-radius:4px;
+  padding:2px 6px;
+  font-size:11px;
+  margin-left:6px;
+}
+
+@media print{
+  .no-print{
+    display:none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header no-print">
+  <h1 id="mainTitle"></h1>
+
+  <div class="disclaimer">
+    Experimentele medische intake software — geen medisch hulpmiddel.<br>
+    Geen gegevens worden centraal opgeslagen of verzonden.
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<div class="container" id="container"></div>
+
+<div class="progress-wrap no-print">
+  <div class="progress-bar" id="progressBar">0%</div>
+</div>
+
+<script>
+
+/* =====================================================
+   CONFIGURATIE
+===================================================== */
+
+const FORM_CONFIG = {
+
+  title: "Abdomen e-formulier",
+
+  pdfPrefix: "Abdomen",
+
+  sections: [
+
+    {
+      id: "algemeen",
+      title: "Algemeen",
+      freeText: true,
+
+      questions: [
+
+        {
+          id: "naam",
+          type: "text",
+          text: "Vrij in te vullen"
+        },
+
+        {
+          id: "geboortedatum",
+          type: "date",
+          text: "Geboortedatum"
+        },
+
+        {
+          id: "geslacht",
+          type: "radio",
+          text: "Geslacht",
+          options: [
+            "Man",
+            "Vrouw",
+            "Anders"
+          ]
+        },
+
+        {
+          id: "zwanger",
+          type: "radio",
+          text: "Zwanger",
+          options: [
+            "Ja",
+            "Neen",
+            "Weet het niet",
+            "Niet van toepassing"
+          ]
+        }
+
+
+      ]
+    },
+
+    {
+      id: "pijn1",
+      title: "Pijn 1",
+      freeText: true,
+
+      questions: [
+	  
+{
+  "id": "pijn-aard",
+  "type": "radio",
+  "text": "Aard van de pijn",
+  "icd11": "MD81.3",
+  "options": [
+	"Ernstige / intense pijn",
+    "Scherpe pijn",
+    "Krampachtige pijn",
+    "Koliekpijn",	
+    "Branderige pijn",
+    "Doffe pijn",
+    "Drukkende pijn",	
+    "Knagende pijn",
+	"Moeilijk te omschrijven"    
+  ]
+},
+
+{
+  "id": "pijn-verloop",
+  "type": "radio",
+  "text": "Verloop van de pijn",
+  "icd11": "MD81.4",
+  "options": [
+    "acute pijn - begon plots",
+    "intermittent of episodisch",
+    "verslechterend of progressief toenemend",
+	"aanhoudende of voortdurende pijn (steady of ongoing)",
+    "chronische pijn (langdurig aanwezig)",
+    "fluctuerende pijn",	
+	"moeilijk te omschrijven"    
+  ]
+},
+
+{
+  "id": "pijn-lokalisatie",
+  "type": "radio",
+  "text": "Lokalisatie van de pijn",
+  "icd11": "21522001",
+  "options": [
+    "rechter hypochondrium",
+    "epigastrium",
+    "linker hypochondrium",
+	"rechter fossa iliaca",
+    "hypogastrium",
+    "linker fossa iliaca",
+    "in meerdere zones - combinatie",	
+	"diffuse buikpijn"    
+  ]
+},
+
+{
+  "id": "pijn-uitstraling",
+  "type": "radio",
+  "text": "Uitstraling van de pijn",
+  "icd11": "9972008",
+  "options": [
+    "uitstraling naar rechter schouder",
+    "uitstraling naar de rug",
+    "uitstraling naar de lies",
+	"uitstraling naar de flanken",
+    "uitstraling naar de borstkas",
+    "uitstraling vanuit de borstkas",
+	"geen uitstraling van de pijn te benoemen"    
+  ]
+},
+
+
+        {
+          id: "duur_episode",
+          type: "select",
+          text: "Duur van episode",
+          options: [
+            "Seconden",
+            "Minuten",
+            "Uren",
+            "Dagen",
+            "Continu - Ononderbroken"            
+          ]
+        },
+
+ {
+  "id": "pijn-ernst",
+  "type": "select",
+  "text": "Ernst van de pijn (VAS-score)",
+  "options": [
+    "0 - geen pijn",
+    "1 - tussen geen pijn en lichte pijn",
+    "2 - tussen geen pijn en lichte pijn",
+    "3 - lichte pijn",
+    "4 - tussen lichte en matige pijn", 
+    "5 - tussen lichte en matige pijn",
+    "6 - matige pijn",
+    "7 - tussen matige en ernstige pijn",
+    "8 - tussen matige en ernstige pijn",
+    "9 - ernstige pijn",
+    "10 - ondraaglijke pijn",
+    "moeilijk te beoordelen"
+  ]
+}
+]
+},
+
+    {
+      id: "pijn2",
+      title: "Pijn 2",
+      freeText: true,
+
+      questions: [
+
+{
+  "id": "pijn-verlichting",
+  "type": "checkbox",
+  "text": "Pijn vermindert door:",
+  "options": [
+    "rust",
+    "voorover buigen",
+    "warmte",
+    "eten",
+    "niet eten / vasten",
+    "medicatie",
+    "toiletbezoek",
+    "niets vermindert de pijn",
+    "moeilijk te omschrijven"
+  ]
+},
+
+{
+  "id": "pijn-gepaard-met",
+  "type": "checkbox",
+  "text": "Pijn gaat gepaard met:",
+  "options": [
+    "koorts",
+    "misselijkheid",
+    "braken",
+    "diarree",
+    "obstipatie",
+    "verminderde eetlust",
+    "opgezette buik",
+    "bloed in stoelgang",
+    "pijn bij plassen",
+    "gewichtsverlies",
+    "flauwvallen of duizeligheid",
+    "geen van deze"
+  ]
+},
+
+{
+  "id": "pijn-uitgelokt-door",
+  "type": "checkbox",
+  "text": "Pijn wordt uitgelokt of neemt toe door:",
+  "options": [
+    "beweging",
+    "hoesten of persen",
+    "eten",
+    "vette maaltijden",
+    "liggen",
+    "stress",
+    "druk op de buik",
+    "geen duidelijke uitlokking"
+  ]
+},
+
+{
+  "id": "alarmsymptomen",
+  "type": "checkbox",
+  "text": "Alarmsymptomen:",
+  "options": [
+    "hevige, plots ontstane pijn",
+    "koorts > 38.5°C met buikpijn",
+    "aanhoudend braken",
+    "bloed in braaksel",
+    "zwartgekleurde stoelgang (melena)",
+    "helder rood bloedverlies uit de anus",
+    "niet kunnen plassen",
+    "geen winden kunnen laten",
+    "ernstige buikopzet",
+    "flauwvallen of bijna-flauwvallen",
+    "koude, klamme huid",
+    "snelle hartslag",
+    "zwangerschap mogelijk",
+    "geen van deze"
+  ]
+}
+
+]
+},
+
+{
+  "id": "klinisch",
+  "title": "Onderzoek",
+  "freeText": true,
+
+  "questions": [
+    {
+      "id": "inspectie",
+      "type": "checkbox",
+      "text": "Inspectie",
+      "options": [
+        "normaal aspect",
+        "opgezette buik",
+        "zichtbare peristaltiek",
+        "litteken(s) abdomen",
+        "defensieve houding",
+        "bleek of grauw uitzicht",
+        "geen bijzonderheden"
+      ]
+    },
+
+    {
+      "id": "percussie",
+      "type": "checkbox",
+      "text": "Percussie",
+      "options": [
+        "normale percussietonen",
+        "toegenomen tympanie",
+        "demping",
+        "pijn bij percussie",
+        "geen bijzonderheden"
+      ]
+    },
+
+    {
+      "id": "auscultatie",
+      "type": "checkbox",
+      "text": "Auscultatie",
+      "options": [
+        "normale peristaltiek",
+        "verminderde peristaltiek (hypoperistaltiek)",
+        "toegenomen peristaltiek (hyperperistaltiek)",
+        "geen peristaltiek hoorbaar",
+        "metalen geluiden (ileus)",
+        "geen bijzonderheden"
+      ]
+    },
+
+    {
+      "id": "palpatie",
+      "type": "checkbox",
+      "text": "Palpatie",
+      "options": [
+        "geen drukpijn",
+        "lokale drukpijn",
+        "diffuse drukpijn",
+        "defense musculaire",
+        "loslaatpijn (rebound tenderness)",
+        "palpabele massa",
+        "pijn bij loslaten",
+        "pijn bij diepe palpatie",
+        "geen bijzonderheden"
+      ]
+    }
+  ]
+},
+
+{
+  "id": "labo-beeldvorming",
+  "title": "Labo & Beeld",
+  "freeText": true,
+
+  "questions": [
+
+    {
+      "id": "labo",
+      "type": "checkbox",
+      "text": "Labo onderzoek:",
+      "options": [
+        "CRP verhoogd",
+        "leukocytose",
+		"leukocytose met linksverschuiving",
+        "leukopenie",
+        "anemie",
+        "verhoogde glycemie",
+        "verhoogde leverwaarden - verhoogd bilirubine",
+        "verhoogd amylase/lipase",
+        "verstoorde nierfunctie",
+        "urineonderzoek afwijkend",
+		"verhoogd troponine",	
+		"verhoogd CK-MB",
+        "niet alle testen werden uitgevoerd of het resultaat is (nog) niet gekend",		 
+        "geen afwijkingen"
+      ]
+    },
+
+    {
+      "id": "beeldvorming-rx",
+      "type": "checkbox",
+      "text": "Radiografie:",
+      "options": [
+        "RX abdomen normaal",
+        "lucht-vloeistofspiegels",
+        "vrij lucht onder diafragma",
+        "fecale impactie",
+        "geen bijzonderheden"
+      ]
+    },
+
+    {
+      "id": "beeldvorming-echo",
+      "type": "checkbox",
+      "text": "Echografie abdomen:",
+      "options": [
+        "normale bevindingen",
+        "galstenen",
+        "galblaaswand verdikt",
+        "appendix verdikt",
+        "vrij vocht",
+        "nierstenen",
+        "geen bijzonderheden"
+      ]
+    },
+
+    {
+      "id": "beeldvorming-ct",
+      "type": "checkbox",
+      "text": "CT abdomen:",
+      "options": [
+        "normale bevindingen",
+        "appendicitis",
+        "diverticulitis",
+        "ileus",
+        "vrij lucht",
+        "vrij vocht",
+        "massa of tumoraal proces",
+        "geen bijzonderheden"
+      ]
+    }
+
+  ]
+},
+			
+{
+  "id": "therapie",
+  "title": "Therapie",
+  "freeText": true,
+
+  "questions": [
+
+    {
+      "id": "therapie-medicatie",
+      "type": "checkbox",
+      "text": "Voorgestelde medicamenteuze therapie",
+      "options": [
+        "pijnstilling (paracetamol)",
+        "NSAID's",
+        "spasmolytica",
+        "anti-emetica",
+        "protonpompremmers",
+        "antibiotica",
+        "geen medicatie voorgesteld"
+      ]
+    },
+
+    {
+      "id": "therapie-nonmed",
+      "type": "checkbox",
+      "text": "Niet-medicamenteuze therapie",
+      "options": [
+        "dieetadvies",
+        "hydratatie",
+        "warmteapplicatie",
+        "rust",
+        "doorverwijzing naar specialist",
+        "opvolgconsult gepland",
+        "geen niet-medicamenteuze therapie"
+      ]
+    },
+
+    {
+      "id": "therapie-urgent",
+      "type": "checkbox",
+      "text": "Urgente interventies",
+      "options": [
+        "spoedverwijzing",
+        "hospitalisatie",
+        "IV vocht",
+        "IV pijnstilling",
+        "chirurgisch consult",
+        "geen urgente interventies"  ]
+    }
+  ]
+    }
+  ]
+};
+
+/* =====================================================
+   INIT
+===================================================== */
+
+const container = document.getElementById('container');
+const tabs = document.getElementById('tabs');
+
+document.getElementById('mainTitle').innerText = FORM_CONFIG.title;
+
+renderTabs();
+renderSections();
+updateProgress();
+
+/* =====================================================
+   RENDER TABS
+===================================================== */
+
+function renderTabs(){
+
+  FORM_CONFIG.sections.forEach((section,index)=>{
+
+    const btn = document.createElement('button');
+
+    btn.className = 'tab-btn' + (index===0 ? ' active' : '');
+    btn.innerText = section.title;
+
+    btn.onclick = ()=>openSection(section.id,btn);
+
+    tabs.appendChild(btn);
+
+  });
+}
+
+/* =====================================================
+   RENDER SECTIONS
+===================================================== */
+
+function renderSections(){
+
+  FORM_CONFIG.sections.forEach((section,index)=>{
+
+    const div = document.createElement('div');
+
+    div.className = 'section' + (index===0 ? ' active' : '');
+    div.id = section.id;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const h2 = document.createElement('h2');
+    h2.innerText = section.title;
+
+    card.appendChild(h2);
+
+    section.questions.forEach(q=>{
+
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+
+      let codeHtml = '';
+
+      if(q.icd11){
+        codeHtml = `<span class="code-badge">ICD-11: ${q.icd11}</span>`;
+      }
+
+      qDiv.innerHTML += `
+
+<div class="question-title">
+
+  ${q.text}
+
+  ${q.info ? `
+    <span class="info-btn"
+      onclick='showInfo(${JSON.stringify(q.info)})'>
+      [?]
+    </span>
+  ` : ""}
+
+  ${codeHtml}
+
+</div>
+
+      `;
+
+      qDiv.appendChild(createInput(q));
+
+      card.appendChild(qDiv);
+
+    });
+
+    if(section.freeText){
+
+      const notes = document.createElement('div');
+      notes.className = 'section-notes';
+
+      notes.innerHTML = `
+        <label>Extra opmerkingen - ${section.title}</label>
+        <textarea id="notes_${section.id}"></textarea>
+      `;
+
+      card.appendChild(notes);
+    }
+
+    const btnRow = document.createElement('div');
+    btnRow.className = 'button-row no-print';
+
+    btnRow.innerHTML = `
+      <button class="action" onclick="showResults()">
+        Resultaat
+      </button>
+    `;
+
+    card.appendChild(btnRow);
+
+    div.appendChild(card);
+
+    container.appendChild(div);
+
+  });
+}
+
+/* =====================================================
+   CREATE INPUTS
+===================================================== */
+
+function createInput(q){
+
+  const wrapper = document.createElement('div');
+
+  if(q.type === 'text'){
+
+    wrapper.innerHTML = `
+      <input type="text" id="${q.id}">
+    `;
+  }
+
+  else if(q.type === 'number'){
+
+    wrapper.innerHTML = `
+      <input type="number" id="${q.id}">
+    `;
+  }
+
+else if(q.type === 'date'){
+
+  wrapper.innerHTML = `
+    <input 
+      type="text"
+      id="${q.id}"
+      placeholder="dd-mm-jjjj"
+      inputmode="numeric"
+    >
+  `;
+}
+
+  else if(q.type === 'textarea'){
+
+    wrapper.innerHTML = `
+      <textarea id="${q.id}"></textarea>
+    `;
+  }
+
+  else if(q.type === 'select'){
+
+    let html = `<select id="${q.id}">`;
+
+    html += `<option value=""></option>`;
+
+    q.options.forEach(opt=>{
+      html += `<option value="${opt}">${opt}</option>`;
+    });
+
+    html += `</select>`;
+
+    wrapper.innerHTML = html;
+  }
+
+else if(q.type === 'radio'){
+
+  q.options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="radio"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+else if(q.type === 'checkbox'){
+
+  q.options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="checkbox"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+else if(q.type === 'presence'){
+
+  const options = [
+    'Aanwezig',
+    'Niet aanwezig',
+    'Niet vastgesteld'
+  ];
+
+  options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="radio"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+else if(q.type === 'nan'){
+
+  const options = [
+    'Normaal',
+    'Afwijkend',
+    'Niet uitgevoerd'
+  ];
+
+  options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="radio"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+  return wrapper;
+}
+
+/* =====================================================
+   OPEN SECTION
+===================================================== */
+
+function openSection(id,btn){
+
+  document.querySelectorAll('.section')
+    .forEach(s=>s.classList.remove('active'));
+
+  document.querySelectorAll('.tab-btn')
+    .forEach(b=>b.classList.remove('active'));
+
+  document.getElementById(id)
+    .classList.add('active');
+
+  btn.classList.add('active');
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+  const total = FORM_CONFIG.sections
+    .flatMap(s=>s.questions).length;
+
+  let done = 0;
+
+  FORM_CONFIG.sections.forEach(section=>{
+
+    section.questions.forEach(q=>{
+
+      const value = getAnswer(q);
+
+      if(value !== '' && value !== false && value !== null){
+        done++;
+      }
+    });
+  });
+
+  const pct = Math.round((done / total) * 100);
+
+  const bar = document.getElementById('progressBar');
+
+  bar.style.width = pct + '%';
+  bar.innerText = pct + '%';
+}
+
+/* =====================================================
+   GET ANSWER
+===================================================== */
+
+function getAnswer(q){
+
+  if(q.type === 'text' ||
+     q.type === 'number' ||
+     q.type === 'date' ||
+     q.type === 'textarea' ||
+     q.type === 'select'){
+
+    return document.getElementById(q.id).value;
+  }
+
+  if(q.type === 'presence'){
+
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+
+    return checked ? checked.value : '';
+  }
+
+  if(q.type === 'radio'){
+
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+
+    return checked ? checked.value : '';
+  }
+
+  if(q.type === 'checkbox'){
+
+    const checked = document.querySelectorAll(`input[name="${q.id}"]:checked`);
+
+    return Array.from(checked).map(el => el.value);
+  }
+
+  return '';
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+document.addEventListener('change',()=>{
+  updateProgress();
+  updateCompletedTabs();
+});
+
+/* =====================================================
+   COMPLETED TABS
+===================================================== */
+
+function updateCompletedTabs(){
+
+  FORM_CONFIG.sections.forEach((section,index)=>{
+
+    let completed = true;
+
+    section.questions.forEach(q=>{
+
+      const value = getAnswer(q);
+
+      if(value === '' || value === null){
+        completed = false;
+      }
+    });
+
+    const btn = document.querySelectorAll('.tab-btn')[index];
+
+    if(completed){
+      btn.classList.add('completed');
+    }
+    else{
+      btn.classList.remove('completed');
+    }
+  });
+}
+
+/* =====================================================
+   RESULTS
+===================================================== */
+
+function showResults(){
+
+  const data = collectData();
+
+const w = window.open('', '_blank', 'width=1000,height=900');
+
+  w.document.write(buildReportHtml(data));
+
+  w.document.close();
+}
+
+/* =====================================================
+   COLLECT DATA
+===================================================== */
+
+function collectData(){
+
+  const output = {
+    title: FORM_CONFIG.title,
+    sections: []
+  };
+
+  FORM_CONFIG.sections.forEach(section=>{
+
+    const sec = {
+      title: section.title,
+      notes: '',
+      questions: []
+    };
+
+    section.questions.forEach(q=>{
+
+      sec.questions.push({
+        text: q.text,
+        answer: getAnswer(q),
+        icd11: q.icd11 || ''
+      });
+    });
+
+    if(section.freeText){
+      sec.notes = document.getElementById(`notes_${section.id}`).value;
+    }
+
+    output.sections.push(sec);
+  });
+
+  return output;
+}
+
+/* =====================================================
+   REPORT HTML
+===================================================== */
+
+function buildReportHtml(data){
+
+  const today = getEuropeanDate();
+
+  const patientName = document.getElementById('naam')
+    ? document.getElementById('naam').value
+    : '';
+
+  const pdfTitle = buildPdfTitle(
+    FORM_CONFIG.pdfPrefix,
+    patientName,
+    today
+  );
+
+  let sectionsHtml = '';
+
+  data.sections.forEach(section=>{
+
+    sectionsHtml += `
+      <div class="section-block">
+        <h2>${section.title}</h2>
+    `;
+
+    section.questions.forEach(q=>{
+
+      sectionsHtml += `
+        <div class="question-block">
+          <div><strong>Vraag:</strong> ${q.text}</div>
+          <div><strong>Antwoord:</strong> ${formatAnswer(q.answer)}</div>
+          ${q.icd11 ? `<div><strong>ICD-11:</strong> ${q.icd11}</div>` : ''}
+        </div>
+      `;
+    });
+
+    if(section.notes){
+
+      sectionsHtml += `
+        <div class="notes-block">
+          Extra opmerkingen<br>
+          ${escapeHtml(section.notes).replace(/\n/g,'<br>')}
+        </div>
+      `;
+    }
+
+    sectionsHtml += `</div>`;
+  });
+
+
+return `
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="
+      width=device-width,
+      initial-scale=1.2,
+      maximum-scale=3,
+      viewport-fit=cover">
+
+<title>${pdfTitle}</title>
+
+  <style>
+
+body{
+  font-family:Arial,sans-serif;
+  padding:16px;
+  line-height:1.4;
+  font-size:15px;
+  color:#222;
+  max-width:950px;
+  margin:auto;
+  -webkit-text-size-adjust:120%;
+}
+
+  h1{ color:#1f4d7a; font-size: 15px;}
+
+  h2{ color:#2e7d32; margin-top:14px; border-bottom:1px solid #ccc;  margin-bottom:6px; padding-bottom:5px; font-size: 14px; }
+
+.question-block{
+  margin-bottom:4px;
+  padding:5px 7px;
+  background:#f8f8f8;
+  border-left:3px solid #468CD2;
+  line-height:1.15;
+}
+
+  .notes-block{
+    margin-top:12px;
+    padding:10px;
+    background:#fffbe8;
+    border-left:4px solid #f0ad00;
+  }
+
+  button{
+    background:#1f4d7a;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+
+  @media print{
+    button{
+      display:none;
+    }
+  }
+
+  </style>
+
+  </head>
+
+  <body>
+
+  <h1>${FORM_CONFIG.title}</h1>
+
+  <div>
+    <strong>Datum:</strong> ${today}
+  </div>
+
+  <hr>
+
+<div style="
+  margin-top:12px;
+  padding:10px;
+  background:#fff8e1;
+  border-left:4px solid #f9a825;
+  font-size:14px;
+">
+Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
+Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
+Bespreek de resultaten steeds met een arts of zorgverlener.<br>
+Dit pdf bestand (uiteraard anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.
+</div>
+
+<div style="margin-top:10px; font-size:14px;">
+
+Akkoord ? Dan verder ... <br>
+
+<a href="https://bestpractice.bmj.com/info/" target="_blank" rel="noopener noreferrer"> BMJ </a><br>
+
+<a href="images/vertigo.jpg" target="_blank">vertigo beeld</a><br>
+
+</div>
+
+<hr>
+  ${sectionsHtml}
+<hr>
+
+<button onclick="window.print()"> Opslaan als PDF </button>
+
+
+</body>
+
+  </body>
+  </html>
+  `;
+}
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function formatAnswer(answer){
+
+  if(answer == null || answer === ''){
+    return 'Niet ingevuld';
+  }
+
+  if(Array.isArray(answer)){
+
+    if(answer.length === 0){
+      return 'Niet ingevuld';
+    }
+
+    return answer
+      .map(a => escapeHtml(String(a)))
+      .join(', ');
+  }
+
+  return escapeHtml(String(answer));
+}
+
+function buildPdfTitle(prefix,name,date){
+  let code = (name || '')
+    .replace(/[^A-Za-z]/g,'')
+    .toUpperCase()
+    .substring(0,4);
+  if(code.length < 4){ code = code.padEnd(4,'X'); }
+  return `${prefix} ${code} ${date}`;
+}
+
+function getEuropeanDate(){
+  const d = new Date();
+  const day = String(d.getDate()).padStart(2,'0');
+  const month = String(d.getMonth()+1).padStart(2,'0');
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+function escapeHtml(text){
+  const div = document.createElement('div');
+  div.innerText = text;
+  return div.innerHTML;
+}
+
+function showInfo(text){
+  document.getElementById('infoText').innerHTML = text;
+  document.getElementById('infoModal').style.display = 'block';
+}
+
+function closeInfo(){
+  document.getElementById('infoModal').style.display = 'none';
+}
+
+window.addEventListener('load', function(){
+  document.getElementById('infoModal')
+    .addEventListener('click', function(e){ if(e.target === this)
+	{ closeInfo(); }
+	  
+});
+
+});
+
+</script>
+
+<div class="info-modal" id="infoModal">
+<div class="info-modal-content">
+    <span class="info-close"
+      onclick="closeInfo()">
+      ×
+    </span>
+<div class="info-text" id="infoText"></div>
+
+ </div>
+
+</div>
+
+</body>
+</html>
