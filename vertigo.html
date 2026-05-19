@@ -1103,25 +1103,33 @@ function buildReportHtml(data){
     sectionsHtml += `</div>`;
   });
 
+
 return `
-  <html>
-  <head>
+<html>
+<head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="
+      width=device-width,
+      initial-scale=1.2,
+      maximum-scale=3,
+      viewport-fit=cover">
 
-  <title>${pdfTitle}</title>
+<title>${pdfTitle}</title>
 
   <style>
 
 body{
   font-family:Arial,sans-serif;
-  padding:10px;
-  line-height:1.15;
-  font-size:14px;
+  padding:16px;
+  line-height:1.4;
+  font-size:15px;
   color:#222;
+  max-width:950px;
+  margin:auto;
+  -webkit-text-size-adjust:120%;
 }
 
   h1{ color:#1f4d7a; font-size: 15px;}
@@ -1187,7 +1195,7 @@ Dit pdf bestand (uiteraard anoniem) eens voorleggen aan AI zoals ChatGPT of Copi
 
 <div style="margin-top:10px; font-size:14px;">
 
-Akkoord: <br>
+Akkoord ? Dan verder ... <br>
 
 <a href="https://bestpractice.bmj.com/info/" target="_blank" rel="noopener noreferrer"> BMJ </a><br>
 
@@ -1199,9 +1207,7 @@ Akkoord: <br>
   ${sectionsHtml}
 <hr>
 
-<button onclick="window.print()">
-  Opslaan als PDF
-</button>
+<button onclick="window.print()"> Opslaan als PDF </button>
 
 
 </body>
@@ -1314,8 +1320,6 @@ window.addEventListener('load', function(){
   </div>
 
 </div>
-
-
 
 </body>
 </html>
