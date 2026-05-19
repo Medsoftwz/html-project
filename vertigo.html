@@ -432,7 +432,7 @@ Kan voorkomen bij:
 
 {
   id: "vertigo_subtypes",
-  type: "radio",
+  type: "checkbox",
   text: "Vertigo subtypes",
     options: [
     "Subjectieve vertigo",
@@ -448,26 +448,22 @@ Kan voorkomen bij:
   icd11: "MG22",
 
 info: `
-Subjectieve beschrijving van vertigo is vaak variabel
-en niet volledig diagnostisch betrouwbaar.
-
-Mogelijke beschrijvingen:
-• omgeving draait
-• zelf draaien
-• kantelen
-• zweven
-• instabiliteit
-• wegzakgevoel
-
-Perifere, centrale én cervicogene oorzaken
-kunnen overlappende sensaties geven.
-
-Interpretatie moet gebeuren samen met:
-• duur
-• uitlokkende factoren
-• neurologische tekens
-• nystagmus
-• gehoorsymptomen
+<span style="color:#2e7d32; font-weight:bold;">Subjectieve vertigo</span>
+U heeft het gevoel dat u zelf draait, kantelt of beweegt terwijl de omgeving stil staat.
+<span style="color:#2e7d32; font-weight:bold;">Objectieve vertigo</span>
+U heeft het gevoel dat de omgeving draait of beweegt terwijl u zelf stil staat.
+<span style="color:#2e7d32; font-weight:bold;">Fluctuerende vertigo</span>
+De duizeligheid komt en gaat en varieert in intensiteit.
+<span style="color:#2e7d32; font-weight:bold;">Geïnduceerde vertigo</span>
+De duizeligheid wordt uitgelokt door een externe prikkel, zoals hoofdbewegingen, geluid, drukverandering of visuele stimuli.
+<span style="color:#2e7d32; font-weight:bold;">Positionele vertigo</span>
+De duizeligheid treedt op bij verandering van hoofd- of lichaamspositie.
+<span style="color:#2e7d32; font-weight:bold;">Spontane vertigo</span>
+De duizeligheid ontstaat zonder duidelijke uitlokkende factor.
+<span style="color:#2e7d32; font-weight:bold;">Vestibulaire migraine</span>
+Een vorm van migraine waarbij episodische duizeligheid optreedt, al dan niet met hoofdpijn.
+<span style="color:#2e7d32; font-weight:bold;">Visueel‑geïnduceerde vertigo</span>
+De duizeligheid wordt uitgelokt door visuele prikkels zoals bewegende beelden, schermen of drukke patronen.
 
 `
 },
@@ -504,7 +500,7 @@ Zie Neurologisch onderzoek - neuro.html
 
            {
             id: "neurologische_symptomen",
-            type: "radio",
+            type: "checkbox",
             text: "Neurologische alarmsymptomen",
             options: [
               "Ataxie",
@@ -602,7 +598,7 @@ Suggestief voor BPPV.
 
           {
             id: "medicatie_lijst",
-            type: "radio",
+            type: "checkbox",
             text: "Medicatie die duizeligheid kan veroorzaken",
             options: [
               "Antidepressiva",
@@ -826,7 +822,20 @@ else if(q.type === 'radio'){
   });
 }
 
-<!-- Antwoordpatronen -->
+else if(q.type === 'checkbox'){
+
+  q.options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="checkbox"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
 
 else if(q.type === 'presence'){
 
@@ -849,8 +858,6 @@ else if(q.type === 'presence'){
   });
 }
 
-<!-- nan -->
-
 else if(q.type === 'nan'){
 
   const options = [
@@ -871,8 +878,6 @@ else if(q.type === 'nan'){
     `;
   });
 }
-
-<!-- einde antwoordpatronen -->
 
   return wrapper;
 }
@@ -957,8 +962,16 @@ function getAnswer(q){
     return checked ? checked.value : '';
   }
 
+  if(q.type === 'checkbox'){
+
+    const checked = document.querySelectorAll(`input[name="${q.id}"]:checked`);
+
+    return Array.from(checked).map(el => el.value);
+  }
+
   return '';
 }
+
 
 /* =====================================================
    EVENTS
@@ -1223,101 +1236,76 @@ Akkoord ? Dan verder ... <br>
 
 function formatAnswer(answer){
 
-  if(answer === ''){
+  if(answer == null || answer === ''){
     return 'Niet ingevuld';
   }
 
-  if(answer === 'Niet vastgesteld'){
-    return 'Niet vastgesteld';
-  }
+  if(Array.isArray(answer)){
 
-  if(answer === 'Niet aanwezig'){
-    return 'Niet aanwezig';
-  }
+    if(answer.length === 0){
+      return 'Niet ingevuld';
+    }
 
-  if(answer === 'Aanwezig'){
-    return 'Aanwezig';
+    return answer
+      .map(a => escapeHtml(String(a)))
+      .join(', ');
   }
 
   return escapeHtml(String(answer));
 }
 
 function buildPdfTitle(prefix,name,date){
-
   let code = (name || '')
     .replace(/[^A-Za-z]/g,'')
     .toUpperCase()
     .substring(0,4);
-
-  if(code.length < 4){
-    code = code.padEnd(4,'X');
-  }
-
+  if(code.length < 4){ code = code.padEnd(4,'X'); }
   return `${prefix} ${code} ${date}`;
 }
 
 function getEuropeanDate(){
-
   const d = new Date();
-
   const day = String(d.getDate()).padStart(2,'0');
   const month = String(d.getMonth()+1).padStart(2,'0');
   const year = d.getFullYear();
-
   return `${day}-${month}-${year}`;
 }
 
 function escapeHtml(text){
-
   const div = document.createElement('div');
-
   div.innerText = text;
-
   return div.innerHTML;
 }
 
-
 function showInfo(text){
-
   document.getElementById('infoText').innerHTML = text;
-
   document.getElementById('infoModal').style.display = 'block';
-
 }
 
 function closeInfo(){
-
   document.getElementById('infoModal').style.display = 'none';
-
 }
 
 window.addEventListener('load', function(){
-
   document.getElementById('infoModal')
-    .addEventListener('click', function(e){
-
-      if(e.target === this){
-        closeInfo();
-      }
-
-  });
+    .addEventListener('click', function(e){ if(e.target === this)
+	{ closeInfo(); }
+	  
+});
 
 });
 
 </script>
 
 <div class="info-modal" id="infoModal">
-
-  <div class="info-modal-content">
-
+<div class="info-modal-content">
     <span class="info-close"
       onclick="closeInfo()">
       ×
     </span>
+<div class="info-text" id="infoText"></div>
 
-    <div class="info-text" id="infoText"></div>
-
-  </div>
+ </div>
 
 </div>
 
