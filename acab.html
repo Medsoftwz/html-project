@@ -65,7 +65,8 @@ h2{ color:#349d1d; font-size:15px; border-bottom:2px solid #d9e2ec; padding-bott
 }
 
 .tab-btn.active{ background:#00C000; }
-.tab-btn.completed{ background:#1f5a22; }
+.tab-btn.completed{ background:#A56363 }
+.tab-btn.active.completed{ background:#00E000; }
 
 .info-btn{
   color:#1565c0;
@@ -657,11 +658,44 @@ const FORM_CONFIG = {
 },
 			
 {
-  "id": "therapie",
-  "title": "Therapie",
+  "id": "evolutie",
+  "title": "Evolutie",
   "freeText": true,
 
   "questions": [
+
+    {
+      "id": "organen",
+      "type": "checkbox",
+      "text": "Differentiële diagnose - na klik op vraagteken, zie beeld",
+      "options": [
+        "maag",
+        "duodenum",
+        "dunne darm",
+        "dikke darm",
+        "hepato-biliair",
+        "pancreas",
+        "urinair",
+        "gynecologisch",
+        "vasculair",		
+        "peritoneum",
+        "overige",
+        "geen idee"
+      ],
+	  
+	   info: `
+			<img 
+		       src="images/acab.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:12px auto;
+			   border-radius:8px;
+		    ">
+			  `
+    },
+
 
     {
       "id": "therapie-medicatie",
@@ -1079,6 +1113,12 @@ function updateCompletedTabs(){
       if(value === '' || value === null){
         completed = false;
       }
+
+      // extra check voor lege checkbox arrays
+      if(Array.isArray(value) && value.length === 0){
+        completed = false;
+      }
+
     });
 
     const btn = document.querySelectorAll('.tab-btn')[index];
@@ -1089,6 +1129,7 @@ function updateCompletedTabs(){
     else{
       btn.classList.remove('completed');
     }
+
   });
 }
 
