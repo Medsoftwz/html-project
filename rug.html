@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta property="og:locale" content="nl_BE">
+<meta property="og:title" content="Rugpijn Intake Formulier">
+<meta property="og:description" content="Experimentele versie – as-is">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://medsoftwz.github.io/rug.html">
+<meta property="og:image" content="https://medsoftwz.github.io/images/rug.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpg">
+
+<title>Rug Pijn - Aanmeldformulier</title>
+
+<style>
+body{
+  font-family:Arial,sans-serif;
+  padding:14px;
+  line-height:1.35;
+  font-size:16px;
+  color:#222;
+  max-width:900px;
+  margin:auto;
+  -webkit-text-size-adjust:100%;
+}
+
+
+.header{
+  position:sticky;
+  top:0;
+  background:white;
+  z-index:999;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  padding:10px;
+}
+
+h1{ margin:0; text-align:center; color:#1f4d7a; font-size:16px; font-weight: 400;}
+h2{ color:#349d1d; font-size:15px; border-bottom:2px solid #d9e2ec; padding-bottom:6px; font-weight: 400; }
+
+.disclaimer{ margin-top:6px; text-align:center; font-size:11px; color:#666; line-height:1.4; }
+
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
+}
+
+.tab-btn{
+  border:none;
+  background:#468CD2;
+  color:white;
+  padding:10px 14px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.tab-btn.active{ background:#00C000; }
+.tab-btn.completed{ background:#A56363 }
+.tab-btn.active.completed{ background:#00E000; }
+
+.info-btn{
+  color:#1565c0;
+  cursor:pointer;
+  font-weight:bold;
+  margin-left:6px;
+  font-size:14px;
+}
+
+.info-btn:hover{ color:#0d47a1; }
+
+.info-modal{
+  display:none;
+  position:fixed;
+  z-index:99999;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.35);
+}
+
+/* grootte van de popup */
+
+.info-modal-content{
+  background:#fffde7;
+  width:min(82%, 1100px);
+  max-height:90vh;
+  overflow:auto;
+  margin:4vh auto;
+  padding:10px 20px 20px 20px;
+  border-radius:10px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.25);
+  position:relative;
+}
+
+.info-close{
+  position:absolute;
+  right:10px;
+  top:6px;
+  font-size:20px;
+  cursor:pointer;
+  color:#666;
+}
+
+.info-text{
+  color:#003c7a;
+  line-height:1.5;
+  white-space:pre-line;
+  font-size:14px;
+}
+
+.container{ max-width:1100px; margin:auto; padding:12px; }
+
+.section{ display:none; }
+.section.active{ display:block; }
+
+.card{
+  background:white;
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.question{ margin-bottom:20px; }
+.question-title{ font-weight:500; color:#003c7a; margin-bottom:10px; font-size:15px; }
+.question-subtitle{ font-size:12px; color:#666; margin-top:4px; }
+
+label{ display:block; margin:8px 0; font-size:15px; color:#222; }
+
+.option-label{
+  display:block;
+  margin:3px 0;
+  font-size:14px;
+  color:#800040;
+  line-height:1.0;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"]{
+  width:50%;
+  box-sizing:border-box;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+}
+
+textarea{
+  width:100%;
+  min-height:140px;
+  box-sizing:border-box;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:15px;
+  line-height:1.5;
+  resize:vertical;
+}
+
+select{
+  width:220px;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+}
+
+textarea{ min-height:100px; resize:vertical; }
+
+.section-notes{ margin-top:18px; }
+.section-notes textarea{ background:#fffef6; }
+
+.button-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+button.action{
+  border:none;
+  background:#1f4d7a;
+  color:white;
+  padding:12px 18px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button.action:hover{ background:#295f95; }
+
+.progress-wrap{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:24px;
+  background:#ddd;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#2e7d32;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.3s;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.code-badge{
+  display:inline-block;
+  background:#eef4ff;
+  color:#1d4f91;
+  border-radius:4px;
+  padding:2px 6px;
+  font-size:11px;
+  margin-left:6px;
+}
+
+@media print{
+  .no-print{
+    display:none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header no-print">
+  <h1 id="mainTitle"></h1>
+
+  <div class="disclaimer">
+    Experimentele medische intake software — geen medisch hulpmiddel.<br>
+    Geen gegevens worden centraal opgeslagen of verzonden.
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<div class="container" id="container"></div>
+
+<div class="progress-wrap no-print">
+  <div class="progress-bar" id="progressBar">0%</div>
+</div>
+
+<script>
+
+/* =====================================================
+   CONFIGURATIE
+===================================================== */
+const FORM_CONFIG = {
+  
+  title: "Rugpijn intake formulier",
+  pdfPrefix: "Rug",
+
+  sections: [
+
+    // 1. Algemeen
+    {
+      id: "algemeen",
+      title: "Algemeen",
+      freeText: true,
+      questions: [
+
+        {
+          id: "naam",
+          type: "text",
+          text: "Vrij in te vullen"
+        },
+
+        {
+          id: "leeftijd",
+          type: "date",
+          text: "Geboortedatum"
+        },
+
+        {
+          id: "geslacht",
+          type: "radio",
+          text: "Geslacht",
+          options: [
+            "Man",
+            "Vrouw",
+            "Anders"
+          ]
+        },
+
+        {
+          id: "duur-klachten",
+          type: "select",
+          text: "Duur van de klachten",
+          options: [
+            "< 6 weken",
+            "6–12 weken",
+            "3–6 maanden",
+            "6–12 maanden",
+            "> 1 jaar"
+          ]
+        },
+        {
+          id: "trauma",
+          type: "radio",
+          text: "Recent trauma",
+          options: ["ja", "neen"]
+        },
+        {
+          id: "eerdere-episodes",
+          type: "radio",
+          text: "Eerdere episodes van rugpijn",
+          options: ["ja", "neen"]
+        },
+        {
+          id: "zwangerschap",
+          type: "radio",
+          text: "Zwangerschap",
+          options: ["ja", "neen", "niet van toepassing"]
+        }
+      ]
+    },
+
+    // 2. Pijnkarakteristieken
+    {
+      id: "pijn",
+      title: "Pijn",
+      freeText: true,
+      questions: [
+        {
+          id: "pijn-lokalisatie",
+          type: "checkbox",
+          text: "Lokalisatie van de pijn",
+          options: [
+            "cervicale pijn",
+            "thoracale pijn",
+            "lumbale pijn",
+            "sacro-iliacaal",
+            "diffuse rugpijn"
+          ]
+        },
+		
+        {
+          id: "uitstraling",
+          type: "text",
+          text: "Beschrijf het uitstralingsgebied van de rugpijn - klik op vraagteken - zie beeld",
+		  info: `
+			<img 
+		       src="images/uitstraling.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:12px auto;
+			   border-radius:8px;
+		    ">
+			  `
+        },
+		
+        {
+          id: "pijn-ernst",
+          type: "select",
+          text: "Ernst van de pijn (VAS-score)",
+          options: [
+            "0 - geen pijn",
+            "1",
+            "2",
+            "3 - lichte pijn",
+            "4",
+            "5",
+            "6 - matige pijn",
+            "7",
+            "8",
+            "9 - ernstige pijn",
+            "10 - ondraaglijke pijn",
+            "moeilijk te beoordelen"
+          ]
+        },
+        {
+          id: "mechanisch-inflammatoir",
+          type: "radio",
+          text: "Karakter van de pijn",
+          options: [
+            "mechanische pijn",
+            "inflammatoire pijn",
+            "onduidelijk"
+          ]
+        },
+        {
+          id: "pijn-verloop",
+          type: "radio",
+          text: "Verloop van de pijn",
+          options: [
+            "continu",
+            "intermittent",
+            "fluctuerend",
+            "progressief toenemend",
+            "moeilijk te omschrijven"
+          ]
+        },
+        {
+          id: "ochtendstijfheid",
+          type: "radio",
+          text: "Ochtendstijfheid > 30 minuten",
+          options: ["ja", "neen"]
+        },
+        {
+          id: "nachtelijke-pijn",
+          type: "radio",
+          text: "Nachtelijke pijn",
+          options: [
+            "ja, wordt wakker van de pijn",
+            "neen",
+            "onduidelijk"
+          ]
+        }
+      ]
+    },
+
+    // 3. Rode vlaggen
+    {
+      id: "rode-vlaggen",
+      title: "Letop !",
+      freeText: true,
+      questions: [
+        {
+          id: "rode-vlaggen-lijst",
+          type: "checkbox",
+          text: "Rode vlaggen",
+          options: [
+            "koorts",
+            "voorgeschiedenis van maligniteit",
+            "onverklaard gewichtsverlies",
+            "IV-druggebruik",
+            "immunosuppressie",
+            "nachtzweten",
+            "recent significant trauma",
+            "osteoporose",
+            "hoge leeftijd (> 70 jaar)",
+            "progressieve neurologische uitval",
+            "geen rode vlaggen"
+          ]
+        }
+      ]
+    },
+
+    // 4. Onderzoek (klinisch + neurologisch geïntegreerd)
+    {
+      id: "onderzoek",
+      title: "Onderzoek",
+      freeText: true,
+      questions: [
+        {
+          id: "houding",
+          type: "checkbox",
+          text: "Houding",
+          options: [
+            "normale houding",
+            "antalgische houding",
+            "scoliose",
+            "kyfose",
+            "hyperlordose",
+            "geen bijzonderheden"
+          ]
+        },
+        {
+          id: "rom",
+          type: "checkbox",
+          text: "Range of motion (ROM)",
+          options: [
+            "normale ROM",
+            "beperkte flexie",
+            "beperkte extensie",
+            "beperkte lateroflexie",
+            "pijn bij beweging",
+            "geen bijzonderheden"
+          ]
+        },
+        {
+          id: "lasegue",
+          type: "checkbox",
+          text: "Lasègue-test",
+          options: [
+            "negatief bilateraal",
+            "positief rechts",
+            "positief links",
+            "bilateraal positief",
+            "niet uitgevoerd"
+          ]
+        },
+        {
+          id: "kracht",
+          type: "checkbox",
+          text: "Kracht",
+          options: [
+            "normale kracht",
+            "verminderde kracht in arm(en)",
+            "verminderde kracht in been/been(en)",
+            "asymmetrische krachtsvermindering",
+            "geen bijzonderheden"
+          ]
+        },
+        {
+          id: "reflexen",
+          type: "checkbox",
+          text: "Reflexen",
+          options: [
+            "normale reflexen",
+            "verminderde reflexen",
+            "verhoogde reflexen",
+            "asymmetrische reflexen",
+            "Babinski positief",
+            "geen bijzonderheden"
+          ]
+        },
+        {
+          id: "sensibiliteit",
+          type: "checkbox",
+          text: "Sensibiliteit",
+          options: [
+            "normale sensibiliteit",
+            "hypesthesie",
+            "hyperesthesie",
+            "dermatoomgebonden stoornissen",
+            "geen bijzonderheden"
+          ]
+        },
+        {
+          id: "drukpijn",
+          type: "checkbox",
+          text: "Drukpijn",
+          options: [
+            "pijn bij druk midden op de bil",
+            "pijn bij druk op de zijkant van de heup/bil",
+            "scherp drukpunt net boven de bekkenrand",
+            "pijn bij druk langs de ruggengraat (Multifidi)",
+            "lokale drukpijn op of net onder de twee zichtbare kuiltjes in de onderrug",
+            "scherpe drukpijn direct op de wervelkolom zelf",
+            "pijn bij drukken op vele plaatsen - diffuse drukpijn",
+            "geen drukpijn"
+          ]
+        }
+      ]
+    },
+
+    // 5. Beeldvorming en labo
+    {
+      id: "labo-beeldvorming",
+      title: "Beeld & Labo",
+      freeText: true,
+      questions: [
+        {
+          id: "beeldvorming",
+          type: "checkbox",
+          text: "Beeldvorming",
+          options: [
+            "geen beeldvorming verricht",
+            "RX wervelkolom",
+            "MRI wervelkolom",
+            "CT wervelkolom",
+            "botscan",
+            "andere beeldvorming"
+          ]
+        },
+        {
+          id: "labo",
+          type: "checkbox",
+          text: "Labo",
+          options: [
+            "geen labo verricht",
+            "CRP verhoogd",
+            "ESR verhoogd",
+            "leukocytose",
+            "anemie",
+            "normale laboresultaten"
+          ]
+        }
+      ]
+    },
+
+    // 6. Beleid
+    {
+      id: "beleid",
+      title: "Beleid",
+      freeText: true,
+      questions: [
+        {
+          id: "therapie",
+          type: "checkbox",
+          text: "Beleid / therapie",
+          options: [
+            "observatie / expectatief beleid",
+            "advies tot blijven bewegen",
+            "kinesitherapie",
+            "NSAID",
+            "paracetamol",
+            "spierrelaxantia",
+            "urgent MRI aangevraagd",
+            "verwijzing naar neurochirurgie",
+            "verwijzing naar pijnkliniek",
+            "geen therapie gestart"
+          ]
+        }
+      ]
+    }
+
+  ]
+};
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+const container = document.getElementById('container');
+const tabs = document.getElementById('tabs');
+
+document.getElementById('mainTitle').innerText = FORM_CONFIG.title;
+
+renderTabs();
+renderSections();
+updateProgress();
+
+/* =====================================================
+   RENDER TABS
+===================================================== */
+
+function renderTabs(){
+
+  FORM_CONFIG.sections.forEach((section,index)=>{
+
+    const btn = document.createElement('button');
+
+    btn.className = 'tab-btn' + (index===0 ? ' active' : '');
+    btn.innerText = section.title;
+
+    btn.onclick = ()=>openSection(section.id,btn);
+
+    tabs.appendChild(btn);
+
+  });
+}
+
+/* =====================================================
+   RENDER SECTIONS
+===================================================== */
+
+function renderSections(){
+
+  FORM_CONFIG.sections.forEach((section,index)=>{
+
+    const div = document.createElement('div');
+
+    div.className = 'section' + (index===0 ? ' active' : '');
+    div.id = section.id;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const h2 = document.createElement('h2');
+    h2.innerText = section.title;
+
+    card.appendChild(h2);
+
+    section.questions.forEach(q=>{
+
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+
+      let codeHtml = '';
+
+      if(q.icd11){
+        codeHtml = `<span class="code-badge">ICD-11: ${q.icd11}</span>`;
+      }
+
+      qDiv.innerHTML += `
+
+<div class="question-title">
+
+  ${q.text}
+
+  ${q.info ? `
+    <span class="info-btn"
+      onclick='showInfo(${JSON.stringify(q.info)})'>
+      [?]
+    </span>
+  ` : ""}
+
+  ${codeHtml}
+
+</div>
+
+      `;
+
+      qDiv.appendChild(createInput(q));
+
+      card.appendChild(qDiv);
+
+    });
+
+    if(section.freeText){
+
+      const notes = document.createElement('div');
+      notes.className = 'section-notes';
+
+      notes.innerHTML = `
+        <label>Extra opmerkingen - ${section.title}</label>
+        <textarea id="notes_${section.id}"></textarea>
+      `;
+
+      card.appendChild(notes);
+    }
+
+    const btnRow = document.createElement('div');
+    btnRow.className = 'button-row no-print';
+
+    btnRow.innerHTML = `
+      <button class="action" onclick="showResults()">
+        Resultaat
+      </button>
+    `;
+
+    card.appendChild(btnRow);
+
+    div.appendChild(card);
+
+    container.appendChild(div);
+
+  });
+}
+
+/* =====================================================
+   CREATE INPUTS
+===================================================== */
+
+function createInput(q){
+
+  const wrapper = document.createElement('div');
+
+  if(q.type === 'text'){
+
+    wrapper.innerHTML = `
+      <input type="text" id="${q.id}">
+    `;
+  }
+
+  else if(q.type === 'number'){
+
+    wrapper.innerHTML = `
+      <input type="number" id="${q.id}">
+    `;
+  }
+
+else if(q.type === 'date'){
+
+  wrapper.innerHTML = `
+    <input 
+      type="text"
+      id="${q.id}"
+      placeholder="dd-mm-jjjj"
+      inputmode="numeric"
+    >
+  `;
+}
+
+  else if(q.type === 'textarea'){
+
+    wrapper.innerHTML = `
+      <textarea id="${q.id}"></textarea>
+    `;
+  }
+
+  else if(q.type === 'select'){
+
+    let html = `<select id="${q.id}">`;
+
+    html += `<option value=""></option>`;
+
+    q.options.forEach(opt=>{
+      html += `<option value="${opt}">${opt}</option>`;
+    });
+
+    html += `</select>`;
+
+    wrapper.innerHTML = html;
+  }
+
+else if(q.type === 'radio'){
+
+  q.options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="radio"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+else if(q.type === 'checkbox'){
+
+  q.options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="checkbox"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+else if(q.type === 'presence'){
+
+  const options = [
+    'Aanwezig',
+    'Niet aanwezig',
+    'Niet vastgesteld'
+  ];
+
+  options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="radio"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+else if(q.type === 'nan'){
+
+  const options = [
+    'Normaal',
+    'Afwijkend',
+    'Niet uitgevoerd'
+  ];
+
+  options.forEach(opt=>{
+
+    wrapper.innerHTML += `
+      <label class="option-label">
+        <input type="radio"
+               name="${q.id}"
+               value="${opt}">
+        ${opt}
+      </label>
+    `;
+  });
+}
+
+  return wrapper;
+}
+
+/* =====================================================
+   OPEN SECTION
+===================================================== */
+
+function openSection(id,btn){
+
+  document.querySelectorAll('.section')
+    .forEach(s=>s.classList.remove('active'));
+
+  document.querySelectorAll('.tab-btn')
+    .forEach(b=>b.classList.remove('active'));
+
+  document.getElementById(id)
+    .classList.add('active');
+
+  btn.classList.add('active');
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+  const total = FORM_CONFIG.sections
+    .flatMap(s=>s.questions).length;
+
+  let done = 0;
+
+  FORM_CONFIG.sections.forEach(section=>{
+
+    section.questions.forEach(q=>{
+
+      const value = getAnswer(q);
+
+      if(value !== '' && value !== false && value !== null){
+        done++;
+      }
+    });
+  });
+
+  const pct = Math.round((done / total) * 100);
+
+  const bar = document.getElementById('progressBar');
+
+  bar.style.width = pct + '%';
+  bar.innerText = pct + '%';
+}
+
+/* =====================================================
+   GET ANSWER
+===================================================== */
+
+function getAnswer(q){
+
+  if(q.type === 'text' ||
+     q.type === 'number' ||
+     q.type === 'date' ||
+     q.type === 'textarea' ||
+     q.type === 'select'){
+
+    return document.getElementById(q.id).value;
+  }
+
+  if(q.type === 'presence'){
+
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+
+    return checked ? checked.value : '';
+  }
+
+  if(q.type === 'radio'){
+
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+
+    return checked ? checked.value : '';
+  }
+
+  if(q.type === 'checkbox'){
+
+    const checked = document.querySelectorAll(`input[name="${q.id}"]:checked`);
+
+    return Array.from(checked).map(el => el.value);
+  }
+
+  return '';
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+document.addEventListener('change',()=>{
+  updateProgress();
+  updateCompletedTabs();
+});
+
+/* =====================================================
+   COMPLETED TABS
+===================================================== */
+
+function updateCompletedTabs(){
+
+  FORM_CONFIG.sections.forEach((section,index)=>{
+
+    let completed = true;
+
+    section.questions.forEach(q=>{
+
+      const value = getAnswer(q);
+
+      if(value === '' || value === null){
+        completed = false;
+      }
+
+      // extra check voor lege checkbox arrays
+      if(Array.isArray(value) && value.length === 0){
+        completed = false;
+      }
+
+    });
+
+    const btn = document.querySelectorAll('.tab-btn')[index];
+
+    if(completed){
+      btn.classList.add('completed');
+    }
+    else{
+      btn.classList.remove('completed');
+    }
+
+  });
+}
+
+/* =====================================================
+   RESULTS
+===================================================== */
+
+function showResults(){
+
+  const data = collectData();
+
+const w = window.open('', '_blank', 'width=1000,height=900');
+
+  w.document.write(buildReportHtml(data));
+
+  w.document.close();
+}
+
+/* =====================================================
+   COLLECT DATA
+===================================================== */
+
+function collectData(){
+
+  const output = {
+    title: FORM_CONFIG.title,
+    sections: []
+  };
+
+  FORM_CONFIG.sections.forEach(section=>{
+
+    const sec = {
+      title: section.title,
+      notes: '',
+      questions: []
+    };
+
+    section.questions.forEach(q=>{
+
+      sec.questions.push({
+        text: q.text,
+        answer: getAnswer(q),
+        icd11: q.icd11 || ''
+      });
+    });
+
+    if(section.freeText){
+      sec.notes = document.getElementById(`notes_${section.id}`).value;
+    }
+
+    output.sections.push(sec);
+  });
+
+  return output;
+}
+
+/* =====================================================
+   REPORT HTML
+===================================================== */
+
+function buildReportHtml(data){
+
+  const today = getEuropeanDate();
+
+  const patientName = document.getElementById('naam')
+    ? document.getElementById('naam').value
+    : '';
+
+  const pdfTitle = buildPdfTitle(
+    FORM_CONFIG.pdfPrefix,
+    patientName,
+    today
+  );
+
+  let sectionsHtml = '';
+
+  data.sections.forEach(section=>{
+
+    sectionsHtml += `
+      <div class="section-block">
+        <h2>${section.title}</h2>
+    `;
+
+    section.questions.forEach(q=>{
+
+      sectionsHtml += `
+        <div class="question-block">
+          <div><strong>Vraag:</strong> ${q.text}</div>
+          <div><strong>Antwoord:</strong> ${formatAnswer(q.answer)}</div>
+          ${q.icd11 ? `<div><strong>ICD-11:</strong> ${q.icd11}</div>` : ''}
+        </div>
+      `;
+    });
+
+    if(section.notes){
+
+      sectionsHtml += `
+        <div class="notes-block">
+          Extra opmerkingen<br>
+          ${escapeHtml(section.notes).replace(/\n/g,'<br>')}
+        </div>
+      `;
+    }
+
+    sectionsHtml += `</div>`;
+  });
+
+
+return `
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="
+      width=device-width,
+      initial-scale=1.2,
+      maximum-scale=3,
+      viewport-fit=cover">
+
+<title>${pdfTitle}</title>
+
+  <style>
+
+body{
+  font-family:Arial,sans-serif;
+  padding:16px;
+  line-height:1.4;
+  font-size:15px;
+  color:#222;
+  max-width:950px;
+  margin:auto;
+  -webkit-text-size-adjust:120%;
+}
+
+  h1{ color:#1f4d7a; font-size: 15px;}
+
+  h2{ color:#2e7d32; margin-top:14px; border-bottom:1px solid #ccc;  margin-bottom:6px; padding-bottom:5px; font-size: 14px; }
+
+.question-block{
+  margin-bottom:4px;
+  padding:5px 7px;
+  background:#f8f8f8;
+  border-left:3px solid #468CD2;
+  line-height:1.15;
+}
+
+  .notes-block{
+    margin-top:12px;
+    padding:10px;
+    background:#fffbe8;
+    border-left:4px solid #f0ad00;
+  }
+
+  button{
+    background:#1f4d7a;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+
+  @media print{
+    button{
+      display:none;
+    }
+  }
+
+  </style>
+
+  </head>
+
+  <body>
+
+  <h1>${FORM_CONFIG.title}</h1>
+
+  <div>
+    <strong>Datum:</strong> ${today}
+  </div>
+
+  <hr>
+
+<div style="
+  margin-top:12px;
+  padding:10px;
+  background:#fff8e1;
+  border-left:4px solid #f9a825;
+  font-size:14px;
+">
+Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
+Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
+Bespreek de resultaten steeds met een arts of zorgverlener.<br>
+Dit pdf bestand (uiteraard anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.
+</div>
+
+<div style="margin-top:10px; font-size:14px;">
+
+Akkoord ? Dan verder ... <br>
+
+<a href="https://bestpractice.bmj.com/info/" target="_blank" rel="noopener noreferrer"> BMJ </a><br>
+
+<a href="images/rug.jpg" target="_blank">Rugpijn - Differentiële Diagnose</a><br>
+
+</div>
+
+<hr>
+  ${sectionsHtml}
+<hr>
+
+<button onclick="window.print()"> Opslaan als PDF </button>
+
+
+</body>
+
+  </body>
+  </html>
+  `;
+}
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function formatAnswer(answer){
+
+  if(answer == null || answer === ''){
+    return 'Niet ingevuld';
+  }
+
+  if(Array.isArray(answer)){
+
+    if(answer.length === 0){
+      return 'Niet ingevuld';
+    }
+
+    return answer
+      .map(a => escapeHtml(String(a)))
+      .join(', ');
+  }
+
+  return escapeHtml(String(answer));
+}
+
+function buildPdfTitle(prefix,name,date){
+  let code = (name || '')
+    .replace(/[^A-Za-z]/g,'')
+    .toUpperCase()
+    .substring(0,4);
+  if(code.length < 4){ code = code.padEnd(4,'X'); }
+  return `${prefix} ${code} ${date}`;
+}
+
+function getEuropeanDate(){
+  const d = new Date();
+  const day = String(d.getDate()).padStart(2,'0');
+  const month = String(d.getMonth()+1).padStart(2,'0');
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+function escapeHtml(text){
+  const div = document.createElement('div');
+  div.innerText = text;
+  return div.innerHTML;
+}
+
+function showInfo(text){
+  document.getElementById('infoText').innerHTML = text;
+  document.getElementById('infoModal').style.display = 'block';
+}
+
+function closeInfo(){
+  document.getElementById('infoModal').style.display = 'none';
+}
+
+window.addEventListener('load', function(){
+  document.getElementById('infoModal')
+    .addEventListener('click', function(e){ if(e.target === this)
+	{ closeInfo(); }
+	  
+});
+
+});
+
+</script>
+
+<div class="info-modal" id="infoModal">
+<div class="info-modal-content">
+    <span class="info-close"
+      onclick="closeInfo()">
+      ×
+    </span>
+<div class="info-text" id="infoText"></div>
+
+ </div>
+
+</div>
+
+</body>
+</html>
