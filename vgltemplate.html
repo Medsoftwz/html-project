@@ -51,25 +51,40 @@ h1 { text-align: center; color: #2e7d32; font-size: 16px; font-weight: normal; m
    TABS
 ===================================================== */
 
-.tabs {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 4px;
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
 }
 
-.tablink {
-  background: #468CD2;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
+.tablink{
+  border:none;
+  background:#468CD2;   /* basiskleur = blauw */
+  color:white;
+  padding:10px 14px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.25s;
 }
 
-.tablink.active { background: #3BAF17; }
-.tablink.completed { background: #1f6f0e; }
+/* actieve tab */
+.tablink.active{
+  background:#00C000;
+}
+
+/* ingevulde tab */
+.tablink.completed{
+  background:#A56363;
+}
+
+/* actieve + ingevulde tab */
+.tablink.active.completed{
+  background:#90EE90;
+  color:#003300;
+}
 
 /* =====================================================
    TAB CONTENT

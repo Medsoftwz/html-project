@@ -67,7 +67,8 @@ h2{ color:#349d1d; font-size:15px; border-bottom:2px solid #d9e2ec; padding-bott
 }
 
 .tab-btn.active{ background:#00C000; }
-.tab-btn.completed{ background:#1f5a22; }
+.tab-btn.completed{ background:#A56363 }
+.tab-btn.active.completed{ background:#00E000; }
 
 .info-btn{
   color:#1565c0;
@@ -590,8 +591,8 @@ Suggestief voor BPPV.
     },	
 			
 {
-  id: "therapie",
-  title: "Therapie",
+  id: "evolutie",
+  title: "Evolutie",
   freeText: true,
 
   questions: [
@@ -989,28 +990,29 @@ document.addEventListener('change',()=>{
 function updateCompletedTabs(){
 
   FORM_CONFIG.sections.forEach((section,index)=>{
-
     let completed = true;
-
+	
     section.questions.forEach(q=>{
-
       const value = getAnswer(q);
-
       if(value === '' || value === null){
         completed = false;
       }
+      if(Array.isArray(value) && value.length === 0){
+        completed = false;
+      }
     });
-
+	
     const btn = document.querySelectorAll('.tab-btn')[index];
-
     if(completed){
       btn.classList.add('completed');
     }
     else{
       btn.classList.remove('completed');
     }
+
   });
 }
+
 
 /* =====================================================
    RESULTS
