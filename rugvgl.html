@@ -149,7 +149,7 @@ label{ display:block; margin:8px 0; font-size:15px; color:#222; }
 input[type="text"],
 input[type="number"],
 input[type="date"]{
-  width:50%;
+  width:30%;
   box-sizing:border-box;
   padding:10px;
   border:1px solid #ccc;
@@ -361,9 +361,10 @@ const FORM_CONFIG = {
       id: "aard_pijn",
       type: "checkbox",
       text: "Hoe voelt de pijn aan?",
-info: `<span style="color:#2e7d32; font-weight:400; font-family:Arial,sans-serif; font-size:16px;">Mechanische pijn:</span> pijn die toeneemt en erger wordt bij bewegen.
-<span style="color:#2e7d32; font-weight:400; font-family:Arial,sans-serif; font-size:16px;">Neuropathische pijn: </span>brandend, tintelend, elektrische schokken, uitstraling.
-<span style="color:#2e7d32; font-weight:400; font-family:Arial,sans-serif; font-size:16px;">Tintelingen zijn abnormale gevoelsprikkels, </span>zoals:
+	  icd11: "ME84.2Z",
+info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif; font-size:15px;">Mechanische pijn:</span> pijn die toeneemt en erger wordt bij bewegen.
+<span style="color:#800080; font-weight:300; font-family:Verdana,sans-serif; font-size:14px;">Neuropathische pijn: </span>brandend, tintelend, elektrische schokken, uitstraling.
+<span style="color:#00C000; font-weight:400; font-family:Trebuchet MS,sans-serif; font-size:16px;">Tintelingen zijn abnormale gevoelsprikkels, </span>zoals:
 		- prikkend gevoel
 		- spelden en naalden
 		- kriebelingen
@@ -491,33 +492,64 @@ info: `<span style="color:#2e7d32; font-weight:400; font-family:Arial,sans-serif
 
   questions: [
 
-    {
-      id: "uitstraling_locatie",
-      type: "checkbox",
-      text: "Pijn Uitstraling",
+{
+  id: "uitstraling_locatie",
+  type: "checkbox",
+  text: "Pijn Uitstraling",
+  icd11: "ME86.21",
 
-      options: [
+  options: [
 
-        "Geen uitstraling",
-        "Bilregio",
-        "Lies",
-        "Laterale heup",
-        "Anterieure dij",
-        "Laterale dij",
-        "Pijn straalt uit tot onder de knie",		
-        "Onderbeen",
-        "Voet",
-        "L4 patroon",
-        "L5 patroon",
-        "S1 patroon"
-      ]
+    "Geen uitstraling",
+    "Bilregio",
+    "Lies",
+    "Laterale heup",
+    "Anterieure dij",
+    "Laterale dij",
+    "Pijn straalt uit tot onder de knie",
+    "Onderbeen",
+    "Voet",
+    "L4 patroon",
+    "L5 patroon",
+    "S1 patroon"
+
+  ],
+
+  info: `
+
+    <img
+      src="images/ruguitstraal.jpg"
+      style="
+        width:100%;
+        height:auto;
+        display:block;
+        margin:5px auto;
+        border-radius:2px;
+      "
+    >
+  `
+},
+	    {
+      id: "naam",
+      type: "text",
+      text: "Indien pijnuitstraling volgens dermatoom (zie beeld), dermatoom vermelden",
+	  	   info: `
+			<img 
+		       src="images/dermatomen.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;
+		    ">
+			  `
     }
-
   ]
 },
 
 /* =====================================================
-   NEUROLOGISCHE UITVAL
+  ONDERZOEK
 ===================================================== */
 
 {
@@ -611,7 +643,7 @@ info: `<span style="color:#2e7d32; font-weight:400; font-family:Arial,sans-serif
 },
 
 /* =====================================================
-   KLINISCH ONDERZOEK
+   LABO & BEELD
 ===================================================== */
 
 {
@@ -1239,7 +1271,7 @@ Akkoord ? Dan verder ... <br>
 
 <a href="https://bestpractice.bmj.com/info/" target="_blank" rel="noopener noreferrer"> BMJ </a><br>
 
-<a href="images/acab.jpg" target="_blank">Acuut Abdomen - Differentiële Diagnose</a><br>
+<a href="images/acab.jpg" target="_blank">Lage Rugpijn - Differentiële Diagnose</a><br>
 
 </div>
 
