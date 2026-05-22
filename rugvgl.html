@@ -11,13 +11,13 @@
 <meta property="og:title" content="Lage Rugpijn Intake Formulier">
 <meta property="og:description" content="Experimentele versie – as-is">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://medsoftwz.github.io/acab.html">
-<meta property="og:image" content="https://medsoftwz.github.io/images/acab.jpg">
+<meta property="og:url" content="https://medsoftwz.github.io/rugvgl.html">
+<meta property="og:image" content="https://medsoftwz.github.io/images/rugvgl.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpg">
 
-<title>Abdomen Pijn - Aanmeldformulier</title>
+<title>Lage Rugpijn - Aanmeldformulier</title>
 
 <style>
 body{
@@ -362,8 +362,12 @@ const FORM_CONFIG = {
       type: "checkbox",
       text: "Hoe voelt de pijn aan?",
 	  icd11: "ME84.2Z",
-info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif; font-size:15px;">Mechanische pijn:</span> pijn die toeneemt en erger wordt bij bewegen.
+info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif; font-size:15px;">Mechanische pijn:</span> pijn die toeneemt bij fysische belasting, beweging of een specifieke houding van het lichaam.
+
+<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif; font-size:15px;">Inflammatoire rugpijn </span> (ontstekingsrugpijn) is rugpijn die wordt veroorzaakt door een chronische ontsteking in de wervelkolom of het bekken, in tegenstelling tot mechanische rugpijn die door overbelasting of een verkeerde beweging ontstaat. Het is een belangrijk alarmsignaal voor vormen van ontstekingsreuma, zoals axiale spondyloartritis (de ziekte van Bechterew)
+
 <span style="color:#800080; font-weight:300; font-family:Verdana,sans-serif; font-size:14px;">Neuropathische pijn: </span>brandend, tintelend, elektrische schokken, uitstraling.
+
 <span style="color:#00C000; font-weight:400; font-family:Trebuchet MS,sans-serif; font-size:16px;">Tintelingen zijn abnormale gevoelsprikkels, </span>zoals:
 		- prikkend gevoel
 		- spelden en naalden
@@ -371,8 +375,9 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 `,
       options: [
         "Mechanische pijn",
+        "Inflammatoire pijn",		
         "Neuropathische pijn",
-        "Brandende pijn",
+        "Scherpe/Brandende pijn",
         "Elektrische schokken",
         "Tintelingen/Paresthesieën",
         "Doffe/Zeurende pijn",
@@ -391,6 +396,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       options: [
 
         "Acuut ontstaan",
+        "Subacuut ontstaan",		
         "Chronisch aanwezig",
         "Intermitterend",
         "Progressief toenemend",
@@ -509,10 +515,9 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     "Pijn straalt uit tot onder de knie",
     "Onderbeen",
     "Voet",
-    "L4 patroon",
-    "L5 patroon",
-    "S1 patroon"
-
+    "Zadelpijn",
+    "Bilateraal (zowel links als rechs), laag in de rug",
+	"Uitstraling in het gebied van een dermatoom - zie volgende vraag"
   ],
 
   info: `
@@ -596,7 +601,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     {
       id: "motorische_uitval",
       type: "checkbox",
-      text: "Motorische uitval - Kracht",
+      text: "Motorische uitval - Krachtverlies",
 
       options: [
 
@@ -607,19 +612,22 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Plantairflexiezwakte",
         "Moeite traplopen",
         "Moeite stappen op hakken",
-        "Moeite stappen op tenen"
+        "Moeite met staan en stappen op de hielen (moeite met heffen van de voorvoet en grote teen)",		
+        "Moeite met staan en stappen op de tenen (verzwakking kuitspier"
       ]
     },
 
     {
       id: "sensibele_uitval",
       type: "checkbox",
-      text: "Sensibele symptomen",
+      text: "Sensibele symptomen / Gevoelsstoornissen",
 
       options: [
         "Geen sensibele symptomen",
         "Tintelingen",
         "Doof gevoel",
+        "Slapend gevoel",
+        "Gevoelloosheid",			
         "Gevoelsstoornis in dermatoom",
         "Dissociatieve sensibiliteitsstoornis",
         "Rijbroekanesthesie"
@@ -634,8 +642,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       options: [
         "Geen reflexafwijkingen",
 		"Hyperreflexie",
-        "Verminderde kniepeersreflex",
-        "Verminderde patellareflex"
+        "Verminderde of afwezige kniepeesreflex (patellareflex)",
+        "Verminderde of afwezige achillespeesreflex"
       ]
     }
 
@@ -656,7 +664,20 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     {
       id: "onderzoek_bevindingen",
       type: "checkbox",
-      text: "Labo- en beeldonderzoek",
+      text: "Labo onderzoek",
+
+      options: [
+        "Laboratorium onderzoek niet uitgevoerd",
+        "Labo onderzoek uitgevoerd",
+		"Zie de relevante resultaten van het labo-onderzoek in relevante bevindingen"
+      ]
+    },
+
+
+    {
+      id: "onderzoek_bevindingen",
+      type: "checkbox",
+      text: "Beeldonderzoek",
 
       options: [
 
@@ -667,11 +688,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "CT scan uitgevoerd",
         "CT scan niet uitgevoerd",		
         "Bot scan uitgevoerd",
-        "Bot scan niet uitgevoerd",		
-        "Laboratorium onderzoek niet uitgevoerd",
-        "Labo onderzoek uitgevoerd",
-		"Zie de relevante resultaten van het beeld onderzoek",
-		"Zie de relevante resultaten van het labo onderzoek"
+        "Bot scan niet uitgevoerd",	
+		"Zie de relevante resultaten van het beeldonderzoek in extra opmerkingen"
       ]
     }
 
@@ -1271,7 +1289,7 @@ Akkoord ? Dan verder ... <br>
 
 <a href="https://bestpractice.bmj.com/info/" target="_blank" rel="noopener noreferrer"> BMJ </a><br>
 
-<a href="images/acab.jpg" target="_blank">Lage Rugpijn - Differentiële Diagnose</a><br>
+<a href="images/ruga0.jpg" target="_blank">Lage Rugpijn - Differentiële Diagnose</a><br>
 
 </div>
 
