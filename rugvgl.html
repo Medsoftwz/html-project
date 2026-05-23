@@ -278,7 +278,7 @@ const FORM_CONFIG = {
 ===================================================== */
 
 {
-  id: "algemeen",
+  id: "globaal",
   title: "Algemeen",
   freeText: true,
 
@@ -328,17 +328,15 @@ const FORM_CONFIG = {
       text: "Rode vlaggen",
 
       options: [
-
+        "Trauma",
+        "Nachtelijke progressieve pijn",		
+        "Zadelpijn (schaamstreek, anus, binnenkant van de dijen, het perineum)",
+        "Progressieve neurologische uitval",	
+        "Urineretentie",
+        "Incontinentie",		
         "Koorts",
         "Gewichtsverlies",
         "Maligniteit in voorgeschiedenis",
-        "Immunosuppressie",
-        "Intraveneus druggebruik",
-        "Trauma",
-        "Progressieve neurologische uitval",
-        "Urineretentie",
-        "Incontinentie",
-        "Nachtelijke progressieve pijn",
         "Geen rode vlaggen"
       ]
     }
@@ -411,8 +409,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
       options: [
 
-        "0 - geen pijn","1","2","3 - lichte pijn","4",
-        "5","6 - matige pijn","7","8","9 - ernstige pijn","10 - zeer ernstige pijn"
+        "0 /10 - geen pijn","1 /10","2 /10","3 /10 - lichte pijn","4 /10",
+        "5 /10","6 /10 - matige pijn","7 /10","8 /10","9 /10 - ernstige pijn","10 /10 - zeer ernstige pijn"
       ]
     }
 
@@ -455,15 +453,14 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       type: "checkbox",
       text: "De pijn vermindert door:",
       options: [
-	     "Niets",
-        "Rust",
+	    "Niets",
         "Vooroverbuigen",
+        "Achteroverbuigen",		
         "Liggen",
+        "Rust",
         "Beweging",
         "Warmte",
-        "Medicatie",
-        "Geen duidelijke verbetering",
-        "Andere - zie rubriek extra opmerkingen",
+        "Andere zaken die de pijn verminderen - zie rubriek extra opmerkingen",
         "Niet specifiek"	
       ]
     },
@@ -478,7 +475,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "De pijn vermeerdert (slechter) bij achteroverbuigen, draaien/roteren, lang staan/lopen",
         "De pijn vermindert (beter) bij vooroverbuigen (flexie) en zitten/rust",
         "De pijn vermeerdert (slechter) bij vooroverbuigen, hoesten/niezen/persen, lang zitten",
-        "De pijn vermindert (beter) bij achteroverbuigen (extensie) en lopen/van houding wisselenrust",
+        "De pijn vermindert (beter) bij achteroverbuigen (extensie); lopen/van houding wisselen; rust",
         "Andere - zie rubriek extra opmerkingen",
         "Niet specifiek"
       ]
@@ -507,6 +504,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   options: [
 
     "Geen uitstraling",
+    "Bilaterale pijn (zowel links als rechts van de lumbale wervelzuil)",
+    "Zadelpijn (schaamstreek, anus, binnenkant van de dijen, het perineum)",	
     "Bilregio",
     "Lies",
     "Laterale heup",
@@ -515,7 +514,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     "Pijn straalt uit tot onder de knie",
     "Onderbeen",
     "Voet",
-    "Zadelpijn",
+
     "Bilateraal (zowel links als rechs), laag in de rug",
 	"Uitstraling in het gebied van een dermatoom - zie volgende vraag"
   ],
@@ -630,7 +629,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Gevoelloosheid",			
         "Gevoelsstoornis in dermatoom",
         "Dissociatieve sensibiliteitsstoornis",
-        "Rijbroekanesthesie"
+        "Rijbroekanesthesie/Zadelanesthesie"
       ]
     },
 
@@ -643,7 +642,12 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Geen reflexafwijkingen",
 		"Hyperreflexie",
         "Verminderde of afwezige kniepeesreflex (patellareflex)",
-        "Verminderde of afwezige achillespeesreflex"
+        "Verminderde of afwezige achillespeesreflex",
+		"Cremasterreflex is verminderd",
+		"Voetzoolreflex / Teken van Babinski is aanwezig",
+		"Biceps femoris-reflex is verminderd",
+		"Tibialis posterior-reflex is verminderd",
+		"Adductorenreflex is verminderd"	
       ]
     }
 
