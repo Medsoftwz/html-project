@@ -285,7 +285,7 @@ const FORM_CONFIG = {
   questions: [
 
     {
-      id: "naam",
+      id: "patient_id",
       type: "text",
       text: "Vrij in te vullen"
     },
@@ -534,7 +534,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   `
 },
 	    {
-      id: "naam",
+      id: "dermatoom",
       type: "text",
       text: "Indien pijnuitstraling volgens dermatoom (zie beeld), dermatoom vermelden",
 	  	   info: `
@@ -564,7 +564,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   questions: [
 
     {
-      id: "onderzoek_bevindingen",
+      id: "klinische_testen",
       type: "checkbox",
       text: "Klinische testen",
 
@@ -666,7 +666,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   questions: [
 
     {
-      id: "onderzoek_bevindingen",
+      id: "labo-bevindingen",
       type: "checkbox",
       text: "Labo onderzoek",
 
@@ -679,7 +679,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
 
     {
-      id: "onderzoek_bevindingen",
+      id: "beeld_bevindingen",
       type: "checkbox",
       text: "Beeldonderzoek",
 
@@ -799,10 +799,13 @@ function renderSections(){
       const notes = document.createElement('div');
       notes.className = 'section-notes';
 
-      notes.innerHTML = `
-        <label>Extra opmerkingen & Relevante bevindingen - ${section.title}</label>
-        <textarea id="notes_${section.id}"></textarea>
-      `;
+notes.innerHTML = `
+  <label for="notes_${section.id}">
+    Extra opmerkingen & Relevante bevindingen - ${section.title}
+  </label>
+
+  <textarea id="notes_${section.id}"></textarea>
+`;
 
       card.appendChild(notes);
     }
