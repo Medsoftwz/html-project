@@ -727,8 +727,11 @@ function renderSections(){
       notes.className = 'section-notes';
 
       notes.innerHTML = `
-        <label>Extra opmerkingen - ${section.title}</label>
-        <textarea id="notes_${section.id}"></textarea>
+<label for="notes_${section.id}">
+  Extra opmerkingen - ${section.title}
+</label>
+
+<textarea id="notes_${section.id}"></textarea>
       `;
 
       card.appendChild(notes);
