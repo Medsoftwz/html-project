@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Zoektool</title>
+
+<style>
+/* =====================
+   Basis layout
+===================== */
+body { font-family: Verdana, sans-serif; margin: 40px;  background: #ffffff; }
+
+h2 { color: #1e6bd6; margin-bottom: 10px; }
+
+.meta { font-size: 13px; color: #555; margin: 8px 0 14px; }
+
+/* =====================
+   Bestand kiezen
+===================== */
+.file-picker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.file-btn {
+  background: #1e6bd6;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.file-btn:hover {background: #1557ad;}
+
+.file-name {font-size: 14px; color: #444; font-style: italic;}
+
+/* =====================
+   Inputs
+===================== */
+input[type=text] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px 0 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+input:disabled {background: #f4f4f4;}
+
+/* =====================
+   Modi
+===================== */
+.modes {
+  margin: 10px 0;
+}
+
+.modes label {
+  margin-right: 20px;
+  font-weight: 600;
+}
+
+/* =====================
+   Tabel
+===================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #FFFFC0;
+  color: #1e6bd6;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+th::after {
+  content: " ⇅";
+  font-size: 12px;
+  color: #9aa6b2;
+}
+
+th.sort-asc::after {
+  content: " ▲";
+  color: #1e6bd6;
+}
+
+th.sort-desc::after {
+  content: " ▼";
+  color: #1e6bd6;
+}
+
+tbody tr:hover {
+  background: #f6f9ff;
+}
+
+/* =====================
+   Resultaatkleuren
+===================== */
+.term {
+  color: #000080;;
+}
+
+.code {
+  color: #2e8b57;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* =====================
+   Highlight
+===================== */
+.hl {
+  background: #fff3b0;
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Zoektool</h2>
+
+
+<!-- NL → EN mapping -->
+<script src="nl-en-map.js"></script>
+<script src="datazoektrf.js"></script>
+
+<div class="meta" id="meta">Geen dataset geladen</div>
+
+<div class="modes">
+  <label><input type="radio" name="mode" value="terms" checked> Trefwoorden</label>
+  <label><input type="radio" name="mode" value="codes"> Codes</label>
+</div>
+
+<input id="search" type="text" placeholder="Typ minimaal 2 letters…" disabled>
+
+<table>
+  <thead>
+    <tr>
+      <th id="thText" onclick="setSort('text')">Trefwoord</th>
+      <th id="thCode" onclick="setSort('code')">ICD-11 code</th>
+    </tr>
+  </thead>
+  <tbody id="results"></tbody>
+</table>
+
+<script>
+/* =====================
+   Synoniemen
+===================== */
+const synonymMap = {
+  carcinoma: ['adenocarcinoma', 'squamous', 'basal', 'neoplasm'],
+  neoplasm: ['tumor', 'carcinoma', 'adenocarcinoma']
+};
+
+/* =====================
+   Data
+===================== */
+let records   = [];
+let termIndex = new Map();
+let codeIndex = new Map();
+
+let lastResults = [];
+let sortField = null;
+let sortAsc = true;
+
+const fileInput = document.getElementById('fileInput');
+const fileNameSpan = document.getElementById('fileName');
+const input = document.getElementById('search');
+const results = document.getElementById('results');
+const meta = document.getElementById('meta');
+
+/* =====================
+   Bestand inlezen
+===================== */
+
+/* =====================
+   Index bouwen
+===================== */
+function buildIndex(dataset) {
+  records = [];
+  termIndex.clear();
+  codeIndex.clear();
+
+  let id = 0;
+
+  dataset.forEach(item => {
+    const code = (item.code || '').toUpperCase();
+
+    item.terms.forEach(term => {
+      const text = term.toLowerCase();
+      records.push({ id, text, code });
+
+      text.split(/\W+/).forEach(word => {
+        if (word.length < 2) return;
+        if (!termIndex.has(word)) termIndex.set(word, []);
+        termIndex.get(word).push(id);
+      });
+
+      if (code) {
+        if (!codeIndex.has(code)) codeIndex.set(code, []);
+        codeIndex.get(code).push(id);
+      }
+
+      id++;
+    });
+  });
+
+  meta.textContent = `Termen: ${records.length} | Codes: ${codeIndex.size}`;
+  input.disabled = false;
+  input.value = '';
+  results.innerHTML = '';
+}
+
+/* =====================
+   Zoeken
+===================== */
+function search(q) {
+  q = q.trim();
+  if (q.length < 2) return [];
+
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+
+  if (mode === 'terms') {
+    q = q.toLowerCase();
+    const tokens = q.split(/\s+/);
+    let hits = null;
+
+    tokens.forEach(tok => {
+      let group = new Set([tok]);
+
+      if (typeof nlEnMap !== 'undefined') {
+        for (const key in nlEnMap) {
+          if (key.startsWith(tok)) {
+            nlEnMap[key].forEach(t => group.add(t.toLowerCase()));
+          }
+        }
+      }
+
+      if (synonymMap[tok]) {
+        synonymMap[tok].forEach(t => group.add(t.toLowerCase()));
+      }
+
+      let ids = [];
+      group.forEach(g => {
+        for (const [word, list] of termIndex) {
+          if (word.startsWith(g)) ids.push(...list);
+        }
+      });
+
+      ids = [...new Set(ids)];
+      hits = hits === null
+        ? new Set(ids)
+        : new Set(ids.filter(id => hits.has(id)));
+    });
+
+    return hits ? [...hits].map(id => records[id]) : [];
+  }
+
+  const qCode = q.toUpperCase();
+  let ids = [];
+
+  for (const [code, list] of codeIndex) {
+    if (code.startsWith(qCode)) ids.push(...list);
+  }
+
+  return [...new Set(ids)].map(id => records[id]);
+}
+
+/* =====================
+   Highlight helper
+===================== */
+function highlightText(text, query) {
+  if (!query || query.length < 2) return text;
+
+  let result = text;
+  query.toLowerCase().split(/\s+/).forEach(tok => {
+    if (tok.length < 2) return;
+    const re = new RegExp(`(${tok})`, 'gi');
+    result = result.replace(re, '<span class="hl">$1</span>');
+  });
+
+  return result;
+}
+
+/* =====================
+   Render
+===================== */
+function render() {
+  results.innerHTML = '';
+  let data = [...lastResults];
+
+  if (sortField) {
+    data.sort((a, b) => {
+      if (a[sortField] < b[sortField]) return sortAsc ? -1 : 1;
+      if (a[sortField] > b[sortField]) return sortAsc ? 1 : -1;
+      return 0;
+    });
+  }
+
+  const q = input.value;
+
+  data.slice(0, 200).forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td class="term">${highlightText(r.text, q)}</td>
+       <td class="code">${highlightText(r.code, q)}</td>`;
+    results.appendChild(tr);
+  });
+
+  meta.textContent = `Resultaten: ${data.length} (max 200)`;
+}
+
+/* =====================
+   Sorteren
+===================== */
+function setSort(field) {
+  if (sortField === field) sortAsc = !sortAsc;
+  else {
+    sortField = field;
+    sortAsc = true;
+  }
+
+  document.getElementById('thText').className =
+    field === 'text' ? (sortAsc ? 'sort-asc' : 'sort-desc') : '';
+  document.getElementById('thCode').className =
+    field === 'code' ? (sortAsc ? 'sort-asc' : 'sort-desc') : '';
+
+  render();
+}
+
+/* =====================
+   UI events
+===================== */
+input.addEventListener('input', () => {
+  lastResults = search(input.value);
+  render();
+});
+
+/* =====================
+   Automatisch laden dataset
+===================== */
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    const dataset =
+      typeof icd11 !== 'undefined' ? icd11 :
+      typeof data !== 'undefined' ? data : null;
+
+    if (!Array.isArray(dataset)) {
+      meta.textContent = 'Dataset niet gevonden';
+      return;
+    }
+
+    buildIndex(dataset);
+
+    fileNameSpan.textContent = 'datazoektrf.js geladen';
+  } catch (e) {
+    meta.textContent = 'Fout bij laden dataset';
+    console.error(e);
+  }
+});
+
+
+
+
+</script>
+
+</body>
+</html>
