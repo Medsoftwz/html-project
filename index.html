@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpg">
 
-<title>Medische Informatica</title>
+<title>Medische Informatiekunde</title>
 
 <style>
 
@@ -48,17 +48,18 @@ body {
   top: 0;
   z-index: 10;
 }
-.header h1 { margin: 0; font-size: 18px; color: #2563eb; }
+.header h1 { margin: 0; font-size: 18px; color: #2563eb; text-align:center; }
 .header p { margin: 2px 0 6px; font-size: 12px; color: var(--muted); }
 
 /* ===== SEARCH ===== */
 
 .search {
-  width: 100%;
+  width: 80%;
   padding: 6px 8px;
   font-size: 13px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
+  border-radius: 4px; 
+  display: block; 
+  margin: 0 auto;    
 }
 
 /* ===== LAYOUT ===== */
@@ -158,16 +159,66 @@ body {
 
 <div class="header">
   <h1>Medische Informatica</h1>
-  <p>Ziektebeelden – Diagnosen – Therapie – Classificatie – Vragenlijsten</p>
+  <p style="text-align: center;">Ziektebeelden – Diagnosen – Therapie – Classificatie – Taxonomie - Semantische Modellering</p>
   <input class="search" id="search" placeholder="Zoek...">
 </div>
 
 <div class="container">
 
+
+<!-- ===================== -->
+
+<div class="section purple">
+<div class="section-title">📚 Info</div>
+
+<div class="grid">
+
+<div class="card">
+<a class="link" href="coronair.html"><span class="icon">❤️</span>Anatomie Coronaire arteries - fotoreeks</a>
+<a class="link" href="rug26.html"><span class="icon">✨</span>Rugproblemen - fotoreeks</a>
+</div>
+
+<div class="card">
+<a class="link" href="genetica.html"><span class="icon">🧬</span>Genetica in een notendop</a>
+<a class="link" href="levenseinde.html"><span class="icon">⚖️</span>Info Levenseinde zorg</a>
+</div>
+
+</div>
+</div>
+
+<!-- ===================== -->
+
+<div class="section bruin">
+<div class="section-title">🧠 Pragmatische klinische taxonomie</div>
+
+<div class="grid">
+
+<div class="card">
+<a class="link" href="psytree.html"><span class="icon">📚</span>Medische classificatie psychiatrie</a>
+<a class="link" href="neuro.html"<span class="icon">💼</span> Klinische taxonomie neurologisch onderzoek</a>
+<a class="link" href="rugboomweb.html"<span class="icon">🤸🏽️</span> Klinische taxonomie rugonderzoek</a>
+
+
+</div>
+
+<div class="card">
+<a class="link" href="diatree.html"><span class="icon">📚</span>Medische classificatie diagnosen</a>
+<a class="link" href="zoektrfweb.html"><span class="icon">📚</span>Klinisch codesysteem: 36.000 trefwoorden</a>
+<a class="link" href="https://icd.who.int/browse/2025-01/mms/en" target="_blank"><span class="icon">🌍</span>ICD-11 Browser</a>
+<a class="link" href="https://icd.who.int/ct/icd11_mms/en/2025-01" target="_blank"><span class="icon">🛠</span>ICD Coding Tool</a>
+</div>
+
+</div>
+</div>
+
+<!-- ===================== -->
+
+
+
 <!-- ===================== -->
 
 <div class="section green">
-<div class="section-title">🩺 Medische vragenlijsten</div>
+<div class="section-title">🩺 Semantische modellering</div>
 
 <div class="grid">
 
@@ -185,49 +236,6 @@ body {
 <a class="link" href="mmse.html"><span class="icon">🧠</span>Vragenlijst Neurocognitieve Functies - MMSE</a>
 <a class="link" href="burnout.html"><span class="icon">🔥</span>Vragenlijst Burn-out</a>
 <a class="link" href="pmds.html"><span class="icon">👩🏻‍⚕️</span>Premenstruele Dysfore Stoornis (PMDD)</a>
-</div>
-
-</div>
-</div>
-
-<!-- ===================== -->
-
-<div class="section bruin">
-<div class="section-title">🧠 Classificatie</div>
-
-<div class="grid">
-
-<div class="card">
-<a class="link" href="psytree.html"><span class="icon">📚</span>Psychiatrie Terminologie Classificatie</a>
-<a class="link" href="diatree.html"><span class="icon">📚</span>Diagnostische Terminologie Classificatie</a>
-<a class="link" href="https://icd.who.int/browse/2025-01/mms/en" target="_blank"><span class="icon">🌍</span>ICD-11 Browser</a>
-<a class="link" href="https://icd.who.int/ct/icd11_mms/en/2025-01" target="_blank"><span class="icon">🛠</span>ICD Coding Tool</a>
-
-</div>
-
-<div class="card">
-<a class="link" href="neuro.html"<span class="icon">💼</span> Classificatie Neurologisch Onderzoek</a>
-<a class="link" href="rugboomweb.html"<span class="icon">🤸🏽️</span> Classificatie Rugonderzoek</a>
-</div>
-
-</div>
-</div>
-
-<!-- ===================== -->
-
-<div class="section purple">
-<div class="section-title">📚 Info</div>
-
-<div class="grid">
-
-<div class="card">
-<a class="link" href="coronair.html"><span class="icon">❤️</span>Anatomie Coronaire arteries - fotoreeks</a>
-<a class="link" href="rug26.html"><span class="icon">✨</span>Rugproblemen - fotoreeks</a>
-</div>
-
-<div class="card">
-<a class="link" href="genetica.html"><span class="icon">🧬</span>Genetica in een notendop</a>
-<a class="link" href="levenseinde.html"><span class="icon">⚖️</span>Info Levenseinde zorg</a>
 </div>
 
 </div>
