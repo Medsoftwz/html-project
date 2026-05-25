@@ -158,7 +158,7 @@ input[type="date"]{
 }
 
 textarea{
-  width:100%;
+  width:90%;
   min-height:140px;
   box-sizing:border-box;
   padding:10px;
@@ -287,7 +287,8 @@ const FORM_CONFIG = {
     {
       id: "patient_id",
       type: "text",
-      text: "Vrij in te vullen"
+      text: "Kenmerk",
+	  placeholder: "Vrij in te vullen"
     },
 
     {
@@ -438,12 +439,13 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Niets",
 		"Beweging",
         "Vooroverbuigen",
-        "Achteroverbuigen",
-        "Rotatie",
+        "Achteroverbuigen / holle rug maken",
+        "Rotatie / romp naar de zijkant draaien",
         "Hoesten / Niezen / Persen",
         "Langdurig zitten",
         "Langdurig staan",
-        "Wandelen",
+        "Wandelen / Stappen",
+		"Door trappen op en af te stappen",
         "Andere - zie rubriek extra opmerkingen",
         "Niet specifiek"		
       ]
@@ -455,9 +457,9 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       text: "De pijn vermindert door:",
       options: [
 	    "Niets",
-        "Vooroverbuigen",
-        "Achteroverbuigen",		
-        "Liggen",
+        "Vooroverbuigen / bolle rug maken",
+        "Achteroverbuigen / holle rug maken",		
+        "Liggen / Zitten",
         "Rust",
 		"Van houding wisselen",
         "Beweging / Stappen",
@@ -490,19 +492,19 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   options: [
 
     "Geen uitstraling",
-    "Bilaterale pijn (zowel links als rechts van de lumbale wervelzuil)",
+	" Geen echte uitstraling - eenzijdige pijn laaglumbaal tot sacraal",
+	" Pijn laaglumbaal tot sacraal - eenzijdige pijn met ± uitstraling naar de andere kant",	
+    "Bilateraal (zowel links als rechs), laag in de rug",
     "Zadelpijn (schaamstreek, anus, binnenkant van de dijen, het perineum)",	
     "Bilregio",
     "Lies",
     "Laterale heup",
     "Anterieure dij",
     "Laterale dij",
+    "Pijn straalt NIET uit tot onder de knie",
     "Pijn straalt uit tot onder de knie",
     "Onderbeen",
     "Voet",
-
-    "Bilateraal (zowel links als rechs), laag in de rug",
-	"Uitstraling in het gebied van een dermatoom - zie volgende vraag"
   ],
 
   info: `
@@ -519,11 +521,12 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     >
   `
 },
-	    {
-      id: "dermatoom",
-      type: "text",
-      text: "Indien pijnuitstraling volgens dermatoom (zie beeld), dermatoom vermelden",
-	  	   info: `
+
+    {
+      id: "dermatoom1",
+      type: "radio",
+      text: "Straalt de pijn uit volgens een dermatoom ?",
+	  	  	   info: `
 			<img 
 		       src="images/dermatomen.jpg"
 		       style="
@@ -533,8 +536,17 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 			   margin:5px auto;
 			   border-radius:2px;
 		    ">
-			  `
+			  `,
+      options: ["Ja", "Nee"]
+    },
+
+    {
+      id: "dermatoom2",
+      type: "text",
+      text: "Vermits ja, vermeld het vastgestelde dermatoom",
+      conditional: "dermatoom1 == 'Ja'"
     }
+
   ]
 },
 
@@ -556,7 +568,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
       options: [
         "Bewegingsbeperking lumbaal",
-        "Paravertebrale spierspasmen",
+        "Bewegingsbeperking van de onderrug bij het achteroverbuigen en rotaties",		
+        "Paravertebrale spierspasmen / spierknopen /spiespasmen",
         "Pijn bij extensie",
         "Pijn bij flexie",		
         "Lasègue positief",
@@ -574,6 +587,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   options: [
     "Geen speciale drukpijn",
     "Paravertebrale drukpijn",
+    "Duidelijke scherpe pijn bij drukken op een facegewricht",	
     "Midline drukpijn op wervelkolom",
     "Drukpijn SI-gewricht",
     "Gluteale drukpijn",
@@ -716,7 +730,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "faber_test",
       type: "radio",
       text: "FABER-test (heup/SI):",
-      info: 'een test waarbij het been in een figuur  wordt gelegd om pijn uit het heup- of SI gewricht uit te lokken.',
+      info: "een test waarbij het been in een figuur  wordt gelegd om pijn uit het heup- of SI gewricht uit te lokken.",
       options: ["Positief", "Negatief", "Niet uitgevoerd"]
     },
 
@@ -724,7 +738,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "fadir_test",
       type: "radio",
       text: "FADIR-test (impingement heup):",
-      info: '<FADIR-test:</span> een test waarbij de heup naar binnen wordt geduwd om impingement of labrumproblemen op te sporen.',
+      info: `FADIR-test:een test waarbij de heup naar binnen wordt geduwd om impingement of labrumproblemen op te sporen.`,
       options: ["Positief", "Negatief", "Niet uitgevoerd"]
     },
 
@@ -735,7 +749,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "si_tests",
       type: "checkbox",
       text: "SI-gewricht provocatietesten:",
-      info: 'SI-testen:</span> provocatietesten die pijn uit het SI-gewricht uitlokken door druk, torsie of belasting van het bekken.',
+      info: `SI-testen: provocatietesten die pijn uit het SI-gewricht uitlokken door druk, torsie of belasting van het bekken.`,
       options: [
         "Thigh Thrust positief",
         "Gaenslen positief",
@@ -754,7 +768,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "facet_loading",
       type: "radio",
       text: "Facet loading test (extensie + rotatie):",
-      info: 'Facet loading test:</span> een test waarbij extensie en rotatie van de onderrug pijn uit de facetgewrichten kan opwekken.',
+      info: `Facet loading test: een test waarbij extensie en rotatie van de onderrug pijn uit de facetgewrichten kan opwekken.`,
       options: ["Positief", "Negatief", "Niet uitgevoerd"]
     },
 
@@ -772,14 +786,14 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "gangbeeld",
       type: "radio",
       text: "Gangbeeld:",
-      info: "Antalgisch gangbeeld:</span> een manier van stappen waarbij iemand het pijnlijke been ontlast door er zo kort mogelijk op te steunen.",
+      info: "Antalgisch gangbeeld: een manier van stappen waarbij iemand het pijnlijke been ontlast door er zo kort mogelijk op te steunen.",
       options: ["Normaal", "Antalgisch", "Klapvoet", "Breed gangspoor", "Niet beoordeeld"]
     },
     {
       id: "voetstand",
       type: "radio",
       text: "Voetstand:",
-      info: "Voetstand:</span> afwijkingen zoals platvoet of holvoet kunnen wijzen op biomechanische problemen of neurologische zwakte.",
+      info: "Voetstand: afwijkingen zoals platvoet of holvoet kunnen wijzen op biomechanische problemen of neurologische zwakte.",
       options: ["Normaal", "Platvoet", "Holvoet", "Andere", "Niet beoordeeld"]
     },
 
@@ -819,14 +833,30 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
        Behandeling tot nu toe
     ============================ */
     {
-      id: "medicatie_effect",
-      type: "textarea",
-      text: "Welke medicatie werd gebruikt en wat was het effect?"
+      id: "medicatie1",
+      type: "radio",
+      text: "Werd er medicatie tegen de rugpijn gebruikt ?",
+      options: ["Ja", "Nee"]	  	  
     },
-    {
-      id: "fysio_effect",
+	{
+      id: "medicatie2",
       type: "textarea",
-      text: "Werd er fysiotherapie gevolgd en wat was het effect?"
+      text: "Vermits er medicatie werd gebruikt, wat was het effect?",
+      conditional: "medicatie1 == 'Ja'"	  	  
+    },
+	
+	
+    {
+      id: "fysio1",
+      type: "radio",
+      text: "Werd er fysiotherapie gevolgd en wat was het effect?",
+      options: ["Ja", "Nee"]	  
+    },
+	{
+      id: "fysio2",
+      type: "text",
+      text: "Vermits er fysiotherapie werd gevolgd, wat was het effect?",
+      conditional: "fysio1 == 'Ja'"	  
     },
     {
       id: "infiltraties",
@@ -836,8 +866,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     },
     {
       id: "infiltratie_effect",
-      type: "textarea",
-      text: "Indien ja, welk effect?",
+      type: "text",
+      text: "Vermits er een infiltratie werd uitgevoerd, welk was het effect?",
       conditional: "infiltraties == 'Ja'"
     },
 
@@ -853,7 +883,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     {
       id: "bevindingen_mri",
       type: "textarea",
-      text: "Indien ja, wat waren de bevindingen?",
+      text: "Vermits ja, wat waren de bevindingen van de beeldvormende technieken ?",
+	  placeholder: "Beschrijf hier de MRI bevindingen...",
       conditional: "eerdere_mri == 'Ja'"
     }
 
@@ -1002,12 +1033,16 @@ function createInput(q){
 
   const wrapper = document.createElement('div');
 
-  if(q.type === 'text'){
+if(q.type === 'text'){
 
-    wrapper.innerHTML = `
-      <input type="text" id="${q.id}">
-    `;
-  }
+  wrapper.innerHTML = `
+    <input 
+      type="text"
+      id="${q.id}"
+      placeholder="${q.placeholder || ''}"
+    >
+  `;
+}
 
   else if(q.type === 'number'){
 
@@ -1028,12 +1063,15 @@ else if(q.type === 'date'){
   `;
 }
 
-  else if(q.type === 'textarea'){
+else if(q.type === 'textarea'){
 
-    wrapper.innerHTML = `
-      <textarea id="${q.id}"></textarea>
-    `;
-  }
+  wrapper.innerHTML = `
+    <textarea
+      id="${q.id}"
+      placeholder="${q.placeholder || ''}"
+    ></textarea>
+  `;
+}
 
   else if(q.type === 'select'){
 
