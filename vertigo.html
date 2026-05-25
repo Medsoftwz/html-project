@@ -160,7 +160,7 @@ input[type="date"]{
 }
 
 textarea{
-  width:100%;
+  width:90%;
   min-height:140px;
   box-sizing:border-box;
   padding:10px;
@@ -285,7 +285,8 @@ const FORM_CONFIG = {
         {
           id: "naam",
           type: "text",
-          text: "Vrij in te vullen"
+          text: "ID",
+	      placeholder: "Vrij in te vullen"		  
         },
 
         {
@@ -573,19 +574,39 @@ Suggestief voor BPPV.
       freeText: true,
 
       questions: [
-        {
-          id: "rx",
-          type: "nan",
-          text: "Radiologie cervicale wervels",
-          icd11: "QA00B",          
-        },
+
+    {
+      id: "rx1",
+      type: "radio",
+      text: "Werden er afwijkingen vastgesteld op de RX ?",
+      icd11: "QA00B", 	  
+      options: ["Ja", "Nee", "Niet uitgevoerd"]
+    },
+    {
+      id: "rx2",
+      type: "textarea",
+      text: "Vermits er afwijkingen werden vastgesteld, dewelke ?",
+	  placeholder: "Vrij in te vullen",	  
+      conditional: "rx1 == 'Ja'"
+    },
 
         {
-          id: "mri",
-          type: "nan",
-          text: "MRI hersenen",
-          icd11: "XM05Z9",          
-        }
+          id: "mri1",
+          type: "radio",
+          text: "Werden er afwijkingen vastgesteld op de MRI hersenen ?",
+          icd11: "XM05Z9", 
+          options: ["Ja", "Nee", "Niet uitgevoerd"]		  
+        },
+		
+		    {
+      id: "mri2",
+      type: "textarea",
+      text: "Vermits er afwijkingen werden vastgesteld, dewelke ?",
+	  placeholder: "Vrij in te vullen",	  
+      conditional: "mri1 == 'Ja'"
+    },
+		
+		
 
       ]
     },	
@@ -622,10 +643,19 @@ Suggestief voor BPPV.
 	     },
 
     {
-      id: "medicatie",
+      id: "medicatie1",
+      type: "radio",
+      text: "Werd er medicatie tegen de vertigo gebruikt ?",
+      options: ["Ja", "Nee"]	  	  
+    },
+	{
+      id: "medicatie2",
       type: "textarea",
-      text: "Medicatie"
-    }
+      text: "Vermits er medicatie werd gebruikt, wat was het effect?",
+	  placeholder: "Vrij in te vullen",
+      conditional: "medicatie1 == 'Ja'"	  	  
+    },
+	
 ]
 }			
 ]
@@ -643,6 +673,7 @@ document.getElementById('mainTitle').innerText = FORM_CONFIG.title;
 renderTabs();
 renderSections();
 updateProgress();
+updateConditionalQuestions();
 
 /* =====================================================
    RENDER TABS
@@ -687,8 +718,14 @@ function renderSections(){
 
     section.questions.forEach(q=>{
 
-      const qDiv = document.createElement('div');
-      qDiv.className = 'question';
+const qDiv = document.createElement('div');
+qDiv.className = 'question';
+qDiv.dataset.questionId = q.id;
+
+if(q.conditional){
+  qDiv.dataset.conditional = q.conditional;
+  qDiv.style.display = 'none';
+}
 
       let codeHtml = '';
 
@@ -763,13 +800,16 @@ function createInput(q){
 
   const wrapper = document.createElement('div');
 
-  if(q.type === 'text'){
+if(q.type === 'text'){
 
-    wrapper.innerHTML = `
-      <input type="text" id="${q.id}">
-    `;
-  }
-
+  wrapper.innerHTML = `
+    <input 
+      type="text"
+      id="${q.id}"
+      placeholder="${q.placeholder || ''}"
+    >
+  `;
+}
   else if(q.type === 'number'){
 
     wrapper.innerHTML = `
@@ -789,12 +829,15 @@ else if(q.type === 'date'){
   `;
 }
 
-  else if(q.type === 'textarea'){
+else if(q.type === 'textarea'){
 
-    wrapper.innerHTML = `
-      <textarea id="${q.id}"></textarea>
-    `;
-  }
+  wrapper.innerHTML = `
+    <textarea
+      id="${q.id}"
+      placeholder="${q.placeholder || ''}"
+    ></textarea>
+  `;
+}
 
   else if(q.type === 'select'){
 
@@ -976,6 +1019,60 @@ function getAnswer(q){
   return '';
 }
 
+/* =====================================================
+   CONDITIONALS
+===================================================== */
+
+function evaluateCondition(condition){
+
+  try{
+
+    const match = condition.match(/^(.+?)\s*==\s*['"](.+?)['"]$/);
+
+    if(!match) return false;
+
+    const fieldId = match[1].trim();
+    const expected = match[2].trim();
+
+    // radio
+    const radio = document.querySelector(
+      `input[name="${fieldId}"]:checked`
+    );
+
+    if(radio){
+      return radio.value === expected;
+    }
+
+    // gewone input/select/textarea
+    const el = document.getElementById(fieldId);
+
+    if(el){
+      return el.value === expected;
+    }
+
+    return false;
+
+  }catch(err){
+
+    console.error('Conditional error:', err);
+
+    return false;
+  }
+}
+
+function updateConditionalQuestions(){
+
+  document.querySelectorAll('[data-conditional]')
+    .forEach(qDiv=>{
+
+      const condition = qDiv.dataset.conditional;
+
+      const visible = evaluateCondition(condition);
+
+      qDiv.style.display = visible ? 'block' : 'none';
+
+    });
+}
 
 /* =====================================================
    EVENTS
@@ -984,6 +1081,7 @@ function getAnswer(q){
 document.addEventListener('change',()=>{
   updateProgress();
   updateCompletedTabs();
+  updateConditionalQuestions();
 });
 
 /* =====================================================

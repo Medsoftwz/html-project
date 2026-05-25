@@ -283,7 +283,8 @@ const FORM_CONFIG = {
         {
           id: "naam",
           type: "text",
-          text: "Vrij in te vullen"
+          text: "ID",
+	      placeholder: "Vrij in te vullen"		  
         },
 
         {
@@ -756,6 +757,7 @@ document.getElementById('mainTitle').innerText = FORM_CONFIG.title;
 renderTabs();
 renderSections();
 updateProgress();
+updateConditionalQuestions();
 
 /* =====================================================
    RENDER TABS
@@ -800,8 +802,14 @@ function renderSections(){
 
     section.questions.forEach(q=>{
 
-      const qDiv = document.createElement('div');
-      qDiv.className = 'question';
+const qDiv = document.createElement('div');
+qDiv.className = 'question';
+qDiv.dataset.questionId = q.id;
+
+if(q.conditional){
+  qDiv.dataset.conditional = q.conditional;
+  qDiv.style.display = 'none';
+}
 
       let codeHtml = '';
 
@@ -873,12 +881,16 @@ function createInput(q){
 
   const wrapper = document.createElement('div');
 
-  if(q.type === 'text'){
+if(q.type === 'text'){
 
-    wrapper.innerHTML = `
-      <input type="text" id="${q.id}">
-    `;
-  }
+  wrapper.innerHTML = `
+    <input 
+      type="text"
+      id="${q.id}"
+      placeholder="${q.placeholder || ''}"
+    >
+  `;
+}
 
   else if(q.type === 'number'){
 
@@ -899,12 +911,15 @@ else if(q.type === 'date'){
   `;
 }
 
-  else if(q.type === 'textarea'){
+else if(q.type === 'textarea'){
 
-    wrapper.innerHTML = `
-      <textarea id="${q.id}"></textarea>
-    `;
-  }
+  wrapper.innerHTML = `
+    <textarea
+      id="${q.id}"
+      placeholder="${q.placeholder || ''}"
+    ></textarea>
+  `;
+}
 
   else if(q.type === 'select'){
 
@@ -1086,6 +1101,60 @@ function getAnswer(q){
   return '';
 }
 
+/* =====================================================
+   CONDITIONALS
+===================================================== */
+
+function evaluateCondition(condition){
+
+  try{
+
+    const match = condition.match(/^(.+?)\s*==\s*['"](.+?)['"]$/);
+
+    if(!match) return false;
+
+    const fieldId = match[1].trim();
+    const expected = match[2].trim();
+
+    // radio
+    const radio = document.querySelector(
+      `input[name="${fieldId}"]:checked`
+    );
+
+    if(radio){
+      return radio.value === expected;
+    }
+
+    // gewone input/select/textarea
+    const el = document.getElementById(fieldId);
+
+    if(el){
+      return el.value === expected;
+    }
+
+    return false;
+
+  }catch(err){
+
+    console.error('Conditional error:', err);
+
+    return false;
+  }
+}
+
+function updateConditionalQuestions(){
+
+  document.querySelectorAll('[data-conditional]')
+    .forEach(qDiv=>{
+
+      const condition = qDiv.dataset.conditional;
+
+      const visible = evaluateCondition(condition);
+
+      qDiv.style.display = visible ? 'block' : 'none';
+
+    });
+}
 
 /* =====================================================
    EVENTS
@@ -1094,6 +1163,7 @@ function getAnswer(q){
 document.addEventListener('change',()=>{
   updateProgress();
   updateCompletedTabs();
+  updateConditionalQuestions();
 });
 
 /* =====================================================
