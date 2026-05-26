@@ -287,15 +287,21 @@ const FORM_CONFIG = {
     {
       id: "patient_id",
       type: "text",
-      text: "Kenmerk",
+      text: "ID",
 	  placeholder: "Vrij in te vullen"
     },
 
-    {
-      id: "geboortedatum",
-      type: "date",
-      text: "Geboortedatum"
-    },
+{
+  id: "geboortedatum",
+  type: "date",
+  text: "Geboortedatum"
+},
+
+{
+  id: "leeftijd",
+  type: "readonly",
+  text: "Leeftijd"
+},
 
     {
       id: "geslacht",
@@ -420,12 +426,12 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 },
 
 /* =====================================================
-   PROVOCATIE / VERLICHTING
+   Specifiek
 ===================================================== */
 
 {
   id: "provocatie",
-  title: "Beweging",
+  title: "Specifiek",
   freeText: true,
 
   questions: [
@@ -468,20 +474,6 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Niet specifiek"	
       ]
     },
-	
-  ]
-},
-
-/* =====================================================
-   UITSTRALING
-===================================================== */
-
-{
-  id: "uitstraling",
-  title: "Uitstraling",
-  freeText: true,
-
-  questions: [
 
 {
   id: "uitstraling_locatie",
@@ -525,7 +517,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     {
       id: "dermatoom1",
       type: "radio",
-      text: "Straalt de pijn uit volgens een dermatoom ?",
+      text: "Straalt de pijn uit volgens een dermatoom | klik op ? = beeld",
 	  	  	   info: `
 			<img 
 		       src="images/dermatomen.jpg"
@@ -668,39 +660,89 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   questions: [
 
     {
-      id: "labo-bevindingen",
-      type: "checkbox",
-      text: "Labo onderzoek",
-
-      options: [
-        "Laboratorium onderzoek niet uitgevoerd",
-        "Labo onderzoek uitgevoerd",
-		"Zie de relevante resultaten van het labo-onderzoek in relevante bevindingen"
-      ]
+      id: "labo1",
+      type: "radio",
+      text: "Werden er laboratorium onderzoeken uitgevoerd ?",
+      options: ["Ja", "Nee", "Weet het niet"]
+    },	
+	
+	    {
+      id: "labo2",
+      type: "textarea",
+      text: "Vermits ja, wat waren de bevindingen van dat labo-onderzoek ?",
+	  placeholder: "Beschrijf hier de resultaten van het labo-onderzoek",
+      conditional: "labo1 == 'Ja'"
     },
-
-
+	
+	    {
+      id: "mri1",
+      type: "radio",
+      text: "Werd er RX, MRI, CT scan, botscan etc. van de lumbale wervelkolom uitgevoerd ?",
+      options: ["Ja", "Nee", "Weet het niet"]
+    },
     {
-      id: "beeld_bevindingen",
-      type: "checkbox",
-      text: "Beeldonderzoek",
-
-      options: [
-
-        "Radiografisch onderzoek uitgevoerd",
-        "Radiografisch onderzoek niet uitgevoerd",
-        "MRI onderzoek uitgevoerd",
-        "MRI onderzoek niet uitgevoerd",
-        "CT scan uitgevoerd",
-        "CT scan niet uitgevoerd",		
-        "Bot scan uitgevoerd",
-        "Bot scan niet uitgevoerd",	
-		"Zie de relevante resultaten van het beeldonderzoek in extra opmerkingen"
-      ]
+      id: "mri2",
+      type: "textarea",
+      text: "Vermits ja, wat waren de bevindingen van de beeldvormende technieken ?",
+	  placeholder: "Beschrijf hier de resultaten van de beeldvorming",
+      conditional: "mri1 == 'Ja'"
     }
-
+	
   ]
 },
+
+/* ============================
+   Evolutie
+============================ */
+
+{
+  id: "evolutie",
+  title: "Evolutie",
+  freeText: true,
+  questions: [
+
+    {
+      id: "medicatie1",
+      type: "radio",
+      text: "Werd er medicatie tegen de rugpijn gebruikt ?",
+      options: ["Ja", "Nee"]	  	  
+    },
+	{
+      id: "medicatie2",
+      type: "textarea",
+      text: "Vermits er medicatie werd gebruikt, welke en wat was het effect ?",
+      conditional: "medicatie1 == 'Ja'"	  	  
+    },
+	
+	
+    {
+      id: "fysio1",
+      type: "radio",
+      text: "Werd er fysiotherapie gevolgd en wat was het effect ?",
+      options: ["Ja", "Nee"]	  
+    },
+	{
+      id: "fysio2",
+      type: "text",
+      text: "Vermits er fysiotherapie werd gevolgd, wat was het effect ?",
+      conditional: "fysio1 == 'Ja'"	  
+    },
+    {
+      id: "infiltraties",
+      type: "radio",
+      text: "Werd er eerder een infiltratie uitgevoerd?",
+      options: ["Ja", "Nee"]
+    },
+    {
+      id: "infiltratie_effect",
+      type: "text",
+      text: "Vermits er een infiltratie werd uitgevoerd, welk was het effect?",
+      conditional: "infiltraties == 'Ja'"
+    },
+
+]
+},
+
 
 /* ============================
    Extra 
@@ -709,7 +751,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 {
   id: "extra",
   title: "Extra ?",
-  freeText: false,
+  freeText: true,
+  
   questions: [
 
     /* ============================
@@ -829,65 +872,6 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       options: ["Ja", "Nee", "Onzeker"]
     },
 
-    /* ============================
-       Behandeling tot nu toe
-    ============================ */
-    {
-      id: "medicatie1",
-      type: "radio",
-      text: "Werd er medicatie tegen de rugpijn gebruikt ?",
-      options: ["Ja", "Nee"]	  	  
-    },
-	{
-      id: "medicatie2",
-      type: "textarea",
-      text: "Vermits er medicatie werd gebruikt, wat was het effect?",
-      conditional: "medicatie1 == 'Ja'"	  	  
-    },
-	
-	
-    {
-      id: "fysio1",
-      type: "radio",
-      text: "Werd er fysiotherapie gevolgd en wat was het effect?",
-      options: ["Ja", "Nee"]	  
-    },
-	{
-      id: "fysio2",
-      type: "text",
-      text: "Vermits er fysiotherapie werd gevolgd, wat was het effect?",
-      conditional: "fysio1 == 'Ja'"	  
-    },
-    {
-      id: "infiltraties",
-      type: "radio",
-      text: "Werd er eerder een infiltratie uitgevoerd?",
-      options: ["Ja", "Nee"]
-    },
-    {
-      id: "infiltratie_effect",
-      type: "text",
-      text: "Vermits er een infiltratie werd uitgevoerd, welk was het effect?",
-      conditional: "infiltraties == 'Ja'"
-    },
-
-    /* ============================
-       Eerdere beeldvorming
-    ============================ */
-    {
-      id: "eerdere_mri",
-      type: "radio",
-      text: "Is er eerdere MRI of CT van de lumbale wervelkolom?",
-      options: ["Ja", "Nee"]
-    },
-    {
-      id: "bevindingen_mri",
-      type: "textarea",
-      text: "Vermits ja, wat waren de bevindingen van de beeldvormende technieken ?",
-	  placeholder: "Beschrijf hier de MRI bevindingen...",
-      conditional: "eerdere_mri == 'Ja'"
-    }
-
 ]
 }
 
@@ -992,34 +976,19 @@ if(q.conditional){
     });
 
     if(section.freeText){
-
       const notes = document.createElement('div');
       notes.className = 'section-notes';
-
-notes.innerHTML = `
-  <label for="notes_${section.id}">
-    Extra opmerkingen & Relevante bevindingen - ${section.title}
-  </label>
-
-  <textarea id="notes_${section.id}"></textarea>
-`;
-
+      notes.innerHTML = ` <label for="notes_${section.id}"> Extra opmerkingen - ${section.title} </label>
+     <textarea id="notes_${section.id}"></textarea> `;
       card.appendChild(notes);
     }
 
     const btnRow = document.createElement('div');
     btnRow.className = 'button-row no-print';
-
     btnRow.innerHTML = `
-      <button class="action" onclick="showResults()">
-        Resultaat
-      </button>
-    `;
-
+      <button class="action" onclick="showResults()"> Resultaat  </button> `;
     card.appendChild(btnRow);
-
     div.appendChild(card);
-
     container.appendChild(div);
 
   });
@@ -1055,13 +1024,23 @@ else if(q.type === 'date'){
 
   wrapper.innerHTML = `
     <input 
-      type="text"
+      type="date"
       id="${q.id}"
-      placeholder="dd-mm-jjjj"
-      inputmode="numeric"
     >
   `;
 }
+
+else if(q.type === 'readonly'){
+
+  wrapper.innerHTML = `
+    <input 
+      type="text"
+      id="${q.id}"
+      readonly
+    >
+  `;
+}
+
 
 else if(q.type === 'textarea'){
 
@@ -1266,9 +1245,7 @@ function evaluateCondition(condition){
     // "infiltraties == 'Ja'"
 
     const match = condition.match(/^(.+?)\s*==\s*['"](.+?)['"]$/);
-
     if(!match) return false;
-
     const fieldId = match[1].trim();
     const expected = match[2].trim();
 
@@ -1276,7 +1253,6 @@ function evaluateCondition(condition){
     const radio = document.querySelector(
       `input[name="${fieldId}"]:checked`
     );
-
     if(radio){
       return radio.value === expected;
     }
@@ -1287,13 +1263,10 @@ function evaluateCondition(condition){
     if(el){
       return el.value === expected;
     }
-
     return false;
 
   }catch(err){
-
     console.error('Conditional error:', err);
-
     return false;
   }
 }
@@ -1302,13 +1275,9 @@ function updateConditionalQuestions(){
 
   document.querySelectorAll('[data-conditional]')
     .forEach(qDiv=>{
-
       const condition = qDiv.dataset.conditional;
-
       const visible = evaluateCondition(condition);
-
       qDiv.style.display = visible ? 'block' : 'none';
-
     });
 }
 
@@ -1317,9 +1286,7 @@ function updateConditionalQuestions(){
 ===================================================== */
 
 function hasAnswer(sectionData, text){
-
   return sectionData.some(q=>{
-
     if(Array.isArray(q.answer)){
       return q.answer.includes(text);
     }
@@ -1331,25 +1298,29 @@ function hasAnswer(sectionData, text){
 function generateClinicalSummary(data){
 
   let summary = [];
-
   const allQuestions =
     data.sections.flatMap(s=>s.questions);
 
   /* =========================
      Rode vlaggen
   ========================= */
+const redFlagsQuestion =
+  allQuestions.find(
+    q => q.text === "Rode vlaggen"
+  );
 
-  if(
-    hasAnswer(allQuestions,"Koorts") ||
-    hasAnswer(allQuestions,"Gewichtsverlies") ||
-    hasAnswer(allQuestions,"Urineretentie") ||
-    hasAnswer(allQuestions,"Incontinentie")
-  ){
+if(
+  redFlagsQuestion &&
+  Array.isArray(redFlagsQuestion.answer) &&
+  redFlagsQuestion.answer.length > 0 &&
+  !redFlagsQuestion.answer.includes("Geen rode vlaggen")
+){
 
-    summary.push(
-      "🔴 Rode vlaggen aanwezig — urgente evaluatie overwegen."
-    );
-  }
+  summary.push(
+    "🔴 Rode vlaggen aanwezig — urgente evaluatie overwegen."
+  );
+}
+
 
   /* =========================
      Radiculair patroon
@@ -1425,22 +1396,90 @@ function generateClinicalSummary(data){
   return summary;
 }
 
-
-
-
 /* =====================================================
    EVENTS
 ===================================================== */
 
-document.addEventListener('change',()=>{
+document.addEventListener('change',(e)=>{
+  const target = e.target;
+
+  /* =========================
+     Rode vlaggen exclusiviteit
+  ========================= */
+
+  if(
+    target.name === 'red_flags' &&
+    target.type === 'checkbox'
+  ){
+
+    const all =
+      document.querySelectorAll(
+        'input[name="red_flags"]'
+      );
+
+    const none =
+      Array.from(all).find(
+        cb => cb.value === 'Geen rode vlaggen'
+      );
+
+    /* =========================
+       Indien "Geen rode vlaggen"
+       wordt aangevinkt
+    ========================= */
+
+    if(
+      target.value === 'Geen rode vlaggen' &&
+      target.checked
+    ){
+
+      all.forEach(cb=>{
+
+        if(cb !== none){
+          cb.checked = false;
+        }
+      });
+    }
+
+    /* =========================
+       Indien andere rode vlag
+       wordt aangevinkt
+    ========================= */
+
+    else if(target.checked){
+
+      none.checked = false;
+    }
+  }
 
   updateProgress();
-
   updateCompletedTabs();
-
   updateConditionalQuestions();
+  calculateAge();
 
 });
+
+function calculateAge(){
+  const dob = document.getElementById('geboortedatum');
+  if(!dob || !dob.value) return;
+  const birthDate = new Date(dob.value);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  
+  if(
+    m < 0 ||
+    (m === 0 && today.getDate() < birthDate.getDate())
+  ){
+    age--;
+  }
+
+  const ageField = document.getElementById('leeftijd');
+
+  if(ageField){
+    ageField.value = age + ' jaar';
+  }
+}
+
 
 /* =====================================================
    COMPLETED TABS
@@ -1484,6 +1523,18 @@ function updateCompletedTabs(){
 ===================================================== */
 
 function showResults(){
+
+const redFlagsChecked =
+  document.querySelectorAll(
+    'input[name="red_flags"]:checked'
+  );
+
+if(redFlagsChecked.length === 0){
+
+  alert( 'Gelieve de rubriek "Pasop !" in te vullen.' );
+
+  return;
+}
 
   const data = collectData();
 
