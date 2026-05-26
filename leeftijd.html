@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<meta property="og:locale" content="nl_BE">
+<meta property="og:title" content="Leeftijd berekenen">
+<meta property="og:description" content="Experimentele versie – as-is">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://medsoftwz.github.io/leeftijd.html">
+<meta property="og:image" content="https://medsoftwz.github.io/images/vgltemplate.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpg">
+
 <title>Leeftijd Berekenen</title>
 
 <style>
@@ -66,7 +76,7 @@ input{
     <input 
       type="text"
       id="naam"
-      placeholder="Naam invoeren"
+      placeholder="bv. Georges Simenon"
     >
   </div>
 
@@ -94,6 +104,48 @@ input{
 
 </div>
 
+<hr>
+
+<h2>Leeftijd bij overlijden</h2>
+
+<div class="field">
+  <label for="geboortejaar">
+    Geboortejaar
+  </label>
+
+  <input
+    type="number"
+    id="geboortejaar"
+    placeholder="bv. 1903"
+  >
+</div>
+
+<div class="field">
+  <label for="overlijdensjaar">
+    Overlijdensjaar
+  </label>
+
+  <input
+    type="number"
+    id="overlijdensjaar"
+    placeholder="bv. 1989"
+  >
+</div>
+
+<div class="field">
+  <label for="leeftijd_overlijden">
+    Leeftijd bij overlijden
+  </label>
+
+  <input
+    type="text"
+    id="leeftijd_overlijden"
+    class="readonly"
+    readonly
+  >
+</div>
+
+
 <script>
 
 /* =========================
@@ -115,6 +167,14 @@ document
 document
   .getElementById('geboortedatum')
   .addEventListener('change', calculateAge);
+
+document
+  .getElementById('geboortejaar')
+  .addEventListener('input', calculateDeathAge);
+
+document
+  .getElementById('overlijdensjaar')
+  .addEventListener('input', calculateDeathAge);
 
 /* =========================
    LEEFTIJD BEREKENEN
@@ -163,6 +223,33 @@ function calculateAge(){
 
   document.getElementById('samenvatting')
     .innerText = text;
+}
+
+function calculateDeathAge(){
+
+  const birthYear =
+    parseInt(
+      document.getElementById('geboortejaar').value
+    );
+
+  const deathYear =
+    parseInt(
+      document.getElementById('overlijdensjaar').value
+    );
+
+  if(
+    isNaN(birthYear) ||
+    isNaN(deathYear)
+  ){
+    return;
+  }
+
+  const age =
+    deathYear - birthYear;
+
+  document.getElementById(
+    'leeftijd_overlijden'
+  ).value = 'ongeveer ' + age + ' jaar';
 }
 
 </script>
