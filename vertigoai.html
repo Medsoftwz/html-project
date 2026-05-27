@@ -1255,14 +1255,14 @@ if(
 if(bppvScore >= 7){
 
   summary.push(
-    "🟠 Klinisch beeld sterk compatibel met benigne paroxismale positieduizeligheid (BPPV)."
+    "🟡 Klinisch beeld sterk compatibel met benigne paroxismale positieduizeligheid (BPPV)."
   );
 }
 
 else if(bppvScore >= 4){
 
   summary.push(
-    "🟠 Het patroon van positionele vertigo met vestibulaire kenmerken kan passen bij een perifere vestibulaire aandoening zoals BPPV."
+    "🟡 Het patroon van positionele vertigo met vestibulaire kenmerken kan passen bij een perifere vestibulaire aandoening zoals BPPV."
   );
 }
 
@@ -1415,7 +1415,7 @@ if(
   if(meniere >= 2){
 
     summary.push(
-      "🟠 Het patroon van gehoorverlies, tinnitus en langdurige episoden kan passen bij een Ménière-achtig vestibulair syndroom."
+      "🟣 Het patroon van gehoorverlies, tinnitus en langdurige episoden kan passen bij een Ménière-achtig vestibulair syndroom."
     );
   }
 
@@ -1449,7 +1449,7 @@ if(
   if(migraine >= 2){
 
     summary.push(
-      "🟠 Vestibulaire migraine behoort tot de differentiaaldiagnose."
+      "🟣 Vestibulaire migraine behoort tot de differentiaaldiagnose."
     );
   }
 
@@ -1468,7 +1468,7 @@ if(
   if(medicatie >= 1){
 
     summary.push(
-      "🟠 Medicatie-gerelateerde duizeligheid dient mee overwogen te worden."
+      "🔵 Medicatie-gerelateerde duizeligheid dient mee overwogen te worden."
     );
   }
 
@@ -1521,7 +1521,7 @@ if(summary.length === 0){
   if(anyAbnormality){
 
     summary.push(
-      "🟠 Vestibulaire afwijkingen aanwezig zonder duidelijke alarmsignalen of specifiek syndromaal patroon."
+      "🔵 Vestibulaire afwijkingen aanwezig zonder duidelijke alarmsignalen of specifiek syndromaal patroon."
     );
   }
 
@@ -1870,17 +1870,8 @@ body{
 Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
 Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
 Bespreek de resultaten steeds met een arts of zorgverlener.<br>
-Dit pdf bestand (uiteraard anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.
-</div>
-
-<div style="margin-top:10px; font-size:14px;">
-
-Akkoord ? Dan verder ... <br>
-
-<a href="https://bestpractice.bmj.com/info/" target="_blank" rel="noopener noreferrer"> BMJ </a><br>
-
-<a href="images/vertigo.jpg" target="_blank">vertigo beeld</a><br>
-
+Dit pdf bestand (anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.<br>
+Op zich bevat dit bestand een interne interpretatie door AI. Kan in de toekomst verder worden uitgebreid.
 </div>
 
 <hr>
@@ -1914,31 +1905,13 @@ ${clinicalSummary.map(item=>`
   font-size:17px;
 ">
 
-<div style="
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  margin-top:4px;
-  flex-shrink:0;
-
- background:
-  ${item.includes('🔴') ? '#d32f2f' :
-    item.includes('🟠') ? '#f57c00' :
-    '#2e7d32'};
-">
-</div>
-
 <span>
-${item.replace(/[🔴🟠🟡]/g,'')}
+${item}
 </span>
 
 </div>
 
-</div>
-
 `).join('')}
-
-</div>
 
 <hr>
 
