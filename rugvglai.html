@@ -267,7 +267,7 @@ button.action:hover{ background:#295f95; }
 
 const FORM_CONFIG = {
 
-  title: "Rug e-formulier",
+  title: "Lage Rugpijn - Structured Clinical Data Generator",
 
   pdfPrefix: "Rug",
 
@@ -280,7 +280,7 @@ const FORM_CONFIG = {
 {
   id: "globaal",
   title: "Algemeen",
-  freeText: true,
+  freeText: false,
 
   questions: [
 
@@ -325,7 +325,7 @@ const FORM_CONFIG = {
 {
   id: "rodevlaggen",
   title: "Pasop !",
-  freeText: true,
+  freeText: false,
 
   questions: [
 
@@ -335,15 +335,16 @@ const FORM_CONFIG = {
       text: "Rode vlaggen",
 
       options: [
-        "Trauma",
-        "Nachtelijke progressieve pijn",		
-        "Zadelanestesie/Rijbroekanestesie (schaamstreek, anus, binnenkant van de dijen, het perineum)",
-        "Progressieve neurologische uitval",	
-        "Urineretentie",
-        "Incontinentie",		
-        "Koorts",
-        "Gewichtsverlies",
+        "Rugpijn  veroorzaakt door een trauma",
+	    "Zadelanestesie/Rijbroekanestesie (schaamstreek, anus, binnenkant van de dijen, het perineum)",
+        "Urinaire problemen: retentie of incontinentie",
+        "Stoelgangproblemen: obstipatie of incontinentie",				
+        "Plots krachtverlies of gevoelloosheid in been of voet",	
+        "Snel toenemende pijn en verlamming - progressieve neurologische uitval",
+        "Nachtelijke progressieve pijn",			
         "Maligniteit in voorgeschiedenis",
+		"Koorts",
+        "Gewichtsverlies",
         "Geen rode vlaggen"
       ]
     }
@@ -475,26 +476,58 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       ]
     },
 
+    {
+      id: "dermatoom1",
+      type: "radio",
+      text: "Straalt de pijn uit, in het gebied van een dermatoom | klik op ? = beeld",
+	  	  	   info: `
+			<img 
+		       src="images/dermatomen.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;
+		    ">
+			  `,
+      options: ["Ja", "Neen, de pijn straalt niet uit", "Neen, de pijn straalt niet dermatoomgebonden uit" ]
+    },
+
+    {
+      id: "dermatoom2",
+      type: "radio",
+      text: "Vermits ja, vermeld het vastgestelde dermatoom",
+      conditional: "dermatoom1 == 'Ja'",
+	    options: [
+    "Dermatoom L1",
+    "Dermatoom L2",
+    "Dermatoom L3",
+    "Dermatoom L4",
+    "Dermatoom L5",
+    "Dermatoom S1",	
+    "Dermatoom S2",
+    "Dermatoom T12"
+  ],
+    },
+
 {
   id: "uitstraling_locatie",
   type: "checkbox",
-  text: "Pijn Uitstraling",
+  text: "De pijn straalt niet of niet dermatoomgebonden, uit",
   icd11: "ME86.21",
 
   options: [
-
-    "Geen uitstraling",
 	" Geen echte uitstraling - eenzijdige pijn laaglumbaal tot sacraal",
 	" Pijn laaglumbaal tot sacraal - eenzijdige pijn met ± uitstraling naar de andere kant",	
     "Bilateraal (zowel links als rechs), laag in de rug",
     "Zadelpijn (schaamstreek, anus, binnenkant van de dijen, het perineum)",	
-    "Bilregio",
+    "Pijn straalt NIET uit tot onder de knie",
+    "De pijn straalt uit naar de bilregio",
     "Lies",
     "Laterale heup",
     "Anterieure dij",
     "Laterale dij",
-    "Pijn straalt NIET uit tot onder de knie",
-    "Pijn straalt uit tot onder de knie",
     "Onderbeen",
     "Voet",
   ],
@@ -513,31 +546,6 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
     >
   `
 },
-
-    {
-      id: "dermatoom1",
-      type: "radio",
-      text: "Straalt de pijn uit volgens een dermatoom | klik op ? = beeld",
-	  	  	   info: `
-			<img 
-		       src="images/dermatomen.jpg"
-		       style="
-			   width:100%;
-			   height:auto;
-			   display:block;
-			   margin:5px auto;
-			   border-radius:2px;
-		    ">
-			  `,
-      options: ["Ja", "Nee"]
-    },
-
-    {
-      id: "dermatoom2",
-      type: "text",
-      text: "Vermits ja, vermeld het vastgestelde dermatoom",
-      conditional: "dermatoom1 == 'Ja'"
-    }
 
   ]
 },
@@ -590,38 +598,82 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 },
 
     {
-      id: "motorische_uitval",
+      id: "motorisch1",
       type: "checkbox",
-      text: "Motorische uitval - Krachtverlies",
+      text: "Motorische uitval - Krachtverlies - L4 & L5",
+	  	  	  	   info: `
+			<img 
+		       src="images/dermatomen.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;
+		    ">
+			  `,
 
       options: [
-
         "Geen motorische uitval",
-        "Krachtverlies in myotoom",
-		"Moeite met heffen van voorvoet en de grote teen – klapvoet – struikelen",
-		"Kan niet op de hielen lopen (zwakke dorsiflexie van de voet - voetheffersparese)",
-		"Grote teen omhoog trekken is zwak",
-        "Quadricepszwakte",
-        "Plantairflexiezwakte",
-        "Moeite traplopen",
-        "Moeite stappen op hakken",
-        "Moeite met staan en stappen op de hielen (moeite met heffen van de voorvoet en grote teen)",		
-        "Moeite met staan en stappen op de tenen (verzwakking kuitspier"
-      ]
+        "L4A - Quadriceps spierzwakte",		
+        "L4A - Moeite met traplopen en opstaan uit hurk- of zitpositie",
+        "L5A - Tibialis anterior, Extensor hallucis/digitorum longus spierzwakte",		
+        "L5A - Klapvoet - moeite met staan en stappen op de hielen - moeite met heffen van de voorvoet en grote teen",
+		"L5A - Voetheffersparese: kan niet op de hielen lopen - zwakke dorsiflexie van de voet",
+        "L5A - Moeite stappen op hakken",		
+		"L5A - Grote teen omhoog trekken is zwak"
+		    ]
     },
+
+    {
+      id: "motorisch2",
+      type: "checkbox",
+      text: "Motorische uitval - Krachtverlies - Andere",
+	  	  	  	   info: `
+			<img 
+		       src="images/dermatomen.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;
+		    ">
+			  `,
+
+      options: [
+        "Geen motorische uitval",
+        "S1A - Zwakte van de kuitspieren",
+        "S1A - Moeite met staan en stappen op de tenen -  Plantairflexiezwakte",
+        "QEA - Bilaterale spierzwakte - spierzwakte in rechter en linker been",
+        "CRA - Zwakte in beide benen - Spastische gang - rechtstaan en trappen lopen moeilijk"
+		    ]
+    },
+
 
     {
       id: "sensibele_uitval",
       type: "checkbox",
       text: "Sensibele symptomen / Gevoelsstoornissen",
+	  	  	  	   info: `
+			<img 
+		       src="images/dermatomen.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;
+		    ">
+			  `,
 
       options: [
         "Geen sensibele symptomen",
+        "Gevoelsstoornis in dermatoom",
         "Tintelingen",
         "Doof gevoel",
         "Slapend gevoel",
         "Gevoelloosheid",			
-        "Gevoelsstoornis in dermatoom",
         "Dissociatieve sensibiliteitsstoornis",
         "Rijbroekanesthesie/Zadelanesthesie"
       ]
@@ -654,8 +706,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
 {
   id: "labobeeld",
-  title: "Beeld & Labo",
-  freeText: true,
+  title: "Technieken",
+  freeText: false,
 
   questions: [
 
@@ -686,8 +738,22 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       text: "Vermits ja, wat waren de bevindingen van de beeldvormende technieken ?",
 	  placeholder: "Beschrijf hier de resultaten van de beeldvorming",
       conditional: "mri1 == 'Ja'"
-    }
+    },
 	
+		    {
+      id: "anderet1",
+      type: "radio",
+      text: "Werden er nog andere technische onderzoeken (bv. EMG) uitgevoerd?",
+      options: ["Ja", "Nee", "Weet het niet"]
+    },
+    {
+      id: "anderet2",
+      type: "textarea",
+      text: "Vermits ja, wat waren de bevindingen van die technische onderzoeken ?",
+	  placeholder: "Beschrijf hier de resultaten van de technische onderzoeken",
+      conditional: "anderet1 == 'Ja'"
+    }
+		
   ]
 },
 
@@ -970,9 +1036,7 @@ if(q.conditional){
       `;
 
       qDiv.appendChild(createInput(q));
-
       card.appendChild(qDiv);
-
     });
 
     if(section.freeText){
@@ -999,9 +1063,7 @@ if(q.conditional){
 ===================================================== */
 
 function createInput(q){
-
   const wrapper = document.createElement('div');
-
 if(q.type === 'text'){
 
   wrapper.innerHTML = `
@@ -1014,14 +1076,12 @@ if(q.type === 'text'){
 }
 
   else if(q.type === 'number'){
-
     wrapper.innerHTML = `
       <input type="number" id="${q.id}">
     `;
   }
 
 else if(q.type === 'date'){
-
   wrapper.innerHTML = `
     <input 
       type="date"
@@ -1031,7 +1091,6 @@ else if(q.type === 'date'){
 }
 
 else if(q.type === 'readonly'){
-
   wrapper.innerHTML = `
     <input 
       type="text"
@@ -1041,9 +1100,7 @@ else if(q.type === 'readonly'){
   `;
 }
 
-
 else if(q.type === 'textarea'){
-
   wrapper.innerHTML = `
     <textarea
       id="${q.id}"
@@ -1053,24 +1110,18 @@ else if(q.type === 'textarea'){
 }
 
   else if(q.type === 'select'){
-
     let html = `<select id="${q.id}">`;
-
     html += `<option value=""></option>`;
-
     q.options.forEach(opt=>{
       html += `<option value="${opt}">${opt}</option>`;
     });
 
     html += `</select>`;
-
     wrapper.innerHTML = html;
   }
 
 else if(q.type === 'radio'){
-
   q.options.forEach(opt=>{
-
     wrapper.innerHTML += `
       <label class="option-label">
         <input type="radio"
@@ -1083,9 +1134,7 @@ else if(q.type === 'radio'){
 }
 
 else if(q.type === 'checkbox'){
-
   q.options.forEach(opt=>{
-
     wrapper.innerHTML += `
       <label class="option-label">
         <input type="checkbox"
@@ -1119,7 +1168,6 @@ else if(q.type === 'presence'){
 }
 
 else if(q.type === 'nan'){
-
   const options = [
     'Normaal',
     'Afwijkend',
@@ -1127,7 +1175,6 @@ else if(q.type === 'nan'){
   ];
 
   options.forEach(opt=>{
-
     wrapper.innerHTML += `
       <label class="option-label">
         <input type="radio"
@@ -1147,18 +1194,13 @@ else if(q.type === 'nan'){
 ===================================================== */
 
 function openSection(id,btn){
-
   document.querySelectorAll('.section')
     .forEach(s=>s.classList.remove('active'));
-
   document.querySelectorAll('.tab-btn')
     .forEach(b=>b.classList.remove('active'));
-
   document.getElementById(id)
     .classList.add('active');
-
   btn.classList.add('active');
-
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1167,18 +1209,12 @@ function openSection(id,btn){
 ===================================================== */
 
 function updateProgress(){
-
   const total = FORM_CONFIG.sections
     .flatMap(s=>s.questions).length;
-
   let done = 0;
-
   FORM_CONFIG.sections.forEach(section=>{
-
     section.questions.forEach(q=>{
-
       const value = getAnswer(q);
-
       if(value !== '' && value !== false && value !== null){
         done++;
       }
@@ -1186,9 +1222,7 @@ function updateProgress(){
   });
 
   const pct = Math.round((done / total) * 100);
-
   const bar = document.getElementById('progressBar');
-
   bar.style.width = pct + '%';
   bar.innerText = pct + '%';
 }
@@ -1209,23 +1243,17 @@ function getAnswer(q){
   }
 
   if(q.type === 'presence'){
-
     const checked = document.querySelector(`input[name="${q.id}"]:checked`);
-
     return checked ? checked.value : '';
   }
 
   if(q.type === 'radio'){
-
     const checked = document.querySelector(`input[name="${q.id}"]:checked`);
-
     return checked ? checked.value : '';
   }
 
   if(q.type === 'checkbox'){
-
     const checked = document.querySelectorAll(`input[name="${q.id}"]:checked`);
-
     return Array.from(checked).map(el => el.value);
   }
 
@@ -1286,12 +1314,23 @@ function updateConditionalQuestions(){
 ===================================================== */
 
 function hasAnswer(sectionData, text){
+  const needle =
+    text.toLowerCase().trim();
   return sectionData.some(q=>{
     if(Array.isArray(q.answer)){
-      return q.answer.includes(text);
+      return q.answer.some(a =>
+        String(a)
+          .toLowerCase()
+          .trim()
+          .includes(needle)
+      );
     }
 
-    return q.answer === text;
+    return String(q.answer)
+      .toLowerCase()
+      .trim()
+      .includes(needle);
+
   });
 }
 
@@ -1336,7 +1375,7 @@ if(
   ){
 
     summary.push(
-      "🟠 Mogelijk radiculair syndroom."
+      "🟣 Mogelijk radiculair syndroom."
     );
   }
 
@@ -1350,7 +1389,7 @@ if(
   ){
 
     summary.push(
-      "🟠 Inflammatoir pijnpatroon mogelijk."
+      "🟡 Inflammatoir pijnpatroon mogelijk."
     );
   }
 
@@ -1364,7 +1403,7 @@ if(
   ){
 
     summary.push(
-      "🟢 Mechanisch pijnpatroon waarschijnlijk."
+      "🟡 Mechanisch pijnpatroon waarschijnlijk."
     );
   }
 
@@ -1373,12 +1412,15 @@ if(
   ========================= */
 
   if(
-    hasAnswer(allQuestions,"Voetheffersparese") ||
-    hasAnswer(allQuestions,"Quadricepszwakte")
+    hasAnswer(allQuestions,"L4A") ||
+    hasAnswer(allQuestions,"L5A") ||	
+    hasAnswer(allQuestions,"S1A") ||	
+    hasAnswer(allQuestions,"QEA") ||		
+    hasAnswer(allQuestions,"CRA")
   ){
 
     summary.push(
-      "🔴 Neurologische uitval aanwezig."
+      "🟣 Neurologische uitval aanwezig."
     );
   }
 
@@ -1677,12 +1719,20 @@ body{
   line-height:1.15;
 }
 
-  .notes-block{
-    margin-top:12px;
-    padding:10px;
-    background:#fffbe8;
-    border-left:4px solid #f0ad00;
-  }
+.notes-block {
+    margin-top: 12px;
+    padding: 10px;
+    background: #fffbe8;
+    border-left: 4px solid #f0ad00;
+    color: #002850 /* Geeft de kleur van de tekst in het blok */
+}
+
+.notes-block b {
+    color: #800000;
+	font-weight: 400;
+    display: block;        /* Zorgt dat de tekst op een eigen regel staat */
+    margin-bottom: 10px;   /* Bepaalt de exacte ruimte tot de groene tekst */
+}
 
   button{
     background:#1f4d7a;
@@ -1707,11 +1757,7 @@ body{
 
   <h1>${FORM_CONFIG.title}</h1>
 
-  <div>
-    <strong>Datum:</strong> ${today}
-  </div>
-
-  <hr>
+  <div> <strong>Datum:</strong> ${today} </div>
 
 <div style="
   margin-top:12px;
@@ -1723,26 +1769,13 @@ body{
 Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
 Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
 Bespreek de resultaten steeds met een arts of zorgverlener.<br>
-Dit pdf bestand (uiteraard anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.
+Dit pdf bestand (mogelijk anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.<br>
+Dit bestand bevat eveneens een interne interpretatie door AI. Kan in de toekomst verder worden uitgebouwd.
 </div>
-
-<div style="margin-top:10px; font-size:14px;">
-
-Akkoord ? Dan verder ... <br>
-
-<a href="https://bestpractice.bmj.com/info/" target="_blank" rel="noopener noreferrer"> BMJ </a><br>
-
-<a href="images/ruga0.jpg" target="_blank">Lage Rugpijn - Differentiële Diagnose</a><br>
-
-</div>
-
-<hr>
-<hr>
 
 <div class="notes-block">
 
-<b>AI klinische samenvatting</b>
-<br><br>
+<b>AI interpretatie</b>
 
 ${clinicalSummary.join('<br>')}
 
