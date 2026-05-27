@@ -287,11 +287,17 @@ const FORM_CONFIG = {
 	      placeholder: "Vrij in te vullen"		  
         },
 
-        {
-          id: "geboortedatum",
-          type: "date",
-          text: "Geboortedatum"
-        },
+{
+  id: "geboortedatum",
+  type: "date",
+  text: "Geboortedatum"
+},
+
+{
+  id: "leeftijd",
+  type: "readonly",
+  text: "Leeftijd"
+},
 
         {
           id: "geslacht",
@@ -300,6 +306,7 @@ const FORM_CONFIG = {
           options: [
             "Man",
             "Vrouw",
+            "Zwangere Vrouw",			
             "Anders"
           ]
         },
@@ -903,10 +910,19 @@ else if(q.type === 'date'){
 
   wrapper.innerHTML = `
     <input 
+      type="date"
+      id="${q.id}"
+    >
+  `;
+}
+
+else if(q.type === 'readonly'){
+
+  wrapper.innerHTML = `
+    <input 
       type="text"
       id="${q.id}"
-      placeholder="dd-mm-jjjj"
-      inputmode="numeric"
+      readonly
     >
   `;
 }
@@ -1164,7 +1180,31 @@ document.addEventListener('change',()=>{
   updateProgress();
   updateCompletedTabs();
   updateConditionalQuestions();
+  calculateAge();
 });
+
+
+function calculateAge(){
+  const dob = document.getElementById('geboortedatum');
+  if(!dob || !dob.value) return;
+  const birthDate = new Date(dob.value);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+
+  if(
+    m < 0 ||
+    (m === 0 && today.getDate() < birthDate.getDate())
+  ){
+    age--;
+  }
+
+  const ageField = document.getElementById('leeftijd');
+
+  if(ageField){
+    ageField.value = age + ' jaar';
+  }
+}
 
 /* =====================================================
    COMPLETED TABS

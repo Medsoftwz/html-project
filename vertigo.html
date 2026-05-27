@@ -8,16 +8,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <meta property="og:locale" content="nl_BE">
-<meta property="og:title" content="Vertigo Intake Formulier">
+<meta property="og:title" content="Vertigo Intake en AI">
 <meta property="og:description" content="Experimentele versie – as-is">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://medsoftwz.github.io/vertigo.html">
+<meta property="og:url" content="https://medsoftwz.github.io/vertigoai.html">
 <meta property="og:image" content="https://medsoftwz.github.io/images/vertigo.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpg">
 
-<title>Vertigo - Aanmeldformulier voor AI</title>
+<title>Vertigo - Aanmeldformulier en interne AI</title>
 
 <style>
 body{
@@ -32,7 +32,6 @@ body{
 
   -webkit-text-size-adjust:100%;
 }
-
 
 .header{
   position:sticky;
@@ -289,11 +288,17 @@ const FORM_CONFIG = {
 	      placeholder: "Vrij in te vullen"		  
         },
 
-        {
-          id: "geboortedatum",
-          type: "date",
-          text: "Geboortedatum"
-        },
+{
+  id: "geboortedatum",
+  type: "date",
+  text: "Geboortedatum"
+},
+
+{
+  id: "leeftijd",
+  type: "readonly",
+  text: "Leeftijd"
+},
 
         {
           id: "geslacht",
@@ -302,22 +307,10 @@ const FORM_CONFIG = {
           options: [
             "Man",
             "Vrouw",
+            "Zwangere Vrouw",			
             "Anders"
           ]
-        },
-
-        {
-          id: "zwanger",
-          type: "radio",
-          text: "Zwanger",
-          options: [
-            "Ja",
-            "Neen",
-            "Weet het niet",
-            "Niet van toepassing"
-          ]
         }
-
 
       ]
     },
@@ -821,10 +814,19 @@ else if(q.type === 'date'){
 
   wrapper.innerHTML = `
     <input 
+      type="date"
+      id="${q.id}"
+    >
+  `;
+}
+
+else if(q.type === 'readonly'){
+
+  wrapper.innerHTML = `
+    <input 
       type="text"
       id="${q.id}"
-      placeholder="dd-mm-jjjj"
-      inputmode="numeric"
+      readonly
     >
   `;
 }
@@ -1082,7 +1084,35 @@ document.addEventListener('change',()=>{
   updateProgress();
   updateCompletedTabs();
   updateConditionalQuestions();
+  calculateAge();
 });
+
+function calculateAge(){
+
+  const dob = document.getElementById('geboortedatum');
+
+  if(!dob || !dob.value) return;
+
+  const birthDate = new Date(dob.value);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const m = today.getMonth() - birthDate.getMonth();
+
+  if(
+    m < 0 ||
+    (m === 0 && today.getDate() < birthDate.getDate())
+  ){
+    age--;
+  }
+
+  const ageField = document.getElementById('leeftijd');
+
+  if(ageField){
+    ageField.value = age + ' jaar';
+  }
+}
 
 /* =====================================================
    COMPLETED TABS
