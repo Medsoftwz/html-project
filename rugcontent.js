@@ -125,7 +125,7 @@ LBK — Discus intervertebralis
 { terms:["Discus protrusie"], code:"LBKE" },
 { terms:["Discus extrusie"], code:"LBKF" },
 { terms:["Discus sequestratie"], code:"LBKG" },
-{ terms:["Discushernia"], code:"LBKH" },
+{ terms:["Discushernia / Discus hernia"], code:"LBKH" },
 { terms:["Mediane hernia"], code:"LBKHA" },
 { terms:["Paramediane hernia"], code:"LBKHB" },
 { terms:["Foraminale hernia"], code:"LBKHC" },
@@ -144,7 +144,7 @@ LB6 — Radices / nervus spinalis
 */
 
 { terms:["Zenuwwortels / Radices spinales / Nervus spinalis"], code:"LBM" },
-{ terms:["Discushernia"], code:"LBMA" },
+{ terms:["Discushernia / Discus hernia"], code:"LBMA" },
 { terms:["Radiculopathie"], code:"LBMB" },
 { terms:["L4 radiculopathie"], code:"LBMC" },
 { terms:["L5 radiculopathie"], code:"LBMD" },
@@ -239,6 +239,23 @@ LBT — Systemische oorzaken
 
 { terms:["Niet rug, orgaangebonden oorzaken"], code:"LBTM" },
 
+/*
+==================================================
+LBH — Heup en bekkenring
+==================================================
+*/
+
+{ terms:["Heup- en bekkenring pathologie"], code:"LBTM5" },
+{ terms:["Coxartrose"], code:"LBTM51" },
+{ terms:["Femoro-acetabulair impingement (FAI)"], code:"LBTM52" },
+{ terms:["Labrumletsel van de heup"], code:"LBTM53" },
+{ terms:["Trochanter major pijnsyndroom (GTPS)"], code:"LBTM54" },
+{ terms:["Gluteale tendinopathie"], code:"LBTM55" },
+{ terms:["Bursitis trochanterica"], code:"LBTM56" },
+{ terms:["Avaskulaire necrose van de heupkop"], code:"LBTM57" },
+{ terms:["Iliopsoas tendinopathie / snapping hip"], code:"LBTM58" },
+{ terms:["Stressfractuur van de heup of bekkenring"], code:"LBTM59" },
+
 { terms:["Bekkenbodem- en gynaecologische oorzaken"], code:"LBTM1" },
 { terms:["Bekkenbodemdysfunctie"], code:"LBTM11" },
 { terms:["Pelvic congestion syndrome"], code:"LBTM12" },
@@ -246,6 +263,7 @@ LBT — Systemische oorzaken
 { terms:["Adenomyose"], code:"LBTM14" },
 { terms:["Pelvic inflammatory disease (PID)"], code:"LBTM15" },
 { terms:["Ovariumtorsie"], code:"LBTM16" },
+{ terms:["Postpartum bekkeninstabiliteit"], code:"LBTM17" },
 
 { terms:["Gastro-intestinale oorzaken"], code:"LBTM2" },
 { terms:["Maag- of duodenumulcus"], code:"LBTM21" },
@@ -268,7 +286,17 @@ LBT — Systemische oorzaken
 { terms:["Fibromyalgie"], code:"LBTR1" },
 { terms:["Centrale sensitisatie syndroom"], code:"LBTR2" },
 { terms:["Somatisch-symptoomstoornis"], code:"LBTR3" },
-{ terms:["Chronische primaire lage-rugpijn (ICD-11)"], code:"LBTR4" },
+
+{ terms:["Chronische primaire lage-rugpijn (ICD-11 code: MG30.01)"], code:"LBTS" },
+{ terms:["Mechanisch-achtige primaire lage-rugpijn"], code:"LBTSA" },
+{ terms:["Centrale sensitisatie-gedomineerde lage-rugpijn"], code:"LBTSB" },
+{ terms:["Stress-geïnduceerde primaire lage-rugpijn"], code:"LBTSC" },
+{ terms:["Somatisch-symptoomprofiel met lage-rugpijn"], code:"LBTSD" },
+{ terms:["Multiregionale primaire pijn met focus op lage rug"], code:"LBTSE" },
+{ terms:["Posttraumatische primaire lage-rugpijn zonder structurele schade"], code:"LBTSF" },
+{ terms:["Primaire lage-rugpijn met kinesiophobia (bewegingsangst)"], code:"LBTSG" },
+{ terms:["Primaire lage-rugpijn door maladaptieve motorische patronen"], code:"LBTSH" },
+{ terms:["Primaire lage-rugpijn binnen ME/CVS (niet regio-specifiek, maar primaire pijn)"], code:"LBTSI" },
 
 /*
 ==================================================
