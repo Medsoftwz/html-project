@@ -38,19 +38,7 @@ window.DATASET = [
 
 { terms:["Aandoeningen lumbale wervelzuil"], code:"LB" },
 
-/*
-==================================================
-LB1 — Gerefereerde viscerale pijn
-==================================================
-*/
-{ terms:["Gerefereerde pijn vanuit de viscera"], code:"LBA" },
-{ terms:["Nefrolithiasis"], code:"LBAA" },
-{ terms:["Pyelonefritis"], code:"LBAB" },
-{ terms:["Abdominaal aorta aneurysma"], code:"LBAC" },
-{ terms:["Pancreatitis"], code:"LBAD" },
-{ terms:["Endometriose"], code:"LBAE" },
-{ terms:["Prostaatpathologie"], code:"LBAF" },
-{ terms:["Retroperitoneale tumor"], code:"LBAG" },
+
 
 /*
 ==================================================
@@ -80,9 +68,9 @@ LB3 — Gewricht / peri-articulair
 { terms:["SI-gewricht dysfunctie"], code:"LBDD" },
 { terms:["Ankylosing spondylitis"], code:"LBDE" },
 { terms:["Axiale spondyloartritis"], code:"LBDF" },
-{ terms:["Enthesitis"], code:"LBDG" },
 { terms:["Ligamentaire instabiliteit"], code:"LBDH" },
 { terms:["Spondylolisthesis"], code:"LBDI" },
+{ terms:["Enthesitis / Inflammatie van de aanhechtingspunten"], code:"LBDG" },
 
 /*
 ==================================================
@@ -205,6 +193,7 @@ LBT — Systemische oorzaken
 { terms:["Primair bottumor (osteosarcoom, chondrosarcoom, Ewing)"], code:"LBTA3" },
 { terms:["Meningeoom"], code:"LBTA4" },
 { terms:["Spinaal schwannoom"], code:"LBTA5" },
+{ terms:["Retroperitoneale tumor"], code:"LBTA7" },
 
 { terms:["Inflammatoire en reumatologische oorzaken"], code:"LBTC" },
 { terms:["Psoriatische spondylitis"], code:"LBTC1" },
@@ -223,6 +212,7 @@ LBT — Systemische oorzaken
 { terms:["Spinale epidurale veneuze congestie"], code:"LBTF1" },
 { terms:["Aorto-iliacale occlusieve ziekte (Leriche syndroom)"], code:"LBTF2" },
 { terms:["Retroperitoneale bloeding"], code:"LBTF3" },
+{ terms:["Abdominaal aorta aneurysma"], code:"LBTF5" },
 
 { terms:["Metabole en systemische oorzaken"], code:"LBTG" },
 { terms:["Hyperparathyreoïdie"], code:"LBTG1" },
@@ -237,7 +227,13 @@ LBT — Systemische oorzaken
 { terms:["Spinale AVM / durale AV-fistel"], code:"LBTK4" },
 { terms:["HNPP (Hereditary neuropathy with liability to pressure palsies)"], code:"LBTK5" },
 
-{ terms:["Niet rug, orgaangebonden oorzaken"], code:"LBTM" },
+/*
+==================================================
+LB1 — Gerefereerde  pijn
+==================================================
+*/
+
+{ terms:["Gerefereerde pijn vanuit de omgeving en de viscera"], code:"LBTM" },
 
 /*
 ==================================================
@@ -261,6 +257,7 @@ LBH — Heup en bekkenring
 { terms:["Pelvic congestion syndrome"], code:"LBTM12" },
 { terms:["Uterus myomen met druk op plexus lumbosacralis"], code:"LBTM13" },
 { terms:["Adenomyose"], code:"LBTM14" },
+{ terms:["Endometriose"], code:"LBTM18" },
 { terms:["Pelvic inflammatory disease (PID)"], code:"LBTM15" },
 { terms:["Ovariumtorsie"], code:"LBTM16" },
 { terms:["Postpartum bekkeninstabiliteit"], code:"LBTM17" },
@@ -269,11 +266,15 @@ LBH — Heup en bekkenring
 { terms:["Maag- of duodenumulcus"], code:"LBTM21" },
 { terms:["Colitis / diverticulitis"], code:"LBTM22" },
 { terms:["Galblaaspathologie (cholecystitis, galstenen)"], code:"LBTM23" },
+{ terms:["Pancreatitis"], code:"LBTM25" },
 
-{ terms:["Urologische oorzaken (aanvullend)"], code:"LBTM3" },
+{ terms:["Urologische oorzaken"], code:"LBTM3" },
 { terms:["Ureterobstructie door tumor of strictuur"], code:"LBTM31" },
 { terms:["Prostatitis (acuut/chronisch)"], code:"LBTM32" },
+{ terms:["Prostaatpathologie"], code:"LBTM37" },
 { terms:["Testiculaire torsie (referred pain)"], code:"LBTM33" },
+{ terms:["Nefrolithiasis"], code:"LBTM35" },
+{ terms:["Pyelonefritis"], code:"LBTM36" },
 
 { terms:["Biomechanische en houdingsgerelateerde oorzaken"], code:"LBTP" },
 { terms:["Scheuermann-kyfose"], code:"LBTP1" },
@@ -287,16 +288,16 @@ LBH — Heup en bekkenring
 { terms:["Centrale sensitisatie syndroom"], code:"LBTR2" },
 { terms:["Somatisch-symptoomstoornis"], code:"LBTR3" },
 
-{ terms:["Chronische primaire lage-rugpijn (ICD-11 code: MG30.01)"], code:"LBTS" },
-{ terms:["Mechanisch-achtige primaire lage-rugpijn"], code:"LBTSA" },
-{ terms:["Centrale sensitisatie-gedomineerde lage-rugpijn"], code:"LBTSB" },
-{ terms:["Stress-geïnduceerde primaire lage-rugpijn"], code:"LBTSC" },
-{ terms:["Somatisch-symptoomprofiel met lage-rugpijn"], code:"LBTSD" },
-{ terms:["Multiregionale primaire pijn met focus op lage rug"], code:"LBTSE" },
-{ terms:["Posttraumatische primaire lage-rugpijn zonder structurele schade"], code:"LBTSF" },
-{ terms:["Primaire lage-rugpijn met kinesiophobia (bewegingsangst)"], code:"LBTSG" },
-{ terms:["Primaire lage-rugpijn door maladaptieve motorische patronen"], code:"LBTSH" },
-{ terms:["Primaire lage-rugpijn binnen ME/CVS (niet regio-specifiek, maar primaire pijn)"], code:"LBTSI" },
+{ terms:["Chronische primaire lage-rugpijn (ICD-11 code: MG30.01)"], code:"LBW" },
+{ terms:["Mechanisch-achtige primaire lage-rugpijn"], code:"LBWA" },
+{ terms:["Centrale sensitisatie-gedomineerde lage-rugpijn"], code:"LBWB" },
+{ terms:["Stress-geïnduceerde primaire lage-rugpijn"], code:"LBWC" },
+{ terms:["Somatisch-symptoomprofiel met lage-rugpijn"], code:"LBWD" },
+{ terms:["Multiregionale primaire pijn met focus op lage rug"], code:"LBWE" },
+{ terms:["Posttraumatische primaire lage-rugpijn zonder structurele schade"], code:"LBWF" },
+{ terms:["Primaire lage-rugpijn met kinesiophobia (bewegingsangst)"], code:"LBWG" },
+{ terms:["Primaire lage-rugpijn door maladaptieve motorische patronen"], code:"LBWH" },
+{ terms:["Primaire lage-rugpijn binnen ME/CVS (niet regio-specifiek, maar primaire pijn)"], code:"LBWI" },
 
 /*
 ==================================================
