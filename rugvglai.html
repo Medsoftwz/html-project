@@ -441,7 +441,13 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "uitgelokt_door",
       type: "checkbox",
       text: "Pijn vermeerdert door:",
+      info: `
+Pijn bij rotatie van de rug wijst vooral op:
+* Facetgewrichten (meest typisch); * SI‑gewricht; * Myofasciale structuren; Foramenstenose / radiculopathie
 
+Meestal géén rotatiepijn:
+* Hernia → vooral pijn bij flexie, niet bij rotatie; * Myelumcompressie → neurologische tekens, geen rotatiepijn; * Viscerale pijn → niet beweging‑afhankelijk.
+	  `,
       options: [
         "Niets",
 		"Beweging",
@@ -565,14 +571,29 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "klinische_testen",
       type: "checkbox",
       text: "Klinische testen",
+	  info: `
+Positieve Lasègue = radiculaire pijn tussen 30°–70° bij heffen van het gestrekte been → typisch voor L5/S1‑hernia.
+Crossed Lasègue: pijn in het aangedane been wanneer het andere been wordt geheven → zeer specifiek voor hernia.
+Bragard‑test: dorsiflexie van de voet tijdens Lasègue verergert radiculaire pijn → bevestigt zenuwprikkeling.
 
+Pijn bij extensie (achteroverbuigen) wijst vooral op:
+* facetartropathie; * spinale stenose; * spondylolisthesis; * foramenstenose
+Niet typisch voor hernia (die geeft pijn bij flexie)
+
+De SI‑provocatiebatterij. De internationaal gebruikte Cluster van Laslett bestaat uit:
+Thigh Thrust ; Gaenslen‑test ; Compression‑test; Distraction‑test; Sacral Thrust
+Positief = de test lokt de herkenbare SI‑pijn uit. ≥ 3 positieve testen → sterke aanwijzing voor SI‑gewrichtspijn. 1 positieve test → niet betrouwbaar.
+Pijn is NIET dermatoomgebonden. Geen neurologische uitval (reflexen, kracht, sensibiliteit normaal)
+Het helpt SI‑pijn onderscheiden van:
+* L5/S1‑radiculopathie; * Facetpijn; * Musculaire pijn; * Trochanterpijnsyndroom
+			  `,
       options: [
         "Bewegingsbeperking lumbaal",
         "Bewegingsbeperking van de onderrug bij het achteroverbuigen en rotaties",		
         "Paravertebrale spierspasmen / spierknopen /spiespasmen",
-        "Pijn bij extensie",
-        "Pijn bij flexie",		
-        "Lasègue positief",
+        "Pijn bij extensie (achteroverbuigen)",
+        "Pijn bij flexie (vooroverbuigen)",		
+        "L5K- S1K - Lasègue positief",
         "Gekruiste Lasègue",
         "SI provocatietesten positief",
         "Normaal onderzoek"
@@ -615,13 +636,13 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
       options: [
         "Geen motorische uitval",
-        "L4A - Quadriceps spierzwakte",		
-        "L4A - Moeite met traplopen en opstaan uit hurk- of zitpositie",
-        "L5A - Tibialis anterior, Extensor hallucis/digitorum longus spierzwakte",		
-        "L5A - Klapvoet - moeite met staan en stappen op de hielen - moeite met heffen van de voorvoet en grote teen",
-		"L5A - Voetheffersparese: kan niet op de hielen lopen - zwakke dorsiflexie van de voet",
-        "L5A - Moeite stappen op hakken",		
-		"L5A - Grote teen omhoog trekken is zwak"
+        "L4M - Quadriceps spierzwakte",		
+        "L4M - Moeite met traplopen en opstaan uit hurk- of zitpositie",
+        "L5M - Tibialis anterior, Extensor hallucis/digitorum longus spierzwakte",		
+        "L5M - Klapvoet - moeite met staan en stappen op de hielen - moeite met heffen van de voorvoet en grote teen",
+		"L5M - Voetheffersparese: kan niet op de hielen lopen - zwakke dorsiflexie van de voet",
+        "L5M - Moeite stappen op hakken",		
+		"L5M - Grote teen omhoog trekken is zwak"
 		    ]
     },
 
@@ -643,10 +664,10 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
       options: [
         "Geen motorische uitval",
-        "S1A - Zwakte van de kuitspieren",
-        "S1A - Moeite met staan en stappen op de tenen -  Plantairflexiezwakte",
-        "QEA - Bilaterale spierzwakte - spierzwakte in rechter en linker been",
-        "CRA - Zwakte in beide benen - Spastische gang - rechtstaan en trappen lopen moeilijk"
+        "S1M - Zwakte van de kuitspieren",
+        "S1M - Moeite met staan en stappen op de tenen -  Plantairflexiezwakte",
+        "QEM - Bilaterale spierzwakte - spierzwakte in rechter en linker been",
+        "CRM - Zwakte in beide benen - Spastische gang - rechtstaan en trappen lopen moeilijk"
 		    ]
     },
 
@@ -668,8 +689,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 			  `,
 
       options: [
-        "Geen sensibele symptomen",
-        "Gevoelsstoornis in dermatoom",
+        "Geen gevoelsstoornissen",
+        "Gevoelsstoornis volgens dermatoom",
         "Tintelingen",
         "Doof gevoel",
         "Slapend gevoel",
@@ -683,17 +704,32 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       id: "reflexen",
       type: "checkbox",
       text: "Reflexafwijkingen",
-
+      info: `
+Adductorenreflex.
+Patiënt ligt op de rug. Benen gestrekt en licht gespreid (ongeveer 20–30° abductie).
+De onderzoeker staat aan de buitenzijde van het te testen been.
+Je tikt met de reflexhamer op: de mediale zijde van de knie, net boven de mediale femurcondyl (= aanhechtingsgebied van de adductoren)
+Het geteste been maakt een snelle adductiebeweging (naar binnen trekken).
+De biceps‑femorisreflex.
+Patiënt ligt op de buik (prone) of zit met de benen hangend over de tafel. Het te testen been is ontspannen.
+Je tikt met de reflexhamer op de pees van de m. biceps femoris, aan de laterale achterzijde van de knie, net boven de fibulakop (dit is de pees die voelbaar is wanneer de patiënt de knie licht buigt).
+De normale reactie: een korte flexiebeweging van de knie. Soms een lichte contractie van de hamstrings voelbaar onder de vingers.
+Dit toont dat de L5–S1 wortels en de n. ischiadicus goed functioneren.
+De tibialis‑posteriorreflex
+Patiënt ligt op de rug of zit met het been ontspannen. De voet is in lichte dorsiflexie en lichte inversie (maar dit hoeft niet perfect).
+Je tikt met de reflexhamer op de pees van de m. tibialis posterior, aan de mediale zijde van de enkel, net achter de malleolus medialis. Dit is dezelfde regio waar je de tibialis‑posteriorpuls zou voelen.
+De normale reactie: een korte inversiebeweging van de voet (de voetzool draait licht naar binnen). Soms voel je vooral een contractie van de spier zonder duidelijke beweging
+	  `,
       options: [
         "Geen reflexafwijkingen",
 		"Hyperreflexie",
-        "Verminderde of afwezige kniepeesreflex (patellareflex)",
-        "Verminderde of afwezige achillespeesreflex",
-		"Cremasterreflex is verminderd",
-		"Voetzoolreflex / Teken van Babinski is aanwezig",
-		"Biceps femoris-reflex is verminderd",
-		"Tibialis posterior-reflex is verminderd",
-		"Adductorenreflex is verminderd"	
+        "L4R - Verminderde of afwezige kniepeesreflex (patellareflex)",
+        "S1R - Verminderde of afwezige achillespeesreflex",
+		"L2R - Cremasterreflex is verminderd",
+		"RMR - Voetzoolreflex / Teken van Babinski is aanwezig",
+		"L5R - S1R - Biceps femoris-reflex is verminderd",
+		"L5R - Tibialis posterior-reflex is verminderd",
+		"L3R - L4R - Adductorenreflex is verminderd"	
       ]
     }
 
@@ -816,71 +852,104 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
 {
   id: "extra",
-  title: "Extra ?",
+  title: "Extra",
   freeText: true,
   
   questions: [
 
     /* ============================
-       Radiculaire provocatie
+       Primaire 
     ============================ */
+
     {
-      id: "crossed_slr",
-      type: "radio",
-      text: "Crossed Straight Leg Raise (SLR) test:",
-      info: 'Crossed SLR-test: een test waarbij het heffen van het niet-pijnlijke been pijn uitlokt in het aangedane been, wat sterk wijst op een zenuwwortelcompressie door een hernia.',
-      options: ["Positief", "Negatief", "Niet uitgevoerd"]
+      id: "primair1",
+      type: "checkbox",
+      text: "Chronische primaire lage-rugpijn (ICD-11: MG30.02)",
+	  info: `
+Chronische primaire lage-rugpijn is lage-rugpijn die langer dan drie maanden aanwezig blijft, zonder dat er één duidelijke structurele oorzaak gevonden wordt die alle klachten volledig verklaart. Volgens de ICD-11 wordt deze aandoening gezien als een biopsychosociaal pijnsyndroom, waarbij biologische, psychologische en sociale factoren samen bijdragen aan het in stand houden van de pijn.
+
+De pijn kan gepaard gaan met bewegingsbeperkingen, verminderde belastbaarheid, vermoeidheid, slaapproblemen, angst voor bewegen of emotionele belasting. De klachten zijn reëel en kunnen een belangrijke impact hebben op dagelijks functioneren, werk en kwaliteit van leven.
+Chronische primaire lage-rugpijn betekent dus niet dat “er niets aan de hand is”, maar wel dat de pijn niet volledig verklaard kan worden door bijvoorbeeld een hernia, breuk, ontsteking of andere specifieke aandoening.	  
+	  
+Bij lage-rugpijn is het grootste deel “niet-specifiek”. In de literatuur wordt meestal geschat dat ongeveer 85–90% van de lage-rugklachten geen duidelijke specifieke structurele oorzaak heeft. Van de mensen met chronische lage-rugpijn valt een groot deel daardoor binnen het concept van chronische primaire lage-rugpijn, zeker wanneer er ook sprake is van functionele beperkingen of psychosociale factoren. 
+`,	  
+	  options: [
+ "CPLBPA – Mechanisch-achtige primaire lage-rugpijn",
+ "CPLBPB – Centrale sensitisatie-gedomineerde lage-rugpijn",
+ "CPLBPC – Stress-geïnduceerde primaire lage-rugpijn",
+ "CPLBPD – Somatisch-symptoomprofiel met lage-rugpijn",
+ "CPLBPE – Multiregionale primaire pijn met focus op lage rug",
+ "CPLBPF – Posttraumatische primaire lage-rugpijn zonder structurele schade",
+ "CPLBPG – Primaire lage-rugpijn met kinesiophobia (bewegingsangst)",
+ "CPLBPH – Primaire lage-rugpijn door maladaptieve motorische patronen",
+ "CPLBPI – Primaire lage-rugpijn binnen ME/CVS (niet regio-specifiek, maar primaire pijn)",
+  "Geen",
+  "Zeker niet"
+      ]
     },
 
     /* ============================
        Heupscreening
     ============================ */
+
     {
-      id: "faber_test",
+      id: "heupen1",
       type: "radio",
-      text: "FABER-test (heup/SI):",
-      info: "een test waarbij het been in een figuur  wordt gelegd om pijn uit het heup- of SI gewricht uit te lokken.",
-      options: ["Positief", "Negatief", "Niet uitgevoerd"]
+      text: "Werden er bij het onderzoek van de heupen afwijkingen vastgesteld ?",
+      options: ["Ja", "Neen", "Niet uitgevoerd"]
     },
 
     {
-      id: "fadir_test",
-      type: "radio",
-      text: "FADIR-test (impingement heup):",
-      info: `FADIR-test:een test waarbij de heup naar binnen wordt geduwd om impingement of labrumproblemen op te sporen.`,
-      options: ["Positief", "Negatief", "Niet uitgevoerd"]
+      id: "heupen2",
+      type: "textarea",
+      text: "Vermits ja, welke afwijkingen?",
+	  conditional: "heupen1 == 'Ja'"
     },
 
     /* ============================
        SI-gewricht testen
     ============================ */
     {
-      id: "si_tests",
-      type: "checkbox",
-      text: "SI-gewricht provocatietesten:",
-      info: `SI-testen: provocatietesten die pijn uit het SI-gewricht uitlokken door druk, torsie of belasting van het bekken.`,
-      options: [
-        "Thigh Thrust positief",
+      id: "SI1",
+      type: "radio",
+      text: "Waren de SI-gewricht provocatietesten gestoord ?",
+      info: `SI-testen: provocatietesten die pijn uit het SI-gewricht uitlokken door druk, torsie of belasting van het bekken.
+	    "Thigh Thrust positief",
         "Gaenslen positief",
         "SI Compression positief",
         "SI Distraction positief",
         "Sacral Thrust positief",
-        "Alle negatief",
-        "Niet uitgevoerd"
-      ]
-    },
-
+	  `,
+      options: ["Ja", "Neen", "Niet uitgevoerd"]
+      },
+	  
+    {
+      id: "SI2",
+      type: "textarea",
+      text: "Vermits ja, hoeveel van die SI testen waren er positief en dus afwijkend of abnormaal ?",
+	  conditional: "SI1 == 'Ja'"
+    },	  
+	  
     /* ============================
        Facetgewrichten
     ============================ */
     {
-      id: "facet_loading",
+      id: "facet1",
       type: "radio",
-      text: "Facet loading test (extensie + rotatie):",
-      info: `Facet loading test: een test waarbij extensie en rotatie van de onderrug pijn uit de facetgewrichten kan opwekken.`,
-      options: ["Positief", "Negatief", "Niet uitgevoerd"]
+      text: "FAC - Was de facet loading test (extensie + rotatie) gestoord ?",
+      info: `Facet loading test: een test waarbij extensie en rotatie van de onderrug pijn uit de facetgewrichten kan opwekken.
+	  De facet loading test (ook wel Kemp‑test genoemd) is een provocatietest om pijn uit de facetgewrichten of foramina op te wekken.
+	  
+	  Uitvoering: patiënt staat rechtop. Armen ontspannen langs het lichaam. De onderzoeker staat achter of naast de patiënt.
+	  Je laat de patiënt (of begeleidt passief): Extensie + lateroflexie + rotatie naar dezelfde zijde (bijvoorbeeld: extensie + rechts zijwaarts buigen + rechts roteren). Dit sluit de facetgewrichten aan die zijde en vernauwt het foramen.
+	  De test is positief wanneer de beweging lokale unilaterale lage rugpijn uitlokt (typisch facet) of radiculaire pijn uitlokt (foramenstenose)
+Belangrijk: 
+Lokale pijn → facetgewrichten
+Dermatoomgebonden uitstralende pijn → foramenstenose / radiculopathie
+	  	  `,
+      options: ["Ja, lokale pijn - FAC", "Ja, dermatoom gebonden pijn - RAD", "Neen", "Niet uitgevoerd"]
     },
-
+	
     /* ============================
        Neurologische aanvullingen
     ============================ */
@@ -889,7 +958,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       type: "radio",
       text: "Trendelenburg-test:",
       info: "een test waarbij éénbenige stand toont of de heupspieren (gluteus medius, L5) voldoende kracht hebben.",
-      options: ["Positief", "Negatief", "Niet uitgevoerd"]
+      options: ["Gestoord", "Negatief", "Niet uitgevoerd"]
     },
     {
       id: "gangbeeld",
@@ -897,13 +966,6 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       text: "Gangbeeld:",
       info: "Antalgisch gangbeeld: een manier van stappen waarbij iemand het pijnlijke been ontlast door er zo kort mogelijk op te steunen.",
       options: ["Normaal", "Antalgisch", "Klapvoet", "Breed gangspoor", "Niet beoordeeld"]
-    },
-    {
-      id: "voetstand",
-      type: "radio",
-      text: "Voetstand:",
-      info: "Voetstand: afwijkingen zoals platvoet of holvoet kunnen wijzen op biomechanische problemen of neurologische zwakte.",
-      options: ["Normaal", "Platvoet", "Holvoet", "Andere", "Niet beoordeeld"]
     },
 
     /* ============================
@@ -1353,13 +1415,11 @@ if(
   Array.isArray(redFlagsQuestion.answer) &&
   redFlagsQuestion.answer.length > 0 &&
   !redFlagsQuestion.answer.includes("Geen rode vlaggen")
-){
+)
 
-  summary.push(
-    "🔴 Rode vlaggen aanwezig — urgente evaluatie overwegen."
-  );
+{
+  summary.push( "🔴 Rode vlaggen aanwezig — urgente evaluatie overwegen." );
 }
-
 
   /* =========================
      Radiculair patroon
@@ -1372,12 +1432,9 @@ if(
       hasAnswer(allQuestions,"Tintelingen") ||
       hasAnswer(allQuestions,"Gevoelsstoornis in dermatoom")
     )
-  ){
-
-    summary.push(
-      "🟣 Mogelijk radiculair syndroom."
-    );
-  }
+  )
+  
+  { summary.push( "🟢 Mogelijk radiculair syndroom." ); }
 
   /* =========================
      Inflammatoir patroon
@@ -1386,12 +1443,9 @@ if(
   if(
     hasAnswer(allQuestions,"Inflammatoire pijn") &&
     hasAnswer(allQuestions,"Ochtendstijfheid")
-  ){
-
-    summary.push(
-      "🟡 Inflammatoir pijnpatroon mogelijk."
-    );
-  }
+  )
+  
+  { summary.push( "🟢 Inflammatoir pijnpatroon mogelijk." ); }
 
   /* =========================
      Mechanisch patroon
@@ -1400,40 +1454,41 @@ if(
   if(
     hasAnswer(allQuestions,"Mechanische pijn") &&
     hasAnswer(allQuestions,"Beweging")
-  ){
-
-    summary.push(
-      "🟡 Mechanisch pijnpatroon waarschijnlijk."
-    );
-  }
+  )
+  
+  { summary.push( "🟢 Mechanisch pijnpatroon waarschijnlijk." ); }
 
   /* =========================
      Neurologische uitval
   ========================= */
 
   if(
-    hasAnswer(allQuestions,"L4A") ||
-    hasAnswer(allQuestions,"L5A") ||	
-    hasAnswer(allQuestions,"S1A") ||	
-    hasAnswer(allQuestions,"QEA") ||		
-    hasAnswer(allQuestions,"CRA")
-  ){
+    hasAnswer(allQuestions,"L4M") ||
+    hasAnswer(allQuestions,"L5M") ||	
+    hasAnswer(allQuestions,"S1M") ||	
+    hasAnswer(allQuestions,"QEM") ||		
+    hasAnswer(allQuestions,"CRM")
+  )
+  
+  { summary.push("🟣 Neurologische uitval aanwezig." ); }
+  
+    /* =========================
+ Primaire lage rugpijn
+  ========================= */
 
-    summary.push(
-      "🟣 Neurologische uitval aanwezig."
-    );
-  }
+  if(
+    hasAnswer(allQuestions,"CPLBP")
+  )
+  
+  { summary.push("🟡 Mogelijk chronische primaire lage rugpijn" ); }
 
   /* =========================
      Geen specifieke patronen
   ========================= */
 
-  if(summary.length === 0){
-
-    summary.push(
-      "🟢 Geen duidelijke alarmsignalen of specifieke patronen gedetecteerd."
-    );
-  }
+  if(summary.length === 0)
+  
+  { summary.push("🟡 Geen duidelijke alarmsignalen of specifieke patronen gedetecteerd."); }
 
   return summary;
 }
