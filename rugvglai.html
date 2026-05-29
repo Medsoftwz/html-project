@@ -429,7 +429,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Bij rust, geen of nauwelijks pijn",		
         "Pijn bij verandering van zitten naar staan / aanzet tot beweging | FAC2",	
         "Na wat beweging, de pijn neemt af",	
-        "Ochtendstijfheid",			
+        "Ochtendstijfheid  minder dan 30 minuten",	
+        "Ochtendstijfheid  meer dan 30 minuten",				
         "Nachtelijke pijn",
         "Intermitterende pijn",
         "Fluctuerende pijn",
@@ -457,7 +458,8 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Vooroverbuigen /bolle rug maken",
         "Achteroverbuigen / holle rug maken",
         "Ronddraaien = rotatie | FAC6",
-        "Romp naar de zijkant buigen = lateroflexie",		
+        "Romp naar de zijkant buigen = lateroflexie",
+		"Door recht/op te staan na zitten of liggen",
         "Hoesten / Niezen / Persen",
         "Langdurig staan",
         "Langdurig zitten",
@@ -1020,6 +1022,15 @@ Dermatoomgebonden uitstralende pijn → foramenstenose / radiculopathie
       info: "Werkbelasting:</span> fysieke belasting zoals tillen, draaien of langdurig zitten kan rugpijn verergeren.",
       options: ["Ja", "Nee", "Onzeker"]
     },
+
+    {
+      id: "pijncatastroferen",
+      type: "radio",
+      text: "Pijncatastroferen:",
+      info: "Pijncatastroferen:</span> het automatisch verwachten dat pijn ernstig, gevaarlijk of onbeheersbaar is, waardoor de pijnervaring zelf toeneemt.",
+      options: ["Ja", "Nee", "Onzeker"]
+    },
+
 	
 	  /* ============================
        Primaire 
@@ -1053,15 +1064,45 @@ Bij lage-rugpijn is het grootste deel “niet-specifiek”. In de literatuur wor
       ]
     },
 
-	
-	
     {
-      id: "pijncatastroferen",
+      id: "extrabeeld1",
       type: "radio",
-      text: "Pijncatastroferen:",
-      info: "Pijncatastroferen:</span> het automatisch verwachten dat pijn ernstig, gevaarlijk of onbeheersbaar is, waardoor de pijnervaring zelf toeneemt.",
-      options: ["Ja", "Nee", "Onzeker"]
-    },
+      text: "Beeld differentiële diagnose - stroomdiagram",
+      info: `
+			<img 
+		       src="images/ruga0.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;"
+			   >
+			  `,
+	    options: []
+
+     },
+	 
+    {
+      id: "extrabeeld2",
+      type: "radio",
+      text: "Beeld differentiële diagnose - types",
+      info: `
+			<img 
+		       src="images/rugdd.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;"
+			   >
+			  `,
+	    options: []
+
+     },	 
+	 
+	 
 
 ]
 }
@@ -1481,7 +1522,7 @@ if(
 )
 
 {
-  summary.push( "🔴 Rode vlaggen aanwezig — urgente tussenkomst overwegen." );
+  summary.push( "🔴 Alarmsymptomen aanwezig — urgente tussenkomst mogelijk noodzakelijk" );
 }
 
 /* =========================
@@ -1516,7 +1557,7 @@ Radiculair patroon
     hasAnswer(allQuestions,"Nachtelijk")
   )
   
-  { summary.push( "🟢 Inflammatoir pijnpatroon mogelijk. <br>Indien verdere Analyse gewenst: stuur dit PDf bestand naar AI" ); 
+  { summary.push( "🟢 Inflammatoir pijnpatroon mogelijk. <br>Indien verdere data-analyse gewenst: stuur dit PDf bestand naar AI" ); 
   }
 
  /* =========================
@@ -1530,7 +1571,7 @@ Radiculair patroon
 )
 )	
   
-  { summary.push( "🟢 Facet syndroom mogelijk. <br>Indien verdere Analyse gewenst: stuur dit PDf bestand naar AI" ); 
+  { summary.push( "🟢 Facet syndroom mogelijk. <br>Indien verdere data-analyse gewenst: stuur dit PDf bestand naar AI" ); 
   }
 
   /* =========================
@@ -1542,7 +1583,7 @@ Radiculair patroon
     hasAnswer(allQuestions,"FAC")
   )
   
-  { summary.push( "🟢 Mechanisch pijnpatroon waarschijnlijk. <br>Indien verdere Analyse gewenst: stuur dit PDF bestand naar AI" ); 
+  { summary.push( "🟢 Mechanisch pijnpatroon waarschijnlijk. <br>Indien verdere data-analyse gewenst: stuur dit PDF bestand naar AI" ); 
   }
 
   /* =========================
@@ -1557,7 +1598,7 @@ Radiculair patroon
     hasAnswer(allQuestions,"CRM")
   )
   
-  { summary.push("🟣 Krachtvermindering en mogelijk neurologische uitval aanwezig. <br>Indien verdere Analyse gewenst: stuur dit PDF bestand naar AI" );
+  { summary.push("🟣 Krachtvermindering en mogelijk neurologische uitval aanwezig. <br>Indien verdere data-analyse gewenst: stuur dit PDF bestand naar AI" );
   }
   
     /* =========================
@@ -1567,7 +1608,7 @@ Radiculair patroon
 	if( hasAnswer(allQuestions,"CPLBP")
      	)
 	
-   { summary.push("🟡 Mogelijk chronische primaire lage rugpijn. <br>Indien verdere Analyse gewenst: stuur dit PDF bestand naar AI");
+   { summary.push("🟡 Mogelijk chronische primaire lage rugpijn. <br>Indien verdere data-analyse gewenst: stuur dit PDF bestand naar AI");
    }
 
   /* =========================
@@ -1921,7 +1962,7 @@ Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
 Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
 Bespreek de resultaten steeds met een arts of zorgverlener.<br>
 Dit pdf bestand (mogelijk anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.<br>
-Dit bestand bevat eveneens een interne interpretatie door AI. Kan in de toekomst verder worden uitgebouwd.
+Dit bestand bevat eveneens een interne interpretatie. Kan in de toekomst verder worden uitgebouwd.
 </div>
 
 <div class="notes-block">
