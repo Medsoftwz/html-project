@@ -341,7 +341,7 @@ const FORM_CONFIG = {
         "Stoelgangproblemen: obstipatie of incontinentie",				
         "Plots krachtverlies of gevoelloosheid in been of voet",	
         "Snel toenemende pijn en verlamming - progressieve neurologische uitval",
-        "Nachtelijke progressieve pijn",			
+        "Nachtelijke pijn",			
         "Maligniteit in voorgeschiedenis",
 		"Koorts",
         "Gewichtsverlies",
@@ -357,11 +357,38 @@ const FORM_CONFIG = {
 ===================================================== */
 
 {
-  id: "pijnkarakter",
-  title: "Pijn",
+  id: "anamnese",
+  title: "Anamnese",
   freeText: true,
 
   questions: [
+
+    {
+      id: "ontstaan_pijn",
+      type: "checkbox",
+      text: "Hoe is de pijn ontstaan ?",
+	  options: [
+        "Acuut",
+        "Acuut na trauma",	
+        "Acuut na verkeerde beweging",		
+        "Subacuut - geleidelijk aan",		
+        "Chronisch - pijn is er al lang",
+        "Weet het niet"		
+      ]
+    },
+
+    {
+      id: "duur_pijn",
+      type: "checkbox",
+      text: "Wanneer is de pijn ontstaan ?",
+	  options: [
+        "Gisteren",
+        "Sinds een paar dagen",	
+        "Meer dan een week geleden",		
+        "Meer dan een maand geleden",		
+        "Weet het niet meer",
+      ]
+    },
 
     {
       id: "aard_pijn",
@@ -380,36 +407,84 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 		- kriebelingen
 `,
       options: [
-        "Mechanische pijn",
-        "Inflammatoire pijn",		
-        "Neuropathische pijn",
-        "Scherpe/Brandende pijn",
-        "Elektrische schokken",
-        "Tintelingen/Paresthesieën",
-        "Doffe/Zeurende pijn",
+        "Scherpe / Brandende pijn",
+        "Scherpe pijn bij bepaalde bewegingen (rotatie, extensie) - FAC4",		
         "Stekende pijn",
-        "Nachtelijke pijn",
-        "Ochtendstijfheid",
+        "Elektrische schokken",
+        "Tintelingen / Paresthesieën",
+        "Doffe / Zeurende pijn",
+        "Doof gevoel",
+        "Slapend gevoel",
+        "Gevoelloosheid",				
         "Moeilijk te omschrijven"
       ]
     },
 
     {
       id: "verloop_pijn",
-      type: "radio",
+      type: "checkbox",
       text: "Verloop van de pijn",
 
       options: [
-
-        "Acuut ontstaan",
-        "Subacuut ontstaan",		
-        "Chronisch aanwezig",
-        "Ochtendstijfheid",		
-        "Intermitterend",
-        "Progressief toenemend",
-        "Fluctuerend"
+        "Bij rust, geen of nauwelijks pijn",		
+        "Pijn bij verandering van zitten naar staan / aanzet tot beweging | FAC2",	
+        "Na wat beweging, de pijn neemt af",	
+        "Ochtendstijfheid",			
+        "Nachtelijke pijn",
+        "Intermitterende pijn",
+        "Fluctuerende pijn",
+        "Voortdurende pijn - pijn is continu aanwezig",	
+        "Wisselend verloop, niet te voorspellen",
+        "Ander verloop"
       ]
     },
+
+    {
+      id: "uitgelokt_door",
+      type: "checkbox",
+      text: "Pijn vermeerdert door:",
+      info: `
+→ Pijn bij rotatie van de rug wijst vooral op:
+* Facetgewrichten (meest typisch); * SI‑gewricht; * Myofasciale structuren; * Foramenstenose / radiculopathie
+
+→ Hernia → vooral pijn bij flexie, niet bij rotatie; 
+→ Myelumcompressie → neurologische tekens, geen rotatiepijn; 
+→ Viscerale pijn → niet beweging‑afhankelijk.
+	  `,
+      options: [
+		"Beweging",
+		"Rust",		
+        "Vooroverbuigen /bolle rug maken",
+        "Achteroverbuigen / holle rug maken",
+        "Ronddraaien = rotatie | FAC6",
+        "Romp naar de zijkant buigen = lateroflexie",		
+        "Hoesten / Niezen / Persen",
+        "Langdurig staan",
+        "Langdurig zitten",
+        "Wandelen / Stappen",
+		"Door trappen op en af te stappen",
+        "Andere feiten die de pijn vermeerderen - zie rubriek extra opmerkingen",
+        "Niet specifiek"		
+      ]
+    },   
+	
+    {
+      id: "vermindert_door",
+      type: "checkbox",
+      text: "De pijn vermindert door:",
+      options: [
+		"Beweging",
+        "Wandelen / Stappen",		
+		"Rust",
+        "Langdurig zitten",		
+		"Na wat beweging, neemt de pijn af",				
+        "Vooroverbuigen /bolle rug maken",
+        "Achteroverbuigen / holle rug maken",
+        "Andere feiten die de pijn verminderen - zie rubriek extra opmerkingen",
+        "Niet specifiek"	
+      ]
+    },
+
 
     {
       id: "vas",
@@ -432,55 +507,12 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 
 {
   id: "provocatie",
-  title: "Specifiek",
+  title: "Uitstraling",
   freeText: true,
 
   questions: [
 
-    {
-      id: "uitgelokt_door",
-      type: "checkbox",
-      text: "Pijn vermeerdert door:",
-      info: `
-Pijn bij rotatie van de rug wijst vooral op:
-* Facetgewrichten (meest typisch); * SI‑gewricht; * Myofasciale structuren; Foramenstenose / radiculopathie
 
-Meestal géén rotatiepijn:
-* Hernia → vooral pijn bij flexie, niet bij rotatie; * Myelumcompressie → neurologische tekens, geen rotatiepijn; * Viscerale pijn → niet beweging‑afhankelijk.
-	  `,
-      options: [
-        "Niets",
-		"Beweging",
-        "Vooroverbuigen",
-        "Achteroverbuigen / holle rug maken",
-        "Rotatie / romp naar de zijkant draaien",
-        "Hoesten / Niezen / Persen",
-        "Langdurig zitten",
-        "Langdurig staan",
-        "Wandelen / Stappen",
-		"Door trappen op en af te stappen",
-        "Andere - zie rubriek extra opmerkingen",
-        "Niet specifiek"		
-      ]
-    },   
-	
-    {
-      id: "vermindert_door",
-      type: "checkbox",
-      text: "De pijn vermindert door:",
-      options: [
-	    "Niets",
-        "Vooroverbuigen / bolle rug maken",
-        "Achteroverbuigen / holle rug maken",		
-        "Liggen / Zitten",
-        "Rust",
-		"Van houding wisselen",
-        "Beweging / Stappen",
-        "Warmte",
-        "Andere zaken die de pijn verminderen - zie rubriek extra opmerkingen",
-        "Niet specifiek"	
-      ]
-    },
 
     {
       id: "dermatoom1",
@@ -497,7 +529,11 @@ Meestal géén rotatiepijn:
 			   border-radius:2px;
 		    ">
 			  `,
-      options: ["Ja", "Neen, de pijn straalt niet uit", "Neen, de pijn straalt niet dermatoomgebonden uit" ]
+      options: [
+	  "Ja", 
+	  "Neen, de pijn straalt niet dermatoomgebonden uit",
+	  "Neen, de pijn straalt niet uit"
+	  ]
     },
 
     {
@@ -520,7 +556,7 @@ Meestal géén rotatiepijn:
 {
   id: "uitstraling_locatie",
   type: "checkbox",
-  text: "De pijn straalt niet of niet dermatoomgebonden, uit",
+  text: "De pijn straalt niet dermatoomgebonden uit",
   icd11: "ME86.21",
 
   options: [
@@ -566,7 +602,30 @@ Meestal géén rotatiepijn:
   freeText: true,
 
   questions: [
+  
+    {
+      id: "pijnsoort",
+      type: "radio",
+      text: "Beoordeling soort pijn",
+	  info: `
+<span style="color:#FF8080;">Mechanische rugpijn:</span> Pijn die toeneemt of verergert bij beweging, fysische belasting zoals tillen, rotatie, extensie. Verbetert in rust. Ochtendstijfheid < 30 min. Geen nachtelijke pijn.
+Oorzaken: facetgewrichten, SI‑gewricht, discusdegeneratie, spier- en ligamentaire pijn, spondylolisthesis, foramenstenose
 
+<span style="color:#502828;">Inflammatoire rugpijn: </span> rugpijn die wordt veroorzaakt door een chronische ontsteking in de wervelkolom of het bekken. Nachtelijke pijn. Beter bij beweging, slechter in rust. Ochtendstijfheid > 30–60 min. Geleidelijk begin. Vaak jongere patiënten (< 40 jaar).
+Oorzaken: axiale spondyloartritis, ziekte van Bechterew, psoriasis‑artritis, reactieve artritis.
+
+<span style="color:#800080;">Neuropathische pijn: </span>Pijn door zenuwschade of zenuwcompressie. Brandende, schietende, elektrische pijn, dermatoomgebonden uitstraling, positieve SLR/Lasègue, sensibiliteitsstoornissen, reflexafwijkingen, krachtsverlies
+Oorzaken; L4–L5–S1 radiculopathie, hernia, foramenstenose, perifere neuropathie, ischiadicusletsels.
+`,
+     options: [
+        "Mechanische pijn",
+        "Inflammatoire pijn",		
+        "Neuropathische pijn",
+        "Andere soort pijn",
+        "Weet het niet"
+		  ]
+    },	  
+    
     {
       id: "klinische_testen",
       type: "checkbox",
@@ -586,17 +645,20 @@ Positief = de test lokt de herkenbare SI‑pijn uit. ≥ 3 positieve testen → 
 Pijn is NIET dermatoomgebonden. Geen neurologische uitval (reflexen, kracht, sensibiliteit normaal)
 Het helpt SI‑pijn onderscheiden van:
 * L5/S1‑radiculopathie; * Facetpijn; * Musculaire pijn; * Trochanterpijnsyndroom
-			  `,
+`,
       options: [
-        "Bewegingsbeperking lumbaal",
-        "Bewegingsbeperking van de onderrug bij het achteroverbuigen en rotaties",		
-        "Paravertebrale spierspasmen / spierknopen /spiespasmen",
-        "Pijn bij extensie (achteroverbuigen)",
-        "Pijn bij flexie (vooroverbuigen)",		
-        "L5K- S1K - Lasègue positief",
-        "Gekruiste Lasègue",
-        "SI provocatietesten positief",
-        "Normaal onderzoek"
+        "Bewegingsbeperking lumbaal / van de onderrug",		  
+        " Flexie (vooroverbuigen) - de pijn vermindert",
+        " Extensie (achteroverbuigen) - de pijn vermindert",
+        " Flexie (vooroverbuigen) - pijn vermeerdert",
+        " Extensie (achteroverbuigen) - pijn vermeerdert"	,
+        " Lateroflexie (zijwaarts buigen) - pijn vermeerdert",
+        " Rotatie (draaien) - pijn vermeerdert",
+	    "Lasègue positief - L5K & S1K",
+        "Gekruiste Lasègue positief",
+        "Bragard test positief",
+        "SI provocatietesten positief - SIP",
+        "Klinische testen niet duidelijk"
       ]
     },
 
@@ -606,15 +668,15 @@ Het helpt SI‑pijn onderscheiden van:
   text: "Lokalisatie van drukpijn",
 
   options: [
-    "Geen speciale drukpijn",
-    "Paravertebrale drukpijn",
+    "Paravertebrale drukpijn / spierspasmen / spierknopen /spiespasmen",
     "Duidelijke scherpe pijn bij drukken op een facegewricht",	
     "Midline drukpijn op wervelkolom",
     "Drukpijn SI-gewricht",
     "Gluteale drukpijn",
     "Drukpijn incisura ischiadica",
     "Diffuse musculaire drukpijn",
-    "Lokale drukpijn thoracolumbale overgang"
+    "Lokale drukpijn thoracolumbale overgang",
+    "Geen speciale drukpijn"
   ]
 },
 
@@ -635,14 +697,14 @@ Het helpt SI‑pijn onderscheiden van:
 			  `,
 
       options: [
-        "Geen motorische uitval",
         "L4M - Quadriceps spierzwakte",		
         "L4M - Moeite met traplopen en opstaan uit hurk- of zitpositie",
         "L5M - Tibialis anterior, Extensor hallucis/digitorum longus spierzwakte",		
         "L5M - Klapvoet - moeite met staan en stappen op de hielen - moeite met heffen van de voorvoet en grote teen",
 		"L5M - Voetheffersparese: kan niet op de hielen lopen - zwakke dorsiflexie van de voet",
         "L5M - Moeite stappen op hakken",		
-		"L5M - Grote teen omhoog trekken is zwak"
+		"L5M - Grote teen omhoog trekken is zwak",
+        "Geen motorische uitval"
 		    ]
     },
 
@@ -675,7 +737,7 @@ Het helpt SI‑pijn onderscheiden van:
     {
       id: "sensibele_uitval",
       type: "checkbox",
-      text: "Sensibele symptomen / Gevoelsstoornissen",
+      text: "Sensibele uitval / Gevoelsstoornissen",
 	  	  	  	   info: `
 			<img 
 		       src="images/dermatomen.jpg"
@@ -689,14 +751,11 @@ Het helpt SI‑pijn onderscheiden van:
 			  `,
 
       options: [
-        "Geen gevoelsstoornissen",
-        "Gevoelsstoornis volgens dermatoom",
-        "Tintelingen",
-        "Doof gevoel",
-        "Slapend gevoel",
-        "Gevoelloosheid",			
+        "Gevoelsstoornis in het pijnuitstraling-dermatoom",
+	
         "Dissociatieve sensibiliteitsstoornis",
-        "Rijbroekanesthesie/Zadelanesthesie"
+        "Rijbroekanesthesie/Zadelanesthesie",
+        "Geen gevoelsstoornissen"		
       ]
     },
 
@@ -721,7 +780,6 @@ Je tikt met de reflexhamer op de pees van de m. tibialis posterior, aan de media
 De normale reactie: een korte inversiebeweging van de voet (de voetzool draait licht naar binnen). Soms voel je vooral een contractie van de spier zonder duidelijke beweging
 	  `,
       options: [
-        "Geen reflexafwijkingen",
 		"Hyperreflexie",
         "L4R - Verminderde of afwezige kniepeesreflex (patellareflex)",
         "S1R - Verminderde of afwezige achillespeesreflex",
@@ -729,7 +787,8 @@ De normale reactie: een korte inversiebeweging van de voet (de voetzool draait l
 		"RMR - Voetzoolreflex / Teken van Babinski is aanwezig",
 		"L5R - S1R - Biceps femoris-reflex is verminderd",
 		"L5R - Tibialis posterior-reflex is verminderd",
-		"L3R - L4R - Adductorenreflex is verminderd"	
+		"L3R - L4R - Adductorenreflex is verminderd",
+        "Geen reflexafwijkingen"		
       ]
     }
 
@@ -765,7 +824,7 @@ De normale reactie: een korte inversiebeweging van de voet (de voetzool draait l
 	    {
       id: "mri1",
       type: "radio",
-      text: "Werd er RX, MRI, CT scan, botscan etc. van de lumbale wervelkolom uitgevoerd ?",
+      text: "Werd er beeldvorming zoals RX, MRI, CT scan, botscan etc. van de lumbale wervelkolom uitgevoerd ?",
       options: ["Ja", "Nee", "Weet het niet"]
     },
     {
@@ -857,38 +916,7 @@ De normale reactie: een korte inversiebeweging van de voet (de voetzool draait l
   
   questions: [
 
-    /* ============================
-       Primaire 
-    ============================ */
-
-    {
-      id: "primair1",
-      type: "checkbox",
-      text: "Chronische primaire lage-rugpijn (ICD-11: MG30.02)",
-	  info: `
-Chronische primaire lage-rugpijn is lage-rugpijn die langer dan drie maanden aanwezig blijft, zonder dat er één duidelijke structurele oorzaak gevonden wordt die alle klachten volledig verklaart. Volgens de ICD-11 wordt deze aandoening gezien als een biopsychosociaal pijnsyndroom, waarbij biologische, psychologische en sociale factoren samen bijdragen aan het in stand houden van de pijn.
-
-De pijn kan gepaard gaan met bewegingsbeperkingen, verminderde belastbaarheid, vermoeidheid, slaapproblemen, angst voor bewegen of emotionele belasting. De klachten zijn reëel en kunnen een belangrijke impact hebben op dagelijks functioneren, werk en kwaliteit van leven.
-Chronische primaire lage-rugpijn betekent dus niet dat “er niets aan de hand is”, maar wel dat de pijn niet volledig verklaard kan worden door bijvoorbeeld een hernia, breuk, ontsteking of andere specifieke aandoening.	  
-	  
-Bij lage-rugpijn is het grootste deel “niet-specifiek”. In de literatuur wordt meestal geschat dat ongeveer 85–90% van de lage-rugklachten geen duidelijke specifieke structurele oorzaak heeft. Van de mensen met chronische lage-rugpijn valt een groot deel daardoor binnen het concept van chronische primaire lage-rugpijn, zeker wanneer er ook sprake is van functionele beperkingen of psychosociale factoren. 
-`,	  
-	  options: [
- "CPLBPA – Mechanisch-achtige primaire lage-rugpijn",
- "CPLBPB – Centrale sensitisatie-gedomineerde lage-rugpijn",
- "CPLBPC – Stress-geïnduceerde primaire lage-rugpijn",
- "CPLBPD – Somatisch-symptoomprofiel met lage-rugpijn",
- "CPLBPE – Multiregionale primaire pijn met focus op lage rug",
- "CPLBPF – Posttraumatische primaire lage-rugpijn zonder structurele schade",
- "CPLBPG – Primaire lage-rugpijn met kinesiophobia (bewegingsangst)",
- "CPLBPH – Primaire lage-rugpijn door maladaptieve motorische patronen",
- "CPLBPI – Primaire lage-rugpijn binnen ME/CVS (niet regio-specifiek, maar primaire pijn)",
-  "Geen",
-  "Zeker niet"
-      ]
-    },
-
-    /* ============================
+      /* ============================
        Heupscreening
     ============================ */
 
@@ -992,6 +1020,41 @@ Dermatoomgebonden uitstralende pijn → foramenstenose / radiculopathie
       info: "Werkbelasting:</span> fysieke belasting zoals tillen, draaien of langdurig zitten kan rugpijn verergeren.",
       options: ["Ja", "Nee", "Onzeker"]
     },
+	
+	  /* ============================
+       Primaire 
+    ============================ */
+
+    {
+      id: "primair1",
+      type: "checkbox",
+      text: "Chronische primaire lage-rugpijn - CPLBP",
+	  icd11: "MG30.02",
+	  info: `
+Chronische primaire lage-rugpijn is lage-rugpijn die langer dan drie maanden aanwezig blijft, zonder dat er één duidelijke structurele oorzaak gevonden wordt die alle klachten volledig verklaart. Volgens de ICD-11 wordt deze aandoening gezien als een biopsychosociaal pijnsyndroom, waarbij biologische, psychologische en sociale factoren samen bijdragen aan het in stand houden van de pijn.
+
+De pijn kan gepaard gaan met bewegingsbeperkingen, verminderde belastbaarheid, vermoeidheid, slaapproblemen, angst voor bewegen of emotionele belasting. De klachten zijn reëel en kunnen een belangrijke impact hebben op dagelijks functioneren, werk en kwaliteit van leven.
+Chronische primaire lage-rugpijn betekent dus niet dat “er niets aan de hand is”, maar wel dat de pijn niet volledig verklaard kan worden door bijvoorbeeld een hernia, breuk, ontsteking of andere specifieke aandoening.	  
+	  
+Bij lage-rugpijn is het grootste deel “niet-specifiek”. In de literatuur wordt meestal geschat dat ongeveer 85–90% van de lage-rugklachten geen duidelijke specifieke structurele oorzaak heeft. Van de mensen met chronische lage-rugpijn valt een groot deel daardoor binnen het concept van chronische primaire lage-rugpijn, zeker wanneer er ook sprake is van functionele beperkingen of psychosociale factoren. 
+`,	  
+	  options: [
+ "CPLBPA – Mechanisch-achtige primaire lage-rugpijn",
+ "CPLBPB – Centrale sensitisatie-gedomineerde lage-rugpijn",
+ "CPLBPC – Stress-geïnduceerde primaire lage-rugpijn",
+ "CPLBPD – Somatisch-symptoomprofiel met lage-rugpijn",
+ "CPLBPE – Multiregionale primaire pijn met focus op lage rug",
+ "CPLBPF – Posttraumatische primaire lage-rugpijn zonder structurele schade",
+ "CPLBPG – Primaire lage-rugpijn met kinesiophobia (bewegingsangst)",
+ "CPLBPH – Primaire lage-rugpijn door maladaptieve motorische patronen",
+ "CPLBPI – Primaire lage-rugpijn binnen ME/CVS (niet regio-specifiek, maar primaire pijn)",
+  "Geen",
+  "Zeker niet"
+      ]
+    },
+
+	
+	
     {
       id: "pijncatastroferen",
       type: "radio",
@@ -1418,45 +1481,69 @@ if(
 )
 
 {
-  summary.push( "🔴 Rode vlaggen aanwezig — urgente evaluatie overwegen." );
+  summary.push( "🔴 Rode vlaggen aanwezig — urgente tussenkomst overwegen." );
 }
 
-  /* =========================
-     Radiculair patroon
-  ========================= */
+/* =========================
 
-  if(
-    hasAnswer(allQuestions,"Lasègue positief") &&
-    (
-      hasAnswer(allQuestions,"Pijn straalt uit tot onder de knie") ||
-      hasAnswer(allQuestions,"Tintelingen") ||
-      hasAnswer(allQuestions,"Gevoelsstoornis in dermatoom")
-    )
-  )
-  
-  { summary.push( "🟢 Mogelijk radiculair syndroom." ); }
+&& betekent én (dus dat moet er in ieder geval staan)
+|| betekent ofwel ... ofwel 
+
+======================= */
+
+/* =========================
+Radiculair patroon
+======================= */
+
+  if( hasAnswer(allQuestions,"neuropathisch") &&
+
+( hasAnswer(allQuestions,"RAD") ||
+   hasAnswer(allQuestions,"L4") ||
+   hasAnswer(allQuestions,"L5") ||   
+   hasAnswer(allQuestions,"S1")
+)
+)
+ { summary.push( "🟢 Mogelijk radiculair syndroom. <br>Indien verdere Analyse gewenst: stuur dit PDf bestand naar AI" ); 
+    }
 
   /* =========================
      Inflammatoir patroon
   ========================= */
 
   if(
-    hasAnswer(allQuestions,"Inflammatoire pijn") &&
-    hasAnswer(allQuestions,"Ochtendstijfheid")
+    hasAnswer(allQuestions,"Inflammatoir") &&
+    hasAnswer(allQuestions,"Ochtendstijfheid") ||
+    hasAnswer(allQuestions,"Nachtelijk")
   )
   
-  { summary.push( "🟢 Inflammatoir pijnpatroon mogelijk." ); }
+  { summary.push( "🟢 Inflammatoir pijnpatroon mogelijk. <br>Indien verdere Analyse gewenst: stuur dit PDf bestand naar AI" ); 
+  }
+
+ /* =========================
+     Facet syndroom
+  ========================= */
+
+  if( hasAnswer(allQuestions,"FAC") &&
+  ( hasAnswer(allQuestions,"ochtendstijfheid") || 
+     hasAnswer(allQuestions,"rotatie") ||   
+     hasAnswer(allQuestions,"bewegen")
+)
+)	
+  
+  { summary.push( "🟢 Facet syndroom mogelijk. <br>Indien verdere Analyse gewenst: stuur dit PDf bestand naar AI" ); 
+  }
 
   /* =========================
      Mechanisch patroon
   ========================= */
 
   if(
-    hasAnswer(allQuestions,"Mechanische pijn") &&
-    hasAnswer(allQuestions,"Beweging")
+    hasAnswer(allQuestions,"Mechanisch") &&
+    hasAnswer(allQuestions,"FAC")
   )
   
-  { summary.push( "🟢 Mechanisch pijnpatroon waarschijnlijk." ); }
+  { summary.push( "🟢 Mechanisch pijnpatroon waarschijnlijk. <br>Indien verdere Analyse gewenst: stuur dit PDF bestand naar AI" ); 
+  }
 
   /* =========================
      Neurologische uitval
@@ -1470,17 +1557,18 @@ if(
     hasAnswer(allQuestions,"CRM")
   )
   
-  { summary.push("🟣 Neurologische uitval aanwezig." ); }
+  { summary.push("🟣 Krachtvermindering en mogelijk neurologische uitval aanwezig. <br>Indien verdere Analyse gewenst: stuur dit PDF bestand naar AI" );
+  }
   
     /* =========================
  Primaire lage rugpijn
   ========================= */
 
-  if(
-    hasAnswer(allQuestions,"CPLBP")
-  )
-  
-  { summary.push("🟡 Mogelijk chronische primaire lage rugpijn" ); }
+	if( hasAnswer(allQuestions,"CPLBP")
+     	)
+	
+   { summary.push("🟡 Mogelijk chronische primaire lage rugpijn. <br>Indien verdere Analyse gewenst: stuur dit PDF bestand naar AI");
+   }
 
   /* =========================
      Geen specifieke patronen
@@ -1488,7 +1576,7 @@ if(
 
   if(summary.length === 0)
   
-  { summary.push("🟡 Geen duidelijke alarmsignalen of specifieke patronen gedetecteerd."); }
+  { summary.push("🟡 Geen duidelijke alarmsignalen of specifieke patronen gedetecteerd.<br> Werden alle vragen zorgvuldig beantwoord ?"); }
 
   return summary;
 }
@@ -1621,21 +1709,29 @@ function updateCompletedTabs(){
 
 function showResults(){
 
-const redFlagsChecked =
-  document.querySelectorAll(
-    'input[name="red_flags"]:checked'
-  );
+  const redFlagsChecked =
+    document.querySelectorAll(
+      'input[name="red_flags"]:checked'
+    );
 
-if(redFlagsChecked.length === 0){
+  if(redFlagsChecked.length === 0){
+    alert('Gelieve de rubriek "Pasop !" in te vullen.');
+    return;
+  }
 
-  alert( 'Gelieve de rubriek "Pasop !" in te vullen.' );
+  const pijnsoortChecked =
+    document.querySelector(
+      'input[name="pijnsoort"]:checked'
+    );
 
-  return;
-}
+  if(!pijnsoortChecked){
+    alert('Gelieve "Onderzoek - Beoordeling soort pijn" in te vullen.');
+    return;
+  }
 
   const data = collectData();
 
-const w = window.open('', '_blank', 'width=1000,height=900');
+  const w = window.open('', '_blank', 'width=1000,height=900');
 
   w.document.write(buildReportHtml(data));
 
@@ -1830,7 +1926,7 @@ Dit bestand bevat eveneens een interne interpretatie door AI. Kan in de toekomst
 
 <div class="notes-block">
 
-<b>AI interpretatie</b>
+<b>Geautomatiseerde interpretatie op basis van beslisregels</b>
 
 ${clinicalSummary.join('<br>')}
 
