@@ -269,7 +269,7 @@ button.action:hover{ background:#295f95; }
 
 const FORM_CONFIG = {
 
-  title: "Vertigo Intake",
+  title: "Vertigo - Structured Clinical Data Generator",
 
   pdfPrefix: "Vertigo",
 
@@ -1870,8 +1870,8 @@ body{
 Deze vragenlijst is een oriënterend en experimenteel instrument. <br>
 Resultaten zijn indicatief en vervangen geen klinische evaluatie of professioneel medisch advies.<br>
 Bespreek de resultaten steeds met een arts of zorgverlener.<br>
-Dit pdf bestand (anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.<br>
-Op zich bevat dit bestand een interne interpretatie door AI. Kan in de toekomst verder worden uitgebreid.
+Dit pdf bestand (mogelijk anoniem) eens voorleggen aan AI zoals ChatGPT of Copilot kan wellicht ook geen kwaad.<br>
+Dit bestand bevat eveneens een interne interpretatie. Kan in de toekomst verder worden uitgebouwd.
 </div>
 
 <hr>
@@ -1886,13 +1886,12 @@ Op zich bevat dit bestand een interne interpretatie door AI. Kan in de toekomst 
 ">
 
 <div style="
-  font-size:22px;
-  font-weight:600;
-  color:#222;
+  font-size:17px;
+  font-weight:500;
+  color:#109b08;
   margin-bottom:14px;
-">
-AI klinische samenvatting
-</div>
+  
+"> Geautomatiseerde interpretatie op basis van beslisregels </div>
 
 ${clinicalSummary.map(item=>`
 
@@ -1919,11 +1918,7 @@ ${sectionsHtml}
 
 <hr>
 
-
 <button onclick="window.print()"> Opslaan als PDF </button>
-
-
-</body>
 
   </body>
   </html>
