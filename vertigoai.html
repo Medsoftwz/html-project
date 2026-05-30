@@ -8,16 +8,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <meta property="og:locale" content="nl_BE">
-<meta property="og:title" content="Vertigo Intake Formulier">
+<meta property="og:title" content="Vertigo - Structured Clinical Data Generator">
 <meta property="og:description" content="Experimentele versie – as-is">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://medsoftwz.github.io/vertigo.html">
+<meta property="og:url" content="https://medsoftwz.github.io/vertigoai.html">
 <meta property="og:image" content="https://medsoftwz.github.io/images/vertigo.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpg">
 
-<title>Vertigo - Aanmeldformulier voor AI</title>
+<title>Vertigo | e-aanmeldformulier</title>
 
 <style>
 body{
@@ -291,7 +291,7 @@ const FORM_CONFIG = {
 
 {
   id: "geboortedatum",
-  type: "date",
+  type: "birth8",
   text: "Geboortedatum"
 },
 
@@ -848,14 +848,19 @@ if(q.type === 'text'){
     `;
   }
 
-else if(q.type === 'date'){
+else if(q.type === 'birth8'){
 
   wrapper.innerHTML = `
-    <input 
-      type="date"
-      id="${q.id}"
+    <input
+      type="text"
+      id="geboortedatum"
+      maxlength="10"
+      inputmode="numeric"
+      placeholder="DDMMJJJJ"
     >
   `;
+
+  setTimeout(initBirthDateField,100);
 }
 
 else if(q.type === 'readonly'){
@@ -1599,31 +1604,100 @@ document.addEventListener('change',(e)=>{
 
 });
 
+function initBirthDateField(){
+
+  const geboortedatum =
+    document.getElementById('geboortedatum');
+
+  if(!geboortedatum) return;
+
+  geboortedatum.addEventListener('input',()=>{
+
+    let v =
+      geboortedatum.value.replace(/\D/g,'');
+
+    if(v.length > 8){
+      v = v.substring(0,8);
+    }
+
+    let formatted = '';
+
+    if(v.length > 0){
+      formatted += v.substring(0,2);
+    }
+
+    if(v.length >= 3){
+      formatted += '/' + v.substring(2,4);
+    }
+
+    if(v.length >= 5){
+      formatted += '/' + v.substring(4,8);
+    }
+
+    geboortedatum.value = formatted;
+
+    if(v.length === 8){
+
+      calculateAge();
+
+      document
+        .getElementById('leeftijd')
+        .focus();
+    }
+
+  });
+
+}
+
 function calculateAge(){
 
-  const dob = document.getElementById('geboortedatum');
+  const veld =
+    document.getElementById('geboortedatum');
 
-  if(!dob || !dob.value) return;
+  if(!veld) return;
 
-  const birthDate = new Date(dob.value);
-  const today = new Date();
+  const v =
+    veld.value.replace(/\D/g,'');
 
-  let age = today.getFullYear() - birthDate.getFullYear();
+  if(v.length !== 8) return;
 
-  const m = today.getMonth() - birthDate.getMonth();
+  const dag   = parseInt(v.substring(0,2));
+  const maand = parseInt(v.substring(2,4));
+  const jaar  = parseInt(v.substring(4,8));
+
+  const geboorte =
+    new Date(jaar,maand-1,dag);
+
+  if(
+    geboorte.getDate() !== dag ||
+    geboorte.getMonth() !== maand-1 ||
+    geboorte.getFullYear() !== jaar
+  ){
+    return;
+  }
+
+  const vandaag = new Date();
+
+  let leeftijd =
+    vandaag.getFullYear() -
+    geboorte.getFullYear();
+
+  const m =
+    vandaag.getMonth() -
+    geboorte.getMonth();
 
   if(
     m < 0 ||
-    (m === 0 && today.getDate() < birthDate.getDate())
+    (
+      m === 0 &&
+      vandaag.getDate() < geboorte.getDate()
+    )
   ){
-    age--;
+    leeftijd--;
   }
 
-  const ageField = document.getElementById('leeftijd');
-
-  if(ageField){
-    ageField.value = age + ' jaar';
-  }
+  document.getElementById('leeftijd').value =
+    leeftijd + ' jaar';
 }
 
 /* =====================================================
