@@ -92,7 +92,26 @@ maand.addEventListener('input',()=>{
  calculateAge();
 });
 
-jaar.addEventListener('input',calculateAge);
+jaar.addEventListener('input',()=>{
+
+  calculateAge();
+
+  if(jaar.value.length===4){
+
+    jaar.blur();
+
+    setTimeout(()=>{
+      document.getElementById('samenvatting')
+        .scrollIntoView({
+          behavior:'smooth',
+          block:'center'
+        });
+    },250);
+
+  }
+
+});
+
 document.getElementById('naam').addEventListener('input',calculateAge);
 
 geboortejaar.addEventListener('input',()=>{
@@ -132,10 +151,14 @@ function calculateAge(){
    return;
  }
 
- let age=new Date().getFullYear()-geb.getFullYear();
- const md=new Date().getMonth()-geb.getMonth();
+const vandaag = new Date();
 
- if(md<0 || (md===0 && new Date().getDate()<geb.getDate())) age--;
+const leeftijd =
+  (vandaag - geb) /
+  (365.2425 * 24 * 60 * 60 * 1000);
+
+const age =
+  leeftijd.toFixed(1).replace('.',',');
 
  document.getElementById('leeftijd').value=age+' jaar';
  document.getElementById('samenvatting').innerText=naam?naam+' is '+age+' jaar oud.':'Leeftijd: '+age+' jaar.';
