@@ -1680,27 +1680,18 @@ function calculateAge(){
 
   const vandaag = new Date();
 
-  let leeftijd =
-    vandaag.getFullYear() -
-    geboorte.getFullYear();
+  const leeftijd =
+    (vandaag - geboorte) /
+    (365.2425 * 24 * 60 * 60 * 1000);
 
-  const m =
-    vandaag.getMonth() -
-    geboorte.getMonth();
-
-  if(
-    m < 0 ||
-    (
-      m === 0 &&
-      vandaag.getDate() < geboorte.getDate()
-    )
-  ){
-    leeftijd--;
-  }
+  const age =
+    leeftijd.toFixed(1).replace('.',',');
 
   document.getElementById('leeftijd').value =
-    leeftijd + ' jaar';
+    age + ' jaar';
 }
+
+ 
 
 /* =====================================================
    COMPLETED TABS

@@ -43,9 +43,7 @@ button{
   font-size:15px;
 }
 
-button:hover{
-  opacity:0.9;
-}
+button:hover{ opacity:0.9; }
 
 </style>
 </head>
@@ -54,15 +52,10 @@ button:hover{
 <h3>Leeftijd Berekenen</h3>
 
 <div class="field">
-<label>Naam</label>
-<input type="text" id="naam">
-</div>
-
-<div class="field">
 <label>Geboortedatum</label>
 <div class="date-row">
-<input type="text" id="dag" maxlength="2" inputmode="numeric" placeholder="DD">
-<input type="text" id="maand" maxlength="2" inputmode="numeric" placeholder="MM">
+<input type="text" id="dag" maxlength="2" inputmode="numeric" placeholder="dag - 2 cijfers">
+<input type="text" id="maand" maxlength="2" inputmode="numeric" placeholder="maand - 2 cijfers">
 <input type="text" id="jaar" maxlength="4" inputmode="numeric" placeholder="JJJJ">
 </div>
 <div id="datumFout" class="error"></div>
@@ -87,12 +80,12 @@ button:hover{
 
 <div class="field">
 <label>Geboortejaar</label>
-<input type="text" id="geboortejaar" maxlength="4" inputmode="numeric">
+<input type="text" id="geboortejaar" maxlength="4" inputmode="numeric" placeholder="1948">
 </div>
 
 <div class="field">
 <label>Overlijdensjaar</label>
-<input type="text" id="overlijdensjaar" maxlength="4" inputmode="numeric">
+<input type="text" id="overlijdensjaar" maxlength="4" inputmode="numeric" placeholder="2026">
 </div>
 
 <div class="field">
@@ -102,7 +95,7 @@ button:hover{
 </div>
 
 <div class="field">
-  <button type="button" onclick="resetForm()">  Reset </button>
+  <button type="button" onclick="resetForm()"> Reset </button>
 </div>
 
 <script>
@@ -142,8 +135,6 @@ jaar.addEventListener('input',()=>{
 
 });
 
-document.getElementById('naam').addEventListener('input',calculateAge);
-
 geboortejaar.addEventListener('input',()=>{
  if(geboortejaar.value.length===4){
    overlijdensjaar.focus();
@@ -168,7 +159,6 @@ function calculateAge(){
  const d=parseInt(dag.value);
  const m=parseInt(maand.value);
  const y=parseInt(jaar.value);
- const naam=document.getElementById('naam').value.trim();
 
  document.getElementById('datumFout').innerText='';
 
@@ -191,7 +181,8 @@ const age =
   leeftijd.toFixed(1).replace('.',',');
 
  document.getElementById('leeftijd').value=age+' jaar';
- document.getElementById('samenvatting').innerText=naam?naam+' is '+age+' jaar oud.':'Leeftijd: '+age+' jaar.';
+document.getElementById('samenvatting').innerText =
+  'Leeftijd: ' + age + ' jaar.';
 }
 
 function calculateDeathAge(){
@@ -211,8 +202,6 @@ function calculateDeathAge(){
 
 function resetForm(){
 
-  document.getElementById('naam').value='';
-
   document.getElementById('dag').value='';
   document.getElementById('maand').value='';
   document.getElementById('jaar').value='';
@@ -229,9 +218,23 @@ function resetForm(){
   document.getElementById('samenvatting').innerText =
     'Nog geen leeftijd berekend.';
 
-  document.getElementById('naam').focus();
+  document.getElementById('dag').focus();
 }
 
 </script>
+
+<div style="text-align:center; margin-top:40px;">
+  <img
+    src="images/slotakkoord.jpg"
+    alt="De cirkel is rond"
+    style="
+      width:100%;
+      max-width:1200px;
+      height:auto;
+      border-radius:12px;
+    "
+  >
+</div>
+
 </body>
 </html>
