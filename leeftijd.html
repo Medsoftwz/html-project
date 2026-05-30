@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -14,245 +15,146 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpg">
 
-<title>Leeftijd Berekenen</title>
-
+<title>Leeftijd Berekenen v2</title>
 <style>
-
-body{ font-family:Arial,sans-serif; background:#f4f6f8; padding:30px;  color:#349d1d; }
-
-.card{
-  max-width:500px;
-  margin:auto;
-  background:white;
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
-
-h1{ margin:0; text-align:center; color:#1f4d7a; font-size:16px; font-weight: 400;}
-h2{ color:#349d1d; font-size:15px; border-bottom:2px solid #d9e2ec; padding-bottom:6px; font-weight: 400; }
-
-.field{ margin-bottom:20px; }
-
-label{
-  display:block;
-  margin-bottom:8px;
-  font-size:15px;
-  font-weight:normal;
-  color:#249bf4;
-}
-
-input{
-  width:100%;
-  padding:12px;
-  border:1px solid #ccc;
-  border-radius:8px;
-  font-size:15px;
-  box-sizing:border-box;
-}
-
-.readonly{ background:#f0f0f0; }
-
-.result{
-  margin-top:20px;
-  padding:15px;
-  background:#eef7ee;
-  border-left:5px solid #2e7d32;
-  border-radius:6px;
-  font-size:16px;
-}
-
+body{font-family:Arial,sans-serif;background:#f4f6f8;padding:30px}
+.card{max-width:500px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.field{margin-bottom:20px}
+label{display:block;margin-bottom:8px;color:#249bf4}
+input{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
+.date-row{display:flex;gap:8px}
+.readonly{background:#f0f0f0}
+.result{margin-top:20px;padding:15px;background:#eef7ee;border-left:5px solid #2e7d32}
+.error{color:#c62828;font-size:14px;margin-top:6px}
 </style>
 </head>
-
 <body>
-
 <div class="card">
+<h3>Leeftijd Berekenen</h3>
 
-  <h1>Leeftijd Berekenen</h1>
+<div class="field">
+<label>Naam</label>
+<input type="text" id="naam">
+</div>
 
-  <div class="field">
-    <label for="naam">Naam</label>
-    <input 
-      type="text"
-      id="naam"
-      placeholder="bv. Georges Simenon"
-    >
-  </div>
+<div class="field">
+<label>Geboortedatum</label>
+<div class="date-row">
+<input type="text" id="dag" maxlength="2" inputmode="numeric" placeholder="DD">
+<input type="text" id="maand" maxlength="2" inputmode="numeric" placeholder="MM">
+<input type="text" id="jaar" maxlength="4" inputmode="numeric" placeholder="JJJJ">
+</div>
+<div id="datumFout" class="error"></div>
+</div>
 
-  <div class="field">
-    <label for="geboortedatum">Geboortedatum</label>
-    <input 
-      type="date"
-      id="geboortedatum"
-      max=""
-    >
-  </div>
+<div class="field">
+<label>Leeftijd</label>
+<input type="text" id="leeftijd" class="readonly" readonly>
+</div>
 
-  <div class="field">
-    <label for="leeftijd">Leeftijd</label>
-    <input 
-      type="text"
-      id="leeftijd"
-      class="readonly"
-      readonly
-      placeholder="Automatisch berekend"
-    >
-  </div>
-
-  <div class="result" id="samenvatting"> Nog geen leeftijd berekend. </div>
-
+<div id="samenvatting" class="result">Nog geen leeftijd berekend.</div>
 </div>
 
 <hr>
 
-<h2>Leeftijd bij overlijden</h2>
+<h3>Leeftijd bij overlijden</h3>
 
 <div class="field">
-  <label for="geboortejaar">
-    Geboortejaar
-  </label>
-
-  <input
-    type="number"
-    id="geboortejaar"
-    placeholder="bv. 1903"
-  >
+<label>Geboortejaar</label>
+<input type="text" id="geboortejaar" maxlength="4" inputmode="numeric">
 </div>
 
 <div class="field">
-  <label for="overlijdensjaar">
-    Overlijdensjaar
-  </label>
-
-  <input
-    type="number"
-    id="overlijdensjaar"
-    placeholder="bv. 1989"
-  >
+<label>Overlijdensjaar</label>
+<input type="text" id="overlijdensjaar" maxlength="4" inputmode="numeric">
 </div>
 
 <div class="field">
-  <label for="leeftijd_overlijden">
-    Leeftijd bij overlijden
-  </label>
-
-  <input
-    type="text"
-    id="leeftijd_overlijden"
-    class="readonly"
-    readonly
-  >
+<label>Leeftijd bij overlijden</label>
+<input type="text" id="leeftijd_overlijden" class="readonly" readonly>
+<div id="overlijdenFout" class="error"></div>
 </div>
-
 
 <script>
+const dag=document.getElementById('dag');
+const maand=document.getElementById('maand');
+const jaar=document.getElementById('jaar');
+const geboortejaar=document.getElementById('geboortejaar');
+const overlijdensjaar=document.getElementById('overlijdensjaar');
 
-/* =========================
-   GEEN TOEKOMSTIGE DATUM
-========================= */
+dag.addEventListener('input',()=>{
+ if(dag.value.length===2) maand.focus();
+ calculateAge();
+});
 
-const today = new Date()
-  .toISOString()
-  .split('T')[0];
+maand.addEventListener('input',()=>{
+ if(maand.value.length===2) jaar.focus();
+ calculateAge();
+});
 
-document
-  .getElementById('geboortedatum')
-  .max = today;
+jaar.addEventListener('input',calculateAge);
+document.getElementById('naam').addEventListener('input',calculateAge);
 
-/* =========================
-   EVENT
-========================= */
+geboortejaar.addEventListener('input',()=>{
+ if(geboortejaar.value.length===4){
+   overlijdensjaar.focus();
+ }
+ calculateDeathAge();
+});
 
-document
-  .getElementById('geboortedatum')
-  .addEventListener('change', calculateAge);
+overlijdensjaar.addEventListener('input',()=>{
+ calculateDeathAge();
 
-document
-  .getElementById('geboortejaar')
-  .addEventListener('input', calculateDeathAge);
+ if(overlijdensjaar.value.length===4){
+   overlijdensjaar.blur();
 
-document
-  .getElementById('overlijdensjaar')
-  .addEventListener('input', calculateDeathAge);
-
-/* =========================
-   LEEFTIJD BEREKENEN
-========================= */
+   setTimeout(()=>{
+      document.getElementById('leeftijd_overlijden')
+      .scrollIntoView({behavior:'smooth',block:'center'});
+   },250);
+ }
+});
 
 function calculateAge(){
+ const d=parseInt(dag.value);
+ const m=parseInt(maand.value);
+ const y=parseInt(jaar.value);
+ const naam=document.getElementById('naam').value.trim();
 
-  const naam =
-    document.getElementById('naam').value.trim();
+ document.getElementById('datumFout').innerText='';
 
-  const dob =
-    document.getElementById('geboortedatum').value;
+ if(isNaN(d)||isNaN(m)||isNaN(y)) return;
 
-  if(!dob){
-    return;
-  }
+ const geb=new Date(y,m-1,d);
 
-  const birthDate = new Date(dob);
-  const today = new Date();
+ if(geb.getDate()!=d||geb.getMonth()!=m-1||geb.getFullYear()!=y){
+   document.getElementById('datumFout').innerText='Ongeldige datum';
+   return;
+ }
 
-  let age =
-    today.getFullYear() -
-    birthDate.getFullYear();
+ let age=new Date().getFullYear()-geb.getFullYear();
+ const md=new Date().getMonth()-geb.getMonth();
 
-  const monthDiff =
-    today.getMonth() -
-    birthDate.getMonth();
+ if(md<0 || (md===0 && new Date().getDate()<geb.getDate())) age--;
 
-  if(
-    monthDiff < 0 ||
-    (
-      monthDiff === 0 &&
-      today.getDate() < birthDate.getDate()
-    )
-  ){
-    age--;
-  }
-
-  document.getElementById('leeftijd')
-    .value = age + ' jaar';
-
-  const text =
-    naam
-      ? naam + ' is ' + age + ' jaar oud.'
-      : 'Leeftijd: ' + age + ' jaar.';
-
-  document.getElementById('samenvatting')
-    .innerText = text;
+ document.getElementById('leeftijd').value=age+' jaar';
+ document.getElementById('samenvatting').innerText=naam?naam+' is '+age+' jaar oud.':'Leeftijd: '+age+' jaar.';
 }
 
 function calculateDeathAge(){
+ const g=parseInt(geboortejaar.value);
+ const o=parseInt(overlijdensjaar.value);
 
-  const birthYear =
-    parseInt(
-      document.getElementById('geboortejaar').value
-    );
+ if(isNaN(g)||isNaN(o)) return;
 
-  const deathYear =
-    parseInt(
-      document.getElementById('overlijdensjaar').value
-    );
+ if(o<g){
+   document.getElementById('overlijdenFout').innerText='Overlijdensjaar kleiner dan geboortejaar';
+   return;
+ }
 
-  if(
-    isNaN(birthYear) ||
-    isNaN(deathYear)
-  ){
-    return;
-  }
-
-  const age =
-    deathYear - birthYear;
-
-  document.getElementById(
-    'leeftijd_overlijden'
-  ).value = 'ongeveer ' + age + ' jaar';
+ document.getElementById('overlijdenFout').innerText='';
+ document.getElementById('leeftijd_overlijden').value=(o-g)+' jaar';
 }
-
 </script>
-
 </body>
 </html>
