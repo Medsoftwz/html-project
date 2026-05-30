@@ -20,12 +20,33 @@
 body{font-family:Arial,sans-serif;background:#f4f6f8;padding:30px}
 .card{max-width:500px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
 .field{margin-bottom:20px}
+
 label{display:block;margin-bottom:8px;color:#249bf4}
+
 input{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
 .date-row{display:flex;gap:8px}
 .readonly{background:#f0f0f0}
-.result{margin-top:20px;padding:15px;background:#eef7ee;border-left:5px solid #2e7d32}
+
+.result{color:#109b08; margin-top:20px;padding:15px;background:#eef7ee;border-left:5px solid #2e7d32}
+
 .error{color:#c62828;font-size:14px;margin-top:6px}
+
+h3{ margin:0; text-align:center; color:#109b08; font-size:15px; font-weight: 400;}
+
+button{
+  padding:12px 20px;
+  border:none;
+  border-radius:8px;
+  background:#1f4d7a;
+  color:white;
+  cursor:pointer;
+  font-size:15px;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
 </style>
 </head>
 <body>
@@ -55,6 +76,11 @@ input{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;box-sizing
 <div id="samenvatting" class="result">Nog geen leeftijd berekend.</div>
 </div>
 
+<div class="field">
+<div style="display: flex; justify-content: center;">
+<button type="button" onclick="resetForm()">  Reset </button>
+</div>
+
 <hr>
 
 <h3>Leeftijd bij overlijden</h3>
@@ -73,6 +99,10 @@ input{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;box-sizing
 <label>Leeftijd bij overlijden</label>
 <input type="text" id="leeftijd_overlijden" class="readonly" readonly>
 <div id="overlijdenFout" class="error"></div>
+</div>
+
+<div class="field">
+  <button type="button" onclick="resetForm()">  Reset </button>
 </div>
 
 <script>
@@ -178,6 +208,30 @@ function calculateDeathAge(){
  document.getElementById('overlijdenFout').innerText='';
  document.getElementById('leeftijd_overlijden').value=(o-g)+' jaar';
 }
+
+function resetForm(){
+
+  document.getElementById('naam').value='';
+
+  document.getElementById('dag').value='';
+  document.getElementById('maand').value='';
+  document.getElementById('jaar').value='';
+
+  document.getElementById('leeftijd').value='';
+
+  document.getElementById('geboortejaar').value='';
+  document.getElementById('overlijdensjaar').value='';
+  document.getElementById('leeftijd_overlijden').value='';
+
+  document.getElementById('datumFout').innerText='';
+  document.getElementById('overlijdenFout').innerText='';
+
+  document.getElementById('samenvatting').innerText =
+    'Nog geen leeftijd berekend.';
+
+  document.getElementById('naam').focus();
+}
+
 </script>
 </body>
 </html>
