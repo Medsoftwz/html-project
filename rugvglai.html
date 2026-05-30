@@ -414,8 +414,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Tintelingen / Paresthesieën",
         "Doffe / Zeurende pijn",
         "Doof gevoel",
-        "Slapend gevoel",
-        "Gevoelloosheid",				
+        "Diepe pijn",
         "Moeilijk te omschrijven"
       ]
     },
@@ -463,8 +462,9 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
         "Hoesten / Niezen / Persen",
         "Langdurig staan",
         "Langdurig zitten",
-        "Wandelen / Stappen",
+        "Wandelen / Stappen / Stappen met lange passen",
 		"Door trappen op en af te stappen",
+		"Auto rijden",
         "Andere feiten die de pijn vermeerderen - zie rubriek extra opmerkingen",
         "Niet specifiek"		
       ]
@@ -475,10 +475,13 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
       type: "checkbox",
       text: "De pijn vermindert door:",
       options: [
-		"Beweging",
+		"Bewegen",
+		 "Losmaken van de rug",
         "Wandelen / Stappen",		
 		"Rust",
-        "Langdurig zitten",		
+		 "Warmte",
+        "Langdurig zitten",
+         "Regelmatig van houding wisselen",		
 		"Na wat beweging, neemt de pijn af",				
         "Vooroverbuigen /bolle rug maken",
         "Achteroverbuigen / holle rug maken",
@@ -513,8 +516,6 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
   freeText: true,
 
   questions: [
-
-
 
     {
       id: "dermatoom1",
@@ -566,6 +567,7 @@ info: `<span style="color:#FF8080; font-weight:400; font-family:Arial,sans-serif
 	" Pijn laaglumbaal tot sacraal - eenzijdige pijn met ± uitstraling naar de andere kant",	
     "Bilateraal (zowel links als rechs), laag in de rug",
     "Zadelpijn (schaamstreek, anus, binnenkant van de dijen, het perineum)",	
+	"Pijn ter hoogte van de bil",
     "Pijn straalt NIET uit tot onder de knie",
     "De pijn straalt uit naar de bilregio",
     "Lies",
@@ -671,13 +673,16 @@ Het helpt SI‑pijn onderscheiden van:
 
   options: [
     "Paravertebrale drukpijn / spierspasmen / spierknopen /spiespasmen",
+	"Pijn bij percussie op de bepaalde wervels van de wervelkolom",
     "Duidelijke scherpe pijn bij drukken op een facegewricht",	
     "Midline drukpijn op wervelkolom",
     "Drukpijn SI-gewricht",
     "Gluteale drukpijn",
+	"Pijn bij druk op de bil",
     "Drukpijn incisura ischiadica",
     "Diffuse musculaire drukpijn",
     "Lokale drukpijn thoracolumbale overgang",
+	"Lokale trigger points",
     "Geen speciale drukpijn"
   ]
 },
@@ -705,8 +710,7 @@ Het helpt SI‑pijn onderscheiden van:
         "L5M - Klapvoet - moeite met staan en stappen op de hielen - moeite met heffen van de voorvoet en grote teen",
 		"L5M - Voetheffersparese: kan niet op de hielen lopen - zwakke dorsiflexie van de voet",
         "L5M - Moeite stappen op hakken",		
-		"L5M - Grote teen omhoog trekken is zwak",
-        "Geen motorische uitval"
+		"L5M - Grote teen omhoog trekken is zwak"
 		    ]
     },
 
@@ -729,9 +733,12 @@ Het helpt SI‑pijn onderscheiden van:
       options: [
         "Geen motorische uitval",
         "S1M - Zwakte van de kuitspieren",
+        "Zwakte in de benen",
         "S1M - Moeite met staan en stappen op de tenen -  Plantairflexiezwakte",
         "QEM - Bilaterale spierzwakte - spierzwakte in rechter en linker been",
-        "CRM - Zwakte in beide benen - Spastische gang - rechtstaan en trappen lopen moeilijk"
+		"Progressieve parese",
+        "CRM - Zwakte in beide benen - Spastische gang - rechtstaan en trappen lopen moeilijk",
+		"Geen motorische uitval"
 		    ]
     },
 
@@ -753,8 +760,11 @@ Het helpt SI‑pijn onderscheiden van:
 			  `,
 
       options: [
-        "Gevoelsstoornis in het pijnuitstraling-dermatoom",
-	
+        "Doofheid",
+        "Tintellingen",
+        "Verminderd gevoel",		
+		"Gevoelsstoornis in een pijnuitstraling-dermatoom",
+        "Dissociatieve sensibiliteitsstoornis",	
         "Dissociatieve sensibiliteitsstoornis",
         "Rijbroekanesthesie/Zadelanesthesie",
         "Geen gevoelsstoornissen"		
@@ -1099,10 +1109,25 @@ Bij lage-rugpijn is het grootste deel “niet-specifiek”. In de literatuur wor
 			   >
 			  `,
 	    options: []
-
      },	 
 	 
-	 
+    {
+      id: "extrabeeld2",
+      type: "radio",
+      text: "Beeld differentiële diagnose | L4-5 & S1",
+      info: `
+			<img 
+		       src="images/rugh9.jpg"
+		       style="
+			   width:100%;
+			   height:auto;
+			   display:block;
+			   margin:5px auto;
+			   border-radius:2px;"
+			   >
+			  `,
+	    options: []
+     },		 
 
 ]
 }
@@ -1548,7 +1573,7 @@ Radiculair patroon
     }
 
   /* =========================
-     Inflammatoir patroon
+     Inflammatoir patroon
   ========================= */
 
   if(
@@ -1975,13 +2000,13 @@ ${clinicalSummary.join('<br>')}
 
 <hr>
 
+<div style="display: flex; justify-content: center;">
+  <button onclick="window.print()">Opslaan als PDF</button>
+</div>
+
+<hr>
+
 ${sectionsHtml}
-
-<hr>
-<hr>
-
-<button onclick="window.print()"> Opslaan als PDF </button>
-
 
 </body>
 
