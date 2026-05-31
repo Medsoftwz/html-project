@@ -33,7 +33,7 @@ body {
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
   font-size: 15px;
-  line-height: 1,5;
+  line-height: 1.5;
   background: var(--bg);
   color: var(--text);
  }
@@ -50,7 +50,7 @@ body {
 }
 .header h1 { 
   margin: 0; 
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   color: #2563eb; 
   text-align:center; }
@@ -58,19 +58,22 @@ body {
 .header p 
 { margin: 5px 0 1px; 
 text-align: center; 
-font-size: 12px; 
+font-size: 15px; 
 color: var(--muted); }
 
-.header-top { display: grid; grid-template-columns: 70px 1fr 70px;
-    align-items: center; }
+.header-top {
+    display: grid;
+    grid-template-columns: 90px 1fr 90px;
+    align-items: center;
+}    
 
 .header-text { text-align: center; margin-top: -10px; }
 
 .header-logo {
-  width: 60px;
-  margin-left: 8px;
-  height: auto;
-  margin-top: 4px;
+    width: 60px;
+    height: auto;
+    justify-self: center;
+    margin-top: 12px;
 }
 
 /* ===== SEARCH ===== */
@@ -93,7 +96,7 @@ color: var(--muted); }
 .section { margin-bottom: 12px; }
 .section-title { font-size: 15px; font-weight: 600; margin: 8px 2px 8px; }
 
-/* kleuraccent per sectie */
+/* kleuraccent per sectie */
 
 .section.blue .section-title { color: #2563eb; }
 .section.green .section-title { color: #059669; }
@@ -110,7 +113,7 @@ color: var(--muted); }
 .card {
   background: var(--card);
   border-radius: 10px;
-  padding: padding: 10px 12px; 
+  padding: 10px 12px; 
   box-shadow: 0 3px 10px rgba(0,0,0,0.05);
   transition: all 0.15s ease;
 }
@@ -180,17 +183,23 @@ color: var(--muted); }
 <div class="header">
 
   <div class="header-top">
+
     <img src="images/logo.jpg" alt="Logo" class="header-logo">
 
     <div class="header-text">
       <h1>Medische Informatica</h1>
       <p>Ziektebeelden – Diagnosen – Therapie – Classificatie – Taxonomie - Semantische Modellering</p>
     </div>
+
+    <img src="images/logo.jpg" alt="Logo" class="header-logo">
+
   </div>
 
   <input class="search" id="search" placeholder="Zoek...">
 
 </div>
+
+
 
 <div class="container">
 
