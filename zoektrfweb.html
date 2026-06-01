@@ -176,8 +176,7 @@ let lastResults = [];
 let sortField = null;
 let sortAsc = true;
 
-const fileInput = document.getElementById('fileInput');
-const fileNameSpan = document.getElementById('fileName');
+
 const input = document.getElementById('search');
 const results = document.getElementById('results');
 const meta = document.getElementById('meta');
@@ -365,7 +364,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     buildIndex(dataset);
 
-    fileNameSpan.textContent = 'datazoektrf.js geladen';
   } catch (e) {
     meta.textContent = 'Fout bij laden dataset';
     console.error(e);
