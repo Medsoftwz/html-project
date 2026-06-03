@@ -4,8 +4,342 @@
 <meta charset="UTF-8">
 <title>Medische kennisboom</title>
 
-<script src="boomlink.js"></script>
-<script src="trflink.js"></script>
+<style>
+body {
+    font-family: Verdana, Geneva, sans-serif;
+    margin: 8px;
+    background: linear-gradient(to bottom, #ffffff, #eef3f8);
+}
+
+h3 {
+    margin: 4px 0 10px 0;   /* weinig ruimte boven, iets onder */
+    font-size: 18px;       /* kleiner dan standaard h3 */
+    font-weight: 600;
+    color: #004080;
+    text-align: center;
+}
+
+#file-loader {text-align: center; margin-bottom: 15px; font-family: Arial, sans-serif; color: #008000; font-size: 14px}
+
+#controls { text-align: center; margin-bottom: 10px; }
+
+#controls button { margin: 4px; padding: 4px 10px; font-size: 14px; }
+
+#tree {
+  /* Warmere, rustige basiskleur */
+  background-color: #F5EFEF; 
+  
+  /* Subtiel lineair patroon */
+  background-image: 
+    linear-gradient(90deg, rgba(210, 180, 140, 0.1) 1px, transparent 5px),
+    linear-gradient(0deg, rgba(210, 180, 140, 0.1) 1px, transparent 5px);
+  background-size: 40px 20px;
+  
+  /* Fixeer de achtergrond voor het schuifeffect */
+  background-attachment: fixed;
+  
+  /* Styling van het element */
+  padding: 40px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  
+  /* Zorg dat er genoeg tekst is of een min-hoogte om het scrollen te zien */
+  min-height: 400px; 
+}
+
+ul { list-style: none; padding-left: 20px; margin: 0; }
+
+li { margin: 3px 0; }
+
+.node {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.node.clickable { cursor: pointer; }
+
+.node.clickable:hover { background-color: #fff3b0; }
+
+.node.leaf { cursor: default; }
+
+.arrow { width: 14px; display: inline-block; text-align: center; }
+
+.level-0, .level-1 { font-family: Verdana, sans-serif; color: #004080; }
+.level-2 { font-family: Arial, sans-serif; color: #008000; font-size: 16px; }
+.level-3 { font-family: 'Trebuchet MS', Geneva, sans-serif; color: #804040; }
+.level-4 { color: #008080; font-family: 'Inter', sans-serif; font-size: 16px; }
+
+/* ICD-link items (geen boomniveaus) */
+.icd-item {
+    color: #444;              /* neutraal */
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 18px;
+}
+
+/* optioneel: icoontje */
+.icd-item::before { content: "↳ ";  color: #999; }
+
+.search-item {
+    cursor: pointer;
+    padding: 4px;
+    text-decoration: underline;
+    color: #004080;
+}
+
+.search-item:hover {
+    background-color: #e6f0ff;
+}
+
+#search-container {
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    padding: 8px 0;
+    z-index: 1000;
+    border-bottom: 1px solid #ddd;
+}
+
+</style>
+
+
+
+
+
+
+<script src="boomlink.js">
+function buildContent(k){
+    const n = nodes[k];
+    if(!n) return "";
+
+    let html="";
+
+    if(n.children.length){
+        html += "<ul>"+n.children.map(draw).join("")+"</ul>";
+    }
+
+    if(linkMap[k]){
+        html += "<ul>";
+        for(const l of linkMap[k]){
+            html += `<li class="icd-item">${l.trefwoord} – ${l.icdCode}</li>`;
+        }
+        html += "</ul>";
+    }
+    return html;
+}
+
+function openNode(k){
+    const el=document.getElementById("c-"+k);
+    if(!el) return;
+
+    if(!el.innerHTML){
+        el.innerHTML=buildContent(k);
+    }
+    el.style.display="block";
+}
+
+function expandRecursive(k){
+    openNode(k);
+
+    const n=nodes[k];
+    if(!n) return;
+
+    for(const child of n.children){
+        expandRecursive(child.key);
+    }
+}
+
+function expandAll(){
+    const roots=getRoots();
+    roots.forEach(r=>expandRecursive(r.key));
+}
+
+function collapseAll(){
+    document.querySelectorAll('[id^="c-"]').forEach(el=>{
+        el.style.display='none';
+    });
+}
+
+function searchInData(){
+    const q=document.getElementById("searchBox").value.trim().toLowerCase();
+    const box=document.getElementById("searchResults");
+
+    if(!q){
+        box.style.display="none";
+        box.innerHTML="";
+        return;
+    }
+
+    const matches=treeData.filter(item=>{
+        const term=(item.terms?.[0]||"").toLowerCase();
+        const code=(item.code||"").toLowerCase();
+        return term.includes(q) || code.includes(q);
+    });
+
+    matches.sort((a,b)=>
+        (a.terms?.[0]||"").localeCompare(b.terms?.[0]||"",'nl',{sensitivity:'base'})
+    );
+
+    let html="<b>Zoekresultaten ("+matches.length+")</b><ul>";
+
+    for(const m of matches){
+        html+=`<li style="cursor:pointer;padding:3px;text-decoration:underline;color:#004080"
+                onclick="jumpToNode('${m.code}')">
+                ${m.terms?.[0]||''}
+               </li>`;
+    }
+
+    html+="</ul>";
+    box.innerHTML=html || "<i>Geen resultaten</i>";
+    box.style.display="block";
+}
+
+function jumpToNode(code){
+    const key=norm(code);
+
+    let current=key;
+    const stack=[];
+
+    while(current){
+        stack.unshift(current);
+        current=current.slice(0,-1);
+        if(!nodes[current]) current="";
+    }
+
+    stack.forEach(k=>openNode(k));
+
+    setTimeout(()=>{
+        const target=document.getElementById("node-"+key);
+        if(!target) return;
+
+        target.scrollIntoView({behavior:'smooth',block:'center'});
+        target.style.backgroundColor='#fffd75';
+
+        setTimeout(()=>{
+            target.style.backgroundColor='';
+        },2500);
+    },100);
+}
+
+</script>
+<script src="trflink.js">
+function buildContent(k){
+    const n = nodes[k];
+    if(!n) return "";
+
+    let html="";
+
+    if(n.children.length){
+        html += "<ul>"+n.children.map(draw).join("")+"</ul>";
+    }
+
+    if(linkMap[k]){
+        html += "<ul>";
+        for(const l of linkMap[k]){
+            html += `<li class="icd-item">${l.trefwoord} – ${l.icdCode}</li>`;
+        }
+        html += "</ul>";
+    }
+    return html;
+}
+
+function openNode(k){
+    const el=document.getElementById("c-"+k);
+    if(!el) return;
+
+    if(!el.innerHTML){
+        el.innerHTML=buildContent(k);
+    }
+    el.style.display="block";
+}
+
+function expandRecursive(k){
+    openNode(k);
+
+    const n=nodes[k];
+    if(!n) return;
+
+    for(const child of n.children){
+        expandRecursive(child.key);
+    }
+}
+
+function expandAll(){
+    const roots=getRoots();
+    roots.forEach(r=>expandRecursive(r.key));
+}
+
+function collapseAll(){
+    document.querySelectorAll('[id^="c-"]').forEach(el=>{
+        el.style.display='none';
+    });
+}
+
+function searchInData(){
+    const q=document.getElementById("searchBox").value.trim().toLowerCase();
+    const box=document.getElementById("searchResults");
+
+    if(!q){
+        box.style.display="none";
+        box.innerHTML="";
+        return;
+    }
+
+    const matches=treeData.filter(item=>{
+        const term=(item.terms?.[0]||"").toLowerCase();
+        const code=(item.code||"").toLowerCase();
+        return term.includes(q) || code.includes(q);
+    });
+
+    matches.sort((a,b)=>
+        (a.terms?.[0]||"").localeCompare(b.terms?.[0]||"",'nl',{sensitivity:'base'})
+    );
+
+    let html="<b>Zoekresultaten ("+matches.length+")</b><ul>";
+
+    for(const m of matches){
+        html+=`<li style="cursor:pointer;padding:3px;text-decoration:underline;color:#004080"
+                onclick="jumpToNode('${m.code}')">
+                ${m.terms?.[0]||''}
+               </li>`;
+    }
+
+    html+="</ul>";
+    box.innerHTML=html || "<i>Geen resultaten</i>";
+    box.style.display="block";
+}
+
+function jumpToNode(code){
+    const key=norm(code);
+
+    let current=key;
+    const stack=[];
+
+    while(current){
+        stack.unshift(current);
+        current=current.slice(0,-1);
+        if(!nodes[current]) current="";
+    }
+
+    stack.forEach(k=>openNode(k));
+
+    setTimeout(()=>{
+        const target=document.getElementById("node-"+key);
+        if(!target) return;
+
+        target.scrollIntoView({behavior:'smooth',block:'center'});
+        target.style.backgroundColor='#fffd75';
+
+        setTimeout(()=>{
+            target.style.backgroundColor='';
+        },2500);
+    },100);
+}
+
+</script>
 
 <style>
 body {
@@ -42,6 +376,20 @@ ul { list-style:none; padding-left:20px; }
 <body>
 
 <h3>Medische kennisboom</h3>
+
+<div id="controls" style="text-align:center;margin-bottom:10px;">
+<button onclick="expandAll()">➕ Alles uitklappen</button>
+<button onclick="collapseAll()">➖ Alles inklappen</button>
+</div>
+
+<div style="text-align:center;margin-bottom:10px;">
+<input type="text" id="searchBox" placeholder="Zoek term..." oninput="searchInData()"
+style="padding:6px;width:320px;">
+</div>
+
+<div id="searchResults"
+style="display:none;background:#fff8dc;border:1px solid #ccc;padding:10px;margin-bottom:10px;max-height:300px;overflow:auto;"></div>
+
 <div id="tree">⏳ Laden...</div>
 
 <script>
@@ -137,10 +485,10 @@ function draw(n){
 
     return `
 <li>
-<span class="node level-${level(n.key)} ${clickable?"clickable":""}"
+<span id="node-${n.key}" class="node level-${level(n.key)} ${clickable?"clickable":""}"
 onclick="${clickable?`toggle('${n.key}')`:''}">
 <span class="arrow">${clickable?"▶":""}</span>
-${n.code} – ${n.term}
+${n.term}
 </span>
 <div id="c-${n.key}" style="display:none"></div>
 </li>`;
@@ -178,6 +526,120 @@ function toggle(k){
 
     el.style.display="block";
 }
+
+function buildContent(k){
+    const n = nodes[k];
+    if(!n) return "";
+
+    let html="";
+
+    if(n.children.length){
+        html += "<ul>"+n.children.map(draw).join("")+"</ul>";
+    }
+
+    if(linkMap[k]){
+        html += "<ul>";
+        for(const l of linkMap[k]){
+            html += `<li class="icd-item">${l.trefwoord} – ${l.icdCode}</li>`;
+        }
+        html += "</ul>";
+    }
+    return html;
+}
+
+function openNode(k){
+    const el=document.getElementById("c-"+k);
+    if(!el) return;
+
+    if(!el.innerHTML){
+        el.innerHTML=buildContent(k);
+    }
+    el.style.display="block";
+}
+
+function expandRecursive(k){
+    openNode(k);
+
+    const n=nodes[k];
+    if(!n) return;
+
+    for(const child of n.children){
+        expandRecursive(child.key);
+    }
+}
+
+function expandAll(){
+    const roots=getRoots();
+    roots.forEach(r=>expandRecursive(r.key));
+}
+
+function collapseAll(){
+    document.querySelectorAll('[id^="c-"]').forEach(el=>{
+        el.style.display='none';
+    });
+}
+
+function searchInData(){
+    const q=document.getElementById("searchBox").value.trim().toLowerCase();
+    const box=document.getElementById("searchResults");
+
+    if(!q){
+        box.style.display="none";
+        box.innerHTML="";
+        return;
+    }
+
+    const matches=treeData.filter(item=>{
+        const term=(item.terms?.[0]||"").toLowerCase();
+        const code=(item.code||"").toLowerCase();
+        return term.includes(q) || code.includes(q);
+    });
+
+    matches.sort((a,b)=>
+        (a.terms?.[0]||"").localeCompare(b.terms?.[0]||"",'nl',{sensitivity:'base'})
+    );
+
+    let html="<b>Zoekresultaten ("+matches.length+")</b><ul>";
+
+    for(const m of matches){
+        html+=`<li style="cursor:pointer;padding:3px;text-decoration:underline;color:#004080"
+                onclick="jumpToNode('${m.code}')">
+                ${m.terms?.[0]||''}
+               </li>`;
+    }
+
+    html+="</ul>";
+    box.innerHTML=html || "<i>Geen resultaten</i>";
+    box.style.display="block";
+}
+
+function jumpToNode(code){
+    const key=norm(code);
+
+    let current=key;
+    const stack=[];
+
+    while(current){
+        stack.unshift(current);
+        current=current.slice(0,-1);
+        if(!nodes[current]) current="";
+    }
+
+    stack.forEach(k=>openNode(k));
+
+    setTimeout(()=>{
+        const target=document.getElementById("node-"+key);
+        if(!target) return;
+
+        target.scrollIntoView({behavior:'smooth',block:'center'});
+        target.style.backgroundColor='#fffd75';
+
+        setTimeout(()=>{
+            target.style.backgroundColor='';
+        },2500);
+    },100);
+}
+
 </script>
 
 </body>
