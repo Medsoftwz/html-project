@@ -914,7 +914,10 @@ function calculateAge(){
 
   const dob = document.getElementById('geboortedatum');
 
-  if(!dob || !dob.value) return;
+  if(!dob || !dob.value){
+    document.getElementById('leeftijd').value = '';
+    return;
+  }
 
   const parts = dob.value.split('/');
 
@@ -928,13 +931,23 @@ function calculateAge(){
 
   if(isNaN(birthDate.getTime())) return;
 
+  /* controle op ongeldige datums */
+  if(
+    birthDate.getDate() !== day ||
+    birthDate.getMonth() !== month ||
+    birthDate.getFullYear() !== year
+  ){
+    document.getElementById('leeftijd').value = '';
+    return;
+  }
+
   const today = new Date();
 
   const diffDays =
     (today - birthDate) / (1000 * 60 * 60 * 24);
 
   const ageDecimal =
-    (diffDays / 365.25).toFixed(1);
+    (diffDays / 365.2425).toFixed(1);
 
   document.getElementById('leeftijd').value =
     ageDecimal.replace('.',',') + ' jaar';
@@ -1038,10 +1051,58 @@ if(
    EVENTS
 ===================================================== */
 
-document.addEventListener('change',()=>{
+document.addEventListener('change', function(e){
+
+  if(e.target.type === 'checkbox'){
+
+    const groep = e.target.name;
+
+    const alleCheckboxes =
+      document.querySelectorAll(
+        `input[name="${groep}"]`
+      );
+
+    const label =
+      e.target.parentElement.textContent
+        .trim()
+        .toLowerCase();
+
+    if(
+      e.target.checked &&
+      label.includes('geen ')
+    ){
+
+      alleCheckboxes.forEach(cb=>{
+        if(cb !== e.target){
+          cb.checked = false;
+        }
+      });
+
+    } else if(e.target.checked){
+
+      alleCheckboxes.forEach(cb=>{
+
+        const txt =
+          cb.parentElement.textContent
+            .trim()
+            .toLowerCase();
+
+        if(
+          cb !== e.target &&
+          txt.includes('geen ')
+        ){
+          cb.checked = false;
+        }
+
+      });
+
+    }
+  }
+
   updateProgress();
   updateCompletedTabs();
   calculateAge();
+
 });
 
 document.addEventListener('input', function(e){
@@ -1059,6 +1120,10 @@ document.addEventListener('input', function(e){
   e.target.value = v;
 
   calculateAge();
+
+  if(v.length === 10){
+    e.target.blur();
+  }
 
 });
 
