@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta property="og:locale" content="nl_BE">
+<meta property="og:title" content="Onbedoelde Vermagering - taxonomie">
+<meta property="og:description" content="Experimentele versie – as-is">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://medsoftwz.github.io/vermageringb.html">
+<meta property="og:image" content="https://medsoftwz.github.io/images/vermagering.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpg">
+
+<title>Vermagering - Klinische taxonomie</title>
+
+<style>
+
+body { font-family: Verdana, sans-serif; margin: 20px; font-size: 16px; }
+
+h3 { text-align: center; color: #004080; }
+
+#controls { text-align: center; margin-bottom: 15px; }
+#controls button { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; margin: 4px; }
+#controls button { font-family: Verdana, sans-serif; font-weight: 100; }
+#controls button:first-of-type { background-color: #40FF40; color: #0000C0; }
+#controls button:last-of-type { background-color: #0000C0;  color: white; }
+
+#fileInput { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 6px; }
+
+#tree {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+}
+
+ul { list-style-type: none; padding-left: 20px; margin: 0; }
+li { margin: 0; line-height: 1.2; }
+li { margin: 2px 0; }
+#tree li.collapsed > ul { display: none; }
+
+.node {
+    display: inline-block;
+    line-height: 1.5;
+    padding: 3px 6px;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.node:hover { background-color: #fef3c7; }
+
+.arrow { display: inline-block; width: 14px; margin-right: 4px; }
+.arrow::before { content: " "; }
+
+.has-children > .node .arrow::before { content: "▼"; }
+.collapsed.has-children > .node .arrow::before { content: "▶"; }
+
+.level-1 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #800000;
+}
+
+.level-2 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: #002850;
+}
+
+.level-3 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #005000;
+}
+
+.level-4 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #C000C0;
+}
+
+.level-5 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #502828
+}
+
+.level-6 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: 0080C0
+}
+
+#search-container { text-align: center; margin-bottom: 10px; }
+#search-container input { font-size: 16px; padding: 6px; color: #003366; }
+#searchResults {
+    display: none;
+    background: #fff8dc;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    max-height: 300px;
+    overflow: auto; }
+.search-item { cursor: pointer; padding: 4px; text-decoration: underline; color: #004080; font-size: 14px; }
+.search-item:hover { background-color: #e6f0ff; }
+
+</style>
+</head>
+
+<body>
+
+<h3> Vermagering - Klinische taxonomie</h3>
+
+<div id="controls">
+    <button onclick="expandAll()">➕ Alles uitklappen</button>
+    <button onclick="collapseAll()">➖ Alles inklappen</button>
+</div>
+
+<div id="search-container">
+    <input type="text"
+           id="searchBox"
+           placeholder="Zoek code of term..."
+           oninput="searchInDSM()"
+           style="padding:6px; width:280px;">
+</div>
+
+<div id="searchResults"></div>
+
+<div id="tree">Laden...</div>
+
+<script src="vermagerc.js"></script>
+
+<script>
+
+/* =============================
+   HULPFUNCTIES
+============================= */
+
+function getLevel(code) { return code.length; }
+
+function parseCode(code) {
+    return code.replace("D", "")
+        .split(/[_\.]/)
+        .map(n => parseInt(n, 10));
+}
+
+function sortCodes(a, b) {
+    const pa = parseCode(a.code);
+    const pb = parseCode(b.code);
+
+    for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+        const da = pa[i] ?? 0;
+        const db = pb[i] ?? 0;
+        if (da !== db) return da - db;
+    }
+    return 0;
+}
+
+/* =============================
+   BOOM BOUWEN
+============================= */
+
+function findParentCode(code, lookup){
+
+    if(code.length === 1){
+        return null;
+    }
+
+    for(
+        let i = code.length - 1;
+        i >= 1;
+        i--
+    ){
+
+        const prefix =
+            code.substring(0,i);
+
+        if(lookup[prefix]){
+            return prefix;
+        }
+    }
+
+    return null;
+}
+
+
+
+function buildTree(data) {
+    const lookup = {};
+    const root = [];
+
+    data.sort(sortCodes);
+
+    data.forEach(item => {
+        lookup[item.code] = { ...item, children: [] };
+    });
+
+    data.forEach(item => {
+const parentCode =
+    findParentCode(
+        item.code,
+        lookup
+    );
+
+        if (parentCode && lookup[parentCode]) {
+            lookup[parentCode].children.push(lookup[item.code]);
+        } else {
+            root.push(lookup[item.code]);
+        }
+    });
+
+    return root;
+}
+
+/* =============================
+   RENDEREN MET ID STRUCTUUR
+============================= */
+
+function renderTree(nodes) {
+    let html = "<ul>";
+
+    nodes.forEach(node => {
+        const level = getLevel(node.code);
+        const hasChildren = node.children.length > 0;
+
+        html += `
+        <li class="${hasChildren ? "collapsed has-children" : ""}">
+            <div class="node level-${level}"
+                 id="node-${node.code}">
+                <span class="arrow"></span>
+                ${node.code} – ${node.terms[0]}
+            </div>
+        `;
+
+        if (hasChildren) {
+            html += renderTree(node.children);
+        }
+
+        html += "</li>";
+    });
+
+    html += "</ul>";
+    return html;
+}
+
+/* =============================
+   INTERACTIE
+============================= */
+
+document.getElementById("tree").addEventListener("click", function(e) {
+    const node = e.target.closest(".node");
+    if (!node) return;
+
+    const li = node.parentElement;
+    if (!li.classList.contains("has-children")) return;
+
+    li.classList.toggle("collapsed");
+});
+
+function expandAll() {
+    document.querySelectorAll("#tree li.has-children")
+        .forEach(li => li.classList.remove("collapsed"));
+}
+
+function collapseAll() {
+    document.querySelectorAll("#tree li.has-children")
+        .forEach(li => li.classList.add("collapsed"));
+}
+
+/* =============================
+   ZOEKEN
+============================= */
+
+function searchInDSM() {
+
+    const query = document.getElementById("searchBox")
+        .value.toLowerCase().trim();
+
+    const resultBox = document.getElementById("searchResults");
+
+    if (!query || !window.DATASET) {
+        resultBox.style.display = "none";
+        resultBox.innerHTML = "";
+        return;
+    }
+
+    const matches = window.DATASET.filter(item => {
+        const code = item.code.toLowerCase();
+        const term = item.terms[0].toLowerCase();
+        return code.includes(query) || term.includes(query);
+    });
+
+    if (matches.length === 0) {
+        resultBox.innerHTML = "<i>Geen resultaten gevonden.</i>";
+    } else {
+
+        let html = "<b>Zoekresultaten (" + matches.length + ")</b><ul>";
+
+        matches.forEach(m => {
+            html += `
+            <li class="search-item"
+                onclick="jumpToDSM('${m.code}')">
+                <b>${m.code}</b> – ${m.terms[0]}
+            </li>`;
+        });
+
+        html += "</ul>";
+        resultBox.innerHTML = html;
+    }
+
+    resultBox.style.display = "block";
+}
+
+/* =============================
+   SPRING NAAR NODE
+============================= */
+
+function jumpToDSM(code) {
+
+    const target = document.getElementById("node-" + code);
+    if (!target) return;
+
+    let li = target.closest("li");
+
+    while (li) {
+        li.classList.remove("collapsed");
+        li = li.parentElement.closest("li");
+    }
+
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    target.style.backgroundColor = "#ffe066";
+    setTimeout(() => {
+        target.style.backgroundColor = "";
+    }, 1500);
+}
+
+/* =============================
+   BESTAND LADEN
+============================= */
+window.addEventListener("DOMContentLoaded", () => {
+
+    if (!Array.isArray(window.DATASET)) {
+
+        document.getElementById("tree").innerHTML =
+            "Fout: veramgering.js bevat geen geldige DATASET.";
+
+        return;
+    }
+
+    const tree = buildTree(window.DATASET);
+
+    document.getElementById("tree").innerHTML =
+        renderTree(tree);
+});
+
+</script>
+</body>
+</html>
