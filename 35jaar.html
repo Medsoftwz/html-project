@@ -47,7 +47,14 @@ p { margin: 5px 2px 10px 5px; }
     cursor: zoom-in;    
 }
 .fotokader { text-align:center; margin-top:2px; }
+
 .hint { margin-top:1px; font-size:14px; color:#666;  font-style:italic; }
+
+.link {
+    color: #502828; 
+    font-weight: 400;
+    text-decoration: underline; 
+}
 
 </style>
 
@@ -70,10 +77,6 @@ Hun visie reikte veel verder dan digitale administratie. Zij droomden van elektr
 Wie documenten en presentaties uit de beginjaren van de medische informatica opnieuw leest, merkt hoe vooruitziend vele ideeën waren. Men sprak toen al over gestructureerde diagnoseregistratie, automatische codering van medische gegevens, elektronische voorschriften, medicatiebewaking, integratie van laboratoriumresultaten, koppelingen met richtlijnen en zelfs systemen die medische teksten zouden analyseren en interpreteren.
 </p>
 
-<p>
-Veel van deze concepten worden vandaag voorgesteld als innovatieve ontwikkelingen. In werkelijkheid maakten ze reeds deel uit van de toekomstvisie van talrijke artsen, informatici en onderzoekers die tientallen jaren geleden de eerste medische softwaresystemen ontwikkelden.
-</p>
-
 <h2>Wat werd gerealiseerd</h2>
 
 <p>
@@ -87,22 +90,24 @@ Op administratief vlak heeft de medische informatica zonder twijfel een belangri
 <h2>Waar bleef de echte doorbraak</h2>
 
 <p>
-De oorspronkelijke ambitie lag echter niet in administratie, maar in medische ondersteuning. Juist op dat vlak blijft de vooruitgang opvallend beperkt.
+De oorspronkelijke ambitie lag echter niet in administratie maar in medische ondersteuning. Juist op dat vlak blijft de vooruitgang opvallend beperkt.
 </p>
 
 <p>
-Diagnosen worden nog steeds vaak geregistreerd als vrije tekst in plaats van als gestructureerde gegevens. De IBUI-thesaurus en de BIHR-architectuur (Belgian Integrated Health Record) van de federale overheid zijn na meer dan twintig jaar nog steeds niet volledig uitgewerkt. Ook de overgang naar SNOMED verloopt moeizaam. De SUMEHR-rapporten (Structured Updated Medical Emergency Health Record) die door elektronische medische dossiers worden gegenereerd, weerspiegelen vaak deze onderliggende wanorde.
+Diagnosen worden nog steeds vaak geregistreerd als vrije tekst in plaats van als gestructureerde gegevens. De IBUI-thesaurus en de BIHR-architectuur (Belgian Integrated Health Record) van de federale overheid zijn na meer dan twintig jaar nog steeds niet volledig uitgewerkt. Ook de overgang naar SNOMED verloopt moeizaam. De SUMEHR-rapporten (Structured Updated Medical Emergency Health Record) die door elektronische medische dossiers worden gegenereerd, weerspiegelen vaak deze onderliggende wanorde. <br>Ook medicatiebewaking blijft vaak beperkt tot eenvoudige interactiewaarschuwingen. Allergieën, intoleranties en contextuele risico's worden slechts gedeeltelijk meegenomen. 
 </p>
 
 <p>
-Ook medicatiebewaking blijft vaak beperkt tot eenvoudige interactiewaarschuwingen. Allergieën, intoleranties en contextuele risico's worden slechts gedeeltelijk meegenomen. Veel van de intelligente ondersteuning die decennia geleden werd voorspeld, is nog steeds niet standaard beschikbaar in de dagelijkse praktijk.
+Veel van de intelligente ondersteuning die decennia geleden werd voorspeld, is nog steeds niet standaard beschikbaar in de dagelijkse praktijk.
 </p>
 
 <h2>Het EMD</h2>
 
 <p>
 Het elektronisch medisch dossier (EMD) evolueerde in 35 jaar van een databank op de PC van de arts naar een communicatieplatform dat elektronische voorschriften, gegevensuitwisseling en eHealth-diensten ondersteunt. De technologische vooruitgang was aanzienlijk maar de fundamentele uitdaging bleef grotendeels dezelfde: medische informatie niet alleen registreren maar ook semantisch structureren zodat zij optimaal kan worden hergebruikt voor <span style="color: #502828;">zorgverlening, onderzoek, besluitvorming en artificiële intelligentie</span>. <br>Waar vroeger vele lokale softwarepakketten bestonden, wordt het Vlaamse EMD landschap vandaag gekenmerkt door een dominante leverancier, die zijn positie verder versterkte door de vorming van een Belgisch-Franse softwaregroep begin 2026, aangevuld met een beperkt aantal EMD-spelers. 
-</p><p>
+</p>
+
+<p>
 <span style="color: #502828;">De zoektocht naar werkelijk intelligente en klinisch betekenisvolle verwerking van medische gegevens blijft daarbij grotendeels onvoltooid.</span>
 </p>
 
@@ -134,6 +139,32 @@ Standaardisatie vergt samenwerking. Interoperabiliteit vereist afspraken tussen 
 De geschiedenis van de medische informatica toont aan dat succesvolle innovatie niet enkel afhangt van wat technisch mogelijk is, maar ook van wat organisatorisch haalbaar wordt gemaakt.
 </p>
 
+<!-- ===================== -->
+<div class="section">
+
+<div class="card" style="
+border-left:5px solid #d4af37;
+padding-left:10px;
+background:#fffdf7;
+max-width:700px;
+margin-top: 10px;
+margin-right: 0px;
+margin-bottom: 10px;
+margin-left: 50px;
+">
+
+<a class="link" href="https://medsoftwz.github.io/"  target="_blank">
+<span class="icon"> ⚜ </span> https://medsoftwz.github.io ></a>
+
+<div style="
+font-size:13px;
+color:#64748b;
+padding-left:30px;
+margin-top:4px;"> link naar enkele voorbeelden op mijn website
+</div>
+</div>
+</div>
+
 <h2>Geen ontgoocheling, wel een vaststelling</h2>
 
 <p>
@@ -147,7 +178,7 @@ Veel van de grote uitdagingen die destijds werden beschreven, zijn vandaag nog a
 <h2>De volgende 35 jaar</h2>
 
 <p>
-Misschien bevinden we ons vandaag dichter bij de oorspronkelijke droom dan ooit tevoren. Niet omdat de problemen verdwenen zijn, maar omdat de technologische mogelijkheden eindelijk beschikbaar zijn om ze daadwerkelijk aan te pakken.
+Misschien bevinden we ons vandaag dichter bij de oorspronkelijke droom. Niet omdat de problemen verdwenen zijn, maar omdat de technologische mogelijkheden en kunstmatige intelligentie beschikbaar zijn om ze daadwerkelijk aan te pakken.
 </p>
 
 <p>
@@ -185,6 +216,12 @@ foto.addEventListener("wheel", function(e) {
     foto.dataset.scale = scale;
 
 }, { passive:false });
+
+foto.addEventListener("click", function() {
+    foto.style.transform = "scale(0.8)";
+    foto.dataset.scale = 1;
+});
+
 </script>
 
 </body>
