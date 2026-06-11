@@ -27,23 +27,26 @@
   --muted: #64748b;
 }
 
-/* ===== BASIS ===== */
+/* ===== BASIS =====    body: background: var(--bg) */
 
 body {
-  margin: 0;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
   font-family: "Segoe UI", Arial, sans-serif;
   font-size: 15px;
   line-height: 1.5;
-  background: var(--bg);
+  background: #E5E5CD;
   color: var(--text);
  }
 
-/* ===== HEADER ===== */
+/* ===== HEADER =====   background: var(--card); */
 
 .header {
   padding: 2px 14px 1px;
   border-bottom: 1px solid rgba(0,0,0,0.06);
-  background: var(--card);
+  background: #F6FEF6;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -55,11 +58,11 @@ body {
   color: #2563eb; 
   text-align:center; }
 
-.header p 
-{ margin: 10px 0 1px; 
-text-align: center; 
-font-size: 15px; 
-color: var(--muted); }
+.header p { 
+	margin: 10px 0 1px; 
+	text-align: center; 
+	font-size: 15px; 
+	color: var(--muted); }
 
 .header-top {
     display: grid;
@@ -104,8 +107,6 @@ color: var(--muted); }
 .section.bruin .section-title { color: #895129; }
 .section.grauw .section-title { color: #808000; }
 .section.rood .section-title { color: red; }
-
-
 
 /* ===== GRID ===== */
 
@@ -313,7 +314,6 @@ color: var(--muted); }
 
 </div>
 </div>
-
 
 <!-- ===================== -->
 <div class="section">
