@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Viewer Beelden</title>
+
+<style>
+
+body { margin: 0;  font-family: Arial, sans-serif; background: #C0C0C0; color: white; }
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  flex-wrap: wrap; }
+
+.slider-container { width: 100%; }
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+}
+
+.slide {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: zoom-in;
+  transition: transform 0.1s ease;
+}
+
+.caption {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  transform: none;
+  background: #4040FF;
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 60%;
+  text-align: left;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.slider:hover .caption { opacity: 1; }
+
+.thumbnails {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 32%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 6px;
+  z-index: 100;
+  max-height: 35vh;
+  overflow-y: auto;
+  background: rgba(0,0,40,0.35);
+  backdrop-filter: blur(3px);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.thumbnails img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: 0.2s;
+}
+
+.thumbnails img:hover { border-color: white; transform: scale(1.05); }
+.thumbnails img.active { border-color: gold; }
+
+#zoomIndicator {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #4040FF;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 18px;     /* groter */
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #fff;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+#zoomHelp {
+  position: absolute;
+  top: 60px;
+  right: 15px;
+  background: #4040FF;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 0 0 2px rgba(0,0,0,0.8);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  padding: 12px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 50%;
+  color: white;
+}
+
+.prev { left: 15px; }
+.next { right: 15px; }
+
+.slide img:active { cursor: grabbing; }
+
+</style>
+</head>
+
+<body>
+
+<div class="controls">
+  <label><input type="checkbox" id="autoplayToggle">Automatisch afspelen</label>
+	<button onclick="toggleFullscreen()">Fullscreen</button>
+    <button onclick="resetZoom()">Reset zoom</button>
+    <button id="thumbButton" onclick="toggleThumbnails()"> Miniaturen aan </button>
+</div>
+
+<div class="slider-container">
+  <div class="slider" id="slider">
+
+     <div id="zoomIndicator"></div>
+    <div id="zoomHelp">+ / - geeft zoom •  reset = 0</div>
+
+ <!-- SLIDES -->
+	
+    <div class="slide">
+      <img src="images/35jaar.jpg">
+      <div class="caption">Medische informatica</div>
+    </div>
+	
+	<div class="slide">
+      <img src="images/rug26.jpg">
+      <div class="caption">Rugpijn</div>
+    </div>
+
+<!-- NAV -->
+
+<div class="thumbnails" id="thumbnails"></div>
+
+<button class="prev" onclick="changeSlide(-1)">❮</button>
+<button class="next" onclick="changeSlide(1)">❯</button>
+
+</div>
+</div>
+
+<script>
+let index = 0;
+let slides = document.getElementsByClassName("slide");
+let thumbnailsVisible = false;
+
+let scale = 1;
+let posX = 0;
+let posY = 0;
+let isDragging = false;
+let startX, startY;
+
+const slider = document.getElementById("slider");
+const zoomIndicator = document.getElementById("zoomIndicator");
+
+/* show slide */
+
+function showSlide(i) {
+  if (i >= slides.length) index = 0;
+  if (i < 0) index = slides.length - 1;
+
+  for (let s of slides) s.style.display = "none";
+
+  slides[index].style.display = "block";
+
+  resetZoom();     
+  updateCaption(); 
+  updateThumbHighlight(); 
+}
+
+/* caption numbering */
+
+function updateCaption() {
+  const caption = slides[index].querySelector(".caption");
+  const base = caption.getAttribute("data-base") || caption.innerText;
+
+  caption.setAttribute("data-base", base);
+  caption.innerText = base;
+
+  updateIndicator(); 
+}
+
+function updateIndicator() {
+  if (!zoomIndicator) return;
+
+  zoomIndicator.innerText =
+    `${index+1}/${slides.length} • Zoom ${Math.round(scale * 100)}%`;
+}
+
+/* navigation */
+
+function changeSlide(n) {
+  index += n;
+  showSlide(index);
+  updateIndicator();
+}
+
+/* autoplay */
+
+let interval;
+document.getElementById("autoplayToggle").addEventListener("change", function () {
+  if (this.checked) {
+    interval = setInterval(() => changeSlide(1), 9000);
+  } else {
+    clearInterval(interval);
+  }
+});
+
+/* keyboard */
+
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") changeSlide(1);
+  if (e.key === "ArrowLeft") changeSlide(-1);
+
+  // ZOOM MET TOETSEN
+  
+  if (e.key === "+" || e.key === "=") {
+    scale *= 1.1;
+    scale = Math.min(scale, 6);
+    updateTransform();
+  }
+
+  if (e.key === "-" || e.key === "_") {
+    scale *= 0.9;
+    scale = Math.max(scale, 1);
+    updateTransform();
+  }
+
+  // 🔄 RESET
+  
+  if (e.key === "0") { resetZoom(); } 
+  });
+
+/* fullscreen */
+
+function toggleFullscreen() {
+  const el = document.querySelector(".slider-container");
+  if (!document.fullscreenElement) el.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+/* zoom */
+
+slider.addEventListener("wheel", e => {
+  e.preventDefault();
+  scale *= (e.deltaY < 0) ? 1.1 : 0.9;
+  scale = Math.min(Math.max(1, scale), 6);
+  updateTransform();
+});
+
+/* drag */
+
+slider.addEventListener("mousedown", e => {
+  isDragging = true;
+  startX = e.clientX - posX;
+  startY = e.clientY - posY;
+});
+
+slider.addEventListener("mouseup", () => isDragging = false);
+slider.addEventListener("mouseleave", () => isDragging = false);
+
+slider.addEventListener("mousemove", e => {
+  if (!isDragging) return;
+  posX = e.clientX - startX;
+  posY = e.clientY - startY;
+  updateTransform();
+});
+
+/* double click zoom */
+
+slider.addEventListener("dblclick", () => {
+  if (scale === 1) scale = 2;
+  else {
+    scale = 1;
+    posX = 0;
+    posY = 0;
+  }
+  updateTransform();
+});
+
+/* single click = reset zoom */
+
+slider.addEventListener("click", e => {
+
+  if (scale <= 1) return;
+
+  scale = 1;
+  posX = 0;
+  posY = 0;
+
+  updateTransform();
+});
+
+/* apply transform */
+
+function updateTransform() {
+
+  const img = slides[index].querySelector("img");
+  if (!img) return;
+
+  img.style.transform =
+    `translate(${posX}px, ${posY}px) scale(${scale})`;
+
+// thumbnails en navigatie verbergen bij zoom
+
+  const thumbs = document.getElementById("thumbnails");
+  const prev = document.querySelector(".prev");
+  const next = document.querySelector(".next");
+
+if (scale > 1.05) {
+
+  thumbs.style.display = "none";
+  prev.style.display = "none";
+  next.style.display = "none";
+
+} else {
+
+  if (thumbnailsVisible) {
+    thumbs.style.display = "grid";
+  } else {
+    thumbs.style.display = "none";
+  }
+
+  prev.style.display = "block";
+  next.style.display = "block";
+}
+
+  if (zoomIndicator) {
+
+    updateIndicator();
+
+    zoomIndicator.style.opacity = "1";
+
+    clearTimeout(window.zoomFade);
+
+    window.zoomFade = setTimeout(() => {
+      zoomIndicator.style.opacity = "0.6";
+    }, 1000);
+  }
+}
+
+const zoomHelp = document.getElementById("zoomHelp");
+
+if (zoomHelp) {
+  zoomHelp.style.opacity = "1";
+  clearTimeout(window.zoomHelpFade);
+  window.zoomHelpFade = setTimeout(() => {
+    zoomHelp.style.opacity = "0.6";
+  }, 1000);
+}
+
+/* reset */
+
+function resetZoom() {
+  scale = 1;
+  posX = 0;
+  posY = 0;
+  updateTransform();
+}
+
+/* init */
+
+buildThumbnails();
+document.getElementById("thumbnails").style.display = "none";
+showSlide(index);
+
+function buildThumbnails() {
+
+  const container = document.getElementById("thumbnails");
+  container.innerHTML = "";
+
+  Array.from(slides).forEach((slide, i) => {
+
+    const img = slide.querySelector("img");
+
+    if (!img || !img.src || img.src.endsWith("/.jpg")) return;
+
+    const thumb = document.createElement("img");
+	thumb.src = img.src;
+
+const caption = slide.querySelector(".caption");
+if (caption && caption.innerText.trim() !== "") {
+    thumb.title = caption.innerText;
+} else {
+    thumb.title =
+      img.src.split("/").pop();
+}
+
+    thumb.onclick = () => {
+      index = i;
+      showSlide(index);
+    };
+
+    container.appendChild(thumb);
+  });
+
+  updateThumbHighlight();
+}
+
+function updateThumbHighlight() {
+
+  document
+    .querySelectorAll("#thumbnails img")
+    .forEach(img => img.classList.remove("active"));
+
+  const thumbs =
+    document.querySelectorAll("#thumbnails img");
+
+  if (thumbs[index]) {
+    thumbs[index].classList.add("active");
+  }
+}
+
+function toggleThumbnails() {
+
+  const thumbs = document.getElementById("thumbnails");
+  const btn = document.getElementById("thumbButton");
+
+  thumbnailsVisible = !thumbnailsVisible;
+
+  if (thumbnailsVisible) {
+    thumbs.style.display = "grid";
+    btn.textContent = "Miniaturen uit";
+  } else {
+    thumbs.style.display = "none";
+    btn.textContent = "Miniaturen aan";
+  }
+}
+
+</script>
+
+</body>
+</html>
