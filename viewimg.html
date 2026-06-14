@@ -148,6 +148,7 @@ body { margin: 0;  font-family: Arial, sans-serif; background: #C0C0C0; color: w
 	<button onclick="toggleFullscreen()">Fullscreen</button>
     <button onclick="resetZoom()">Reset zoom</button>
     <button id="thumbButton" onclick="toggleThumbnails()"> Miniaturen aan </button>
+    <button id="exitFsBtn" onclick="document.exitFullscreen()" style="display:none;">Fullscreen verlaten</button>	
 </div>
 
 <div class="slider-container">
@@ -294,10 +295,26 @@ document.addEventListener("keydown", e => {
 /* fullscreen */
 
 function toggleFullscreen() {
-  const el = document.querySelector(".slider-container");
-  if (!document.fullscreenElement) el.requestFullscreen();
-  else document.exitFullscreen();
+
+  const el = document.documentElement;
+
+  if (!document.fullscreenElement)
+    el.requestFullscreen();
+  else
+    document.exitFullscreen();
 }
+
+document.addEventListener("fullscreenchange", () => {
+
+  const btn =
+    document.getElementById("exitFsBtn");
+
+  if (document.fullscreenElement) {
+    btn.style.display = "inline-block";
+  } else {
+    btn.style.display = "none";
+  }
+});
 
 /* zoom */
 
