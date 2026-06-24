@@ -2016,18 +2016,27 @@ ${item}
 
 `).join('')}
 
+
 <hr>
+
+<style>
+  .button-container {
+    display: flex;
+    justify-content: center; /* Centreert horizontaal */
+    margin: 20px 0;          /* Voegt wat ruimte boven en onder toe */
+  }
+</style>
+
+<div class="button-container">
+  <button onclick="window.print()">Opslaan als PDF</button>
+</div>
+
+
 
 ${sectionsHtml}
 
-<hr>
-
-<button onclick="window.print()"> Opslaan als PDF </button>
-
-  </body>
-  </html>
-  `;
-}
+`;
+ }
 
 /* =====================================================
    HELPERS
