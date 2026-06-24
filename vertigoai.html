@@ -330,7 +330,16 @@ const FORM_CONFIG = {
       id: "red_flags",
       type: "checkbox",
       text: "Rode vlaggen",
-
+	  info: `
+    <img src="images/vertigodd.jpg"
+      style="
+		width:100%;
+		height:auto;
+		display:block;
+		margin:12px auto;
+		border-radius:8px;
+	  ">
+		`,
             options: [
               "Neurologische uitvalsverschijnselen",              
 			  "Ataxie",
@@ -364,12 +373,14 @@ const FORM_CONFIG = {
   "type": "radio",
   "text": "Type duizeligheid",
   "icd11": "MG22",
+  
   "options": [
     "Duizeligheid - de omgeving draait",
     "Duizeligheid - omgeving gaat op en neer / vlakverschuivingen",
     "Draaierig - gevoel dat het hoofd tolt",
 	"Draaierig - evenwicht gestoord",
     "Draaierig - balans gestoord",
+	"Unsteadiness → Onvastheid",
     "Ijlhoofdig",
     "Zweverig gevoel",
     "Presyncopaal",
@@ -636,8 +647,6 @@ Suggestief voor BPPV.
 	  placeholder: "Vrij in te vullen",	  
       conditional: "mri1 == 'Ja'"
     },
-		
-		
 
       ]
     },	
@@ -648,8 +657,36 @@ Suggestief voor BPPV.
   freeText: true,
 
   questions: [
+	  
+	{
+		id: "difdiagnose",
+		type: "checkbox",
+		text: "Differentiële diagnose",
+		info:
+		`
+		<img src="images/vertigodd.jpg"
+		style="
+			width:100%;
+			height:auto;
+			display:block;
+			margin:12px auto;
+			border-radius:8px;
+			">
+		`,				
+            options: [
+              "Unsteadiness - onvastheid",
+              "Light-headed - licht in het hoofd - zweverig gevoel",
+              "Rotatory vertigo",
+              "Acuut vestibulair syndroom",
+              "Episodische spontane vertigo",
+			  "Episodische positionele vertigo - paroxismaal",
+			  "Episodische positionele vertigo - niet paroxismaal",
+			  "Differentiële diagnose nog niet bepaald"			  
+            ]
+          },
 
-          {
+		  
+		  {
             id: "medicatie_lijst",
             type: "checkbox",
             text: "Medicatie die duizeligheid kan veroorzaken",
