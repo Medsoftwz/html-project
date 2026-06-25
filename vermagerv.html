@@ -1430,11 +1430,24 @@ function closeInfo(){
 }
 
 window.addEventListener('load', function(){
+
+  // Sluiten door buiten de popup te klikken
   document.getElementById('infoModal')
-    .addEventListener('click', function(e){ if(e.target === this)
-	{ closeInfo(); }
-	  
-});
+    .addEventListener('click', function(e){
+      if(e.target === this){
+        closeInfo();
+      }
+    });
+
+  // Sluiten met de Escape-toets
+  document.addEventListener('keydown', function(e){
+    if(
+      e.key === 'Escape' &&
+      document.getElementById('infoModal').style.display === 'block'
+    ){
+      closeInfo();
+    }
+  });
 
 });
 

@@ -17,7 +17,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpg">
 
-<title>Vertigo | e-aanmeldformulier</title>
+<title>Vertigo | Structured Clinical Data Generator</title>
 
 <style>
 body{
@@ -269,7 +269,7 @@ button.action:hover{ background:#295f95; }
 
 const FORM_CONFIG = {
 
-  title: "Vertigo - Structured Clinical Data Generator",
+  title: "Vertigo - Duizeligheid met draaigevoel",
 
   pdfPrefix: "Vertigo",
 
@@ -375,15 +375,16 @@ const FORM_CONFIG = {
   "icd11": "MG22",
   
   "options": [
-    "Duizeligheid - de omgeving draait",
+    "Draaiduizeligheid - de omgeving draait rond",
+    "Draaiduizeligheid - gevoel van in een draaimolen te zitten",
     "Duizeligheid - omgeving gaat op en neer / vlakverschuivingen",
-    "Draaierig - gevoel dat het hoofd tolt",
+    "Duizeligheid - gevoel dat het hoofd tolt",
 	"Draaierig - evenwicht gestoord",
+	"Draaierig - coördinatie gestoord",	
     "Draaierig - balans gestoord",
-	"Unsteadiness → Onvastheid",
     "Ijlhoofdig",
-    "Zweverig gevoel",
-    "Presyncopaal",
+    "Unsteadiness → Zweverig gevoel - onvastheid bij het stappen",
+    "Presyncopaal - neiging tot flauwvallen",
     "Moeilijk te omschrijven"    
   ],
   
@@ -404,7 +405,7 @@ const FORM_CONFIG = {
           {
             "id": "aanvang",
             "type": "radio",
-            "text": "Aanvang van de duizeligheid",
+            "text": "Aanvang / Begin / Ontstaan van de duizeligheid",
             "options": [
               "Acuut, aanvang bij beweging",
               "Acuut, aanvang bij rust",
@@ -424,7 +425,9 @@ const FORM_CONFIG = {
             "Minuten",
             "Uren",
             "Dagen",
-            "Continu"            
+            "Duurt langer dan 1 minuut - kan minuten tot uren aanhouden - vertigo is niet plots weg",
+			"Continue vertigo - houdt meer dan 24 uur aan",
+			"Continue vertigo - aanwezig in rust - niet in aanvallen"            
           ]
         },
 
@@ -437,14 +440,13 @@ Positionele vertigo betekent:
 duizeligheid die optreedt of verergert bij verandering van hoofd- of lichaamspositie
 
 Typische voorbeelden:
-zich omdraaien in bed
-rechtkomen uit liggende houding
-hoofd achterover buigen
-neerliggen
-bukken
-omhoog kijken
+* neerliggen
+* zich omdraaien in bed
+* rechtkomen uit liggende houding
+* hoofd achterover buigen - achterover kijken - omhoog kijken
+* voorover buigen - bukken
 
-De patiënt zegt vaak:
+De patiënt zegt: 
 Als ik me draai in bed begint alles te draaien.
 of:
 Bij snel rechtkomen word ik draaierig.
@@ -472,8 +474,7 @@ Kan voorkomen bij:
 - lawaaischade
 - vestibulaire aandoeningen
 	`
-		  
-        },
+    },
 
         {
           id: "gehoorverlies",
@@ -675,8 +676,8 @@ Suggestief voor BPPV.
 		`,				
             options: [
               "Unsteadiness - onvastheid - onevenwicht",
-              "Light-headed - licht in het hoofd - zweverig gevoel",
-              "Rotatoire vertigo",
+              "Light-headed - licht gevoel in het hoofd - zweverig gevoel",
+              "Rotatoire vertigo - Duizeligheid met draaigevoel",
 			  "Acuut vestibulair syndroom",
               "Episodische spontane vertigo",
 			  "Episodische positionele vertigo",
@@ -2104,11 +2105,24 @@ function closeInfo(){
 }
 
 window.addEventListener('load', function(){
+
+  // Sluiten door buiten de popup te klikken
   document.getElementById('infoModal')
-    .addEventListener('click', function(e){ if(e.target === this)
-	{ closeInfo(); }
-	  
-});
+    .addEventListener('click', function(e){
+      if(e.target === this){
+        closeInfo();
+      }
+    });
+
+  // Sluiten met de Escape-toets
+  document.addEventListener('keydown', function(e){
+    if(
+      e.key === 'Escape' &&
+      document.getElementById('infoModal').style.display === 'block'
+    ){
+      closeInfo();
+    }
+  });
 
 });
 
