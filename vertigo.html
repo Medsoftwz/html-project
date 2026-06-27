@@ -8,16 +8,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <meta property="og:locale" content="nl_BE">
-<meta property="og:title" content="Vertigo Intake en AI">
+<meta property="og:title" content="Vertigo Intake">
 <meta property="og:description" content="Experimentele versie – as-is">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://medsoftwz.github.io/vertigoai.html">
+<meta property="og:url" content="https://medsoftwz.github.io/vertigo.html">
 <meta property="og:image" content="https://medsoftwz.github.io/images/vertigo.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpg">
 
-<title>Vertigo - Aanmeldformulier en interne AI</title>
+<title>Vertigo - Aanmeldformulier</title>
 
 <style>
 body{
@@ -268,7 +268,7 @@ button.action:hover{ background:#295f95; }
 
 const FORM_CONFIG = {
 
-  title: "Vertigo Intake",
+  title: "Vertigo - Duizeligheid met draaigevoel",
 
   pdfPrefix: "Vertigo",
 
@@ -290,7 +290,7 @@ const FORM_CONFIG = {
 
 {
   id: "geboortedatum",
-  type: "date",
+  type: "birth8",
   text: "Geboortedatum"
 },
 
@@ -315,6 +315,52 @@ const FORM_CONFIG = {
       ]
     },
 
+/* =====================================================
+   Pasop !
+===================================================== */
+{
+  id: "rodevlaggen",
+  title: "Pasop !",
+  freeText: true,
+
+  questions: [
+
+    {
+      id: "red_flags",
+      type: "checkbox",
+      text: "Rode vlaggen",
+	  info: `
+    <img src="images/vertigodd.jpg"
+      style="
+		width:100%;
+		height:auto;
+		display:block;
+		margin:12px auto;
+		border-radius:8px;
+	  ">
+		`,
+            options: [
+              "Neurologische uitvalsverschijnselen",              
+			  "Ataxie",
+              "Bewustzijnsverlies",
+              "Dubbelzien",
+              "Dysartrie",
+              "Dysmetrie",
+              "Hemiparese",
+              "Nieuwe ernstige hoofdpijn",
+              "Onvermogen om te stappen",
+			  "Geen alarmsymptomen"
+            ]
+ 
+    }
+
+  ]
+},
+
+/* =====================================================
+   Anamnese
+===================================================== */
+
     {
       id: "klachten",
       title: "Anamnese",
@@ -323,18 +369,21 @@ const FORM_CONFIG = {
       questions: [
 {
   "id": "type_duizeligheid",
-  "type": "radio",
+  "type": "checkbox",
   "text": "Type duizeligheid",
   "icd11": "MG22",
+  
   "options": [
-    "Duizeligheid - de omgeving draait",
+    "Draaiduizeligheid - de omgeving draait rond",
+    "Draaiduizeligheid - gevoel van in een draaimolen te zitten",
     "Duizeligheid - omgeving gaat op en neer / vlakverschuivingen",
-    "Draaierig - gevoel dat het hoofd tolt",
+    "Duizeligheid - gevoel dat het hoofd tolt",
 	"Draaierig - evenwicht gestoord",
+	"Draaierig - coördinatie gestoord",	
     "Draaierig - balans gestoord",
     "Ijlhoofdig",
-    "Zweverig gevoel",
-    "Presyncopaal",
+    "Unsteadiness → Zweverig gevoel - onvastheid bij het stappen",
+    "Presyncopaal - neiging tot flauwvallen",
     "Moeilijk te omschrijven"    
   ],
   
@@ -355,7 +404,7 @@ const FORM_CONFIG = {
           {
             "id": "aanvang",
             "type": "radio",
-            "text": "Aanvang van de duizeligheid",
+            "text": "Aanvang / Begin / Ontstaan van de duizeligheid",
             "options": [
               "Acuut, aanvang bij beweging",
               "Acuut, aanvang bij rust",
@@ -375,14 +424,32 @@ const FORM_CONFIG = {
             "Minuten",
             "Uren",
             "Dagen",
-            "Continu"            
+            "Duurt langer dan 1 minuut - kan minuten tot uren aanhouden - vertigo is niet plots weg",
+			"Continue vertigo - houdt meer dan 24 uur aan",
+			"Continue vertigo - aanwezig in rust - niet in aanvallen"            
           ]
         },
 
         {
           id: "positie",
           type: "presence",
-          text: "Uitgelokt door positieverandering",
+          text: "Uitgelokt door positieverandering - positionele vertigo",
+		  info: `
+Positionele vertigo betekent:
+duizeligheid die optreedt of verergert bij verandering van hoofd- of lichaamspositie
+
+Typische voorbeelden:
+* neerliggen
+* zich omdraaien in bed
+* rechtkomen uit liggende houding
+* hoofd achterover buigen - achterover kijken - omhoog kijken
+* voorover buigen - bukken
+
+De patiënt zegt: 
+Als ik me draai in bed begint alles te draaien.
+of:
+Bij snel rechtkomen word ik draaierig.
+	`,
           icd11: "AB31"
         },
 
@@ -406,8 +473,7 @@ Kan voorkomen bij:
 - lawaaischade
 - vestibulaire aandoeningen
 	`
-		  
-        },
+    },
 
         {
           id: "gehoorverlies",
@@ -445,8 +511,10 @@ Kan voorkomen bij:
 info: `
 <span style="color:#2e7d32; font-weight:bold;">Subjectieve vertigo</span>
 U heeft het gevoel dat u zelf draait, kantelt of beweegt terwijl de omgeving stil staat.
+Het voelt alsof ik zelf in een draaimolen zit. Ik draai rond.
 <span style="color:#2e7d32; font-weight:bold;">Objectieve vertigo</span>
 U heeft het gevoel dat de omgeving draait of beweegt terwijl u zelf stil staat.
+De kamer draait rond.
 <span style="color:#2e7d32; font-weight:bold;">Fluctuerende vertigo</span>
 De duizeligheid komt en gaat en varieert in intensiteit.
 <span style="color:#2e7d32; font-weight:bold;">Geïnduceerde vertigo</span>
@@ -492,23 +560,6 @@ Zie Neurologisch onderzoek - neuro.html
 ▶ UQ7 – Craniale zenuwuitval
 `,	
         },
-
-           {
-            id: "neurologische_symptomen",
-            type: "checkbox",
-            text: "Neurologische alarmsymptomen",
-            options: [
-              "Ataxie",
-              "Bewustzijnsverlies",
-              "Dubbelzien",
-              "Dysartrie",
-              "Dysmetrie",
-              "Hemiparese",
-              "Nieuwe ernstige hoofdpijn",
-              "Onvermogen om te stappen",
-			  "Geen"
-            ]
-          },
 
         {
           id: "dixhallpike",
@@ -598,8 +649,6 @@ Suggestief voor BPPV.
 	  placeholder: "Vrij in te vullen",	  
       conditional: "mri1 == 'Ja'"
     },
-		
-		
 
       ]
     },	
@@ -610,8 +659,81 @@ Suggestief voor BPPV.
   freeText: true,
 
   questions: [
+	  
+	{
+		id: "difdia",
+		type: "radio",
+		text: "Differentiële diagnose",
+            options: [
+              "Unsteadiness - onvastheid - onevenwicht",
+              "Gangstoornis: balans - evenwicht - coördinatie",			  
+              "Light-headed - licht gevoel in het hoofd - zweverig gevoel",
+              "Rotatoire vertigo - Duizeligheid met draaigevoel",
+			  "Acuut vestibulair syndroom",
+              "Episodische spontane vertigo",
+			  "Episodische positionele vertigo",
+			  "Differentiële diagnose nog niet bepaald"			  
+            ]
+          },
 
-          {
+{
+  id: "avs_type",
+  type: "radio",
+  text: "Is het acuut vestibulair syndroom perifeer of centraal?",
+  options: [
+    "Perifeer",
+    "Centraal"
+  ],
+  conditional: "difdia == 'Acuut vestibulair syndroom'"
+},
+
+
+{
+  id: "esv_type",
+  type: "radio",
+  text: "Is de episodische spontane vertigo perifeer of centraal?",
+  options: [
+    "Perifeer",
+    "Centraal"
+  ],
+  conditional: "difdia == 'Episodische spontane vertigo'"
+},
+
+{
+  id: "epv_type",
+  type: "radio",
+  text: "Is de episodische positionele vertigo paroxismaal?",
+  options: [
+    "Paroxismaal",
+    "Niet paroxismaal"
+  ],
+  conditional: "difdia == 'Episodische positionele vertigo'"
+},
+
+{
+  id: "epv_parox_type",
+  type: "radio",
+  text: "Paroxismale positionele vertigo is:",
+  options: [
+    "Perifeer",
+    "Centraal"
+  ],
+  conditional: "epv_type == 'Paroxismaal'"
+},
+
+{
+  id: "epv_nietparox_type",
+  type: "radio",
+  text: "Niet-paroxismale positionele vertigo is:",
+  options: [
+    "Perifeer",
+    "Centraal"
+  ],
+  conditional: "epv_type == 'Niet paroxismaal'"
+},
+
+		  
+		  {
             id: "medicatie_lijst",
             type: "checkbox",
             text: "Medicatie die duizeligheid kan veroorzaken",
@@ -653,6 +775,8 @@ Suggestief voor BPPV.
 }			
 ]
 };
+
+
 
 /* =====================================================
    INIT
@@ -1349,11 +1473,41 @@ Akkoord ? Dan verder ... <br>
 
 </div>
 
+<style>
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-right: 5;
+  margin-bottom: 15px;
+  margin-left: 5;
+}
+
+/* Stijl voor de knop zelf */
+.button-container button {
+  background-color: #149017; /* achtergrondkleur */
+  color: #ffffff;            /* Witte tekstkleur */
+  border: none;              /* Verwijdert de standaard zwarte rand */
+  padding: 1px 5px;        /* Geeft de knop wat ademruimte */
+  font-size: 16px;           /* Maakt de tekst goed leesbaar */
+  cursor: pointer;           /* Verandert de muiswijzer in een handje */
+  border-radius: 5px;        /* Geeft de knop subtiele ronde hoeken */
+}
+
+/* Effect wanneer je met de muis over de knop beweegt */
+.button-container button:hover {
+  background-color: #0056b3; /* Donkerdere kleur bij hover */
+}
+
+</style>
+
+<div class="button-container">
+  <button onclick="window.print()">Opslaan als PDF</button>
+</div>
+
 <hr>
   ${sectionsHtml}
 <hr>
-
-<button onclick="window.print()"> Opslaan als PDF </button>
 
 
 </body>
