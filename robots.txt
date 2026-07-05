@@ -1,3 +1,13 @@
 User-agent: *
 Allow: /
+
+# Blokkeer irrelevante GitHub Pages-systemen
+Disallow: /README
+Disallow: /LICENSE
+
+# PDF mag geïndexeerd worden
+Allow: /*.pdf$
+
+# Sitemap
 Sitemap: https://medsoftwz.github.io/sitemap.xml
+

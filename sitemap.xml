@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://medsoftwz.github.io/</loc>
-  </url>
+
+  <url><loc>https://medsoftwz.github.io/</loc></url>
+  <url><loc>https://medsoftwz.github.io/index.html</loc></url>
+  <url><loc>https://medsoftwz.github.io/35jaar.html</loc></url>
+  <url><loc>https://medsoftwz.github.io/rugvglai.html</loc></url>
+  <url><loc>https://medsoftwz.github.io/vertigoai.html</loc></url>
+  <url><loc>https://medsoftwz.github.io/mmse.html</loc></url>
+  <url><loc>https://medsoftwz.github.io/astma.html</loc></url>
+  <url><loc>https://medsoftwz.github.io/appendicitis.html</loc></url>
+  
+  <!-- PDF-bestanden mogen ook in sitemap -->
+
+  <!-- Images-map wordt niet opgenomen (geen HTML-pagina’s) -->
+
 </urlset>
+
+
