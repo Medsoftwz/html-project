@@ -179,6 +179,35 @@ body {
   .link:hover { background: rgba(96,165,250,0.15); color: #60a5fa; }
 
   .header { border-bottom: 1px solid rgba(255,255,255,0.05); } }
+  
+.popup{
+    display:none;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.45);
+    z-index:9999;
+}
+
+.popup-content{
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+	color: #808080;
+    text-align: justify;
+    background:#fff;
+    width:800px;
+    max-width:90%;
+    padding: 5px 10px 5px 20px; 
+    margin-top: 80px; margin-bottom: 80px; margin-left: auto; margin-right: auto;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,.4);
+}
+.close{ float:right; font-size:28px; cursor:pointer; font-weight:bold; }
+.close:hover{ color:red; }
+ 
 
 </style>
 
@@ -343,12 +372,51 @@ margin-top:4px;"> Terugblik op 35 jaar medische informatica, classificatie en se
 
 <div class="footer">
 <a href="mailto:xyz21@skynet.be">E-postadres</a> |
-<a href="disclaim.html">Disclaimer</a>
+<a href="disclaim.html">Disclaimer</a> |
+<a href="#" onclick="openAI(); return false;">AI-info</a>
+</div>
+
+<div id="aiPopup" class="popup">
+ <div class="popup-content">
+ <span class="close" onclick="closeAI()">&times;</span>
+
+<p>Gebruik van AI</p>
+<p>
+Deze website werd ontwikkeld met behulp van artificiële intelligentie (AI).<br>
+AI werd gebruikt als hulpmiddel bij het programmeren, de vormgeving, het ontwerpen en verbeteren van afbeeldingen en het bewerken van teksten.
+</p>
+
 </div>
 
 </div>
+
+</body>
 
 <script>
+
+function openAI() {
+    document.getElementById("aiPopup").style.display = "block";
+}
+
+function closeAI() {
+    document.getElementById("aiPopup").style.display = "none";
+}
+
+// Sluiten met Esc
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeAI();
+    }
+});
+
+// Sluiten door buiten de popup te klikken
+window.addEventListener("click", function(event) {
+    const popup = document.getElementById("aiPopup");
+
+    if (event.target === popup) {
+        closeAI();
+    }
+});
 
 /* ===== MINI SEARCH FILTER ===== */
 
@@ -376,6 +444,5 @@ document.querySelectorAll("a").forEach(link => {
 });
 
 </script>
-
 </body>
 </html>
